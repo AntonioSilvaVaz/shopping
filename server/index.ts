@@ -1,10 +1,11 @@
-export {};
+export { };
 const Koa = require('koa');
-const router = require('./router');
 const cors = require('koa-cors');
+const bodyParser = require('koa-bodyparser');
 const dotenv = require('dotenv').config();
 
 
+const router = require('./router');
 const app = new Koa();
 
 const corsOptions = {
@@ -13,5 +14,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(bodyParser());
 app.use(router.routes());
 app.listen(process.env.PORT, () => console.log(`Server running at http://localhost:${process.env.PORT}`));

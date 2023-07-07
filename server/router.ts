@@ -1,8 +1,8 @@
 const Router = require('@koa/router');
 const router = new Router();
 
-const ItemsController = require('./controllers/ItemsController');
+const UserController = require('./controllers/UserController');
 
-router.get('/', ItemsController.getAllItems);
+router.post('/create_item', UserController.createNewUser);
 
 module.exports = router;

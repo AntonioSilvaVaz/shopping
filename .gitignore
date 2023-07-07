@@ -20,5 +20,6 @@ dist
 
 # Private or Temp Stuff
 .env*
+helpers
 private
 Temp*

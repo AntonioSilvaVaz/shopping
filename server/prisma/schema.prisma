@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = "sqlserver://localhost:1433;database=shopping;initialCatalog=sample;integratedSecurity=true;trustServerCertificate=true;"
+}
+
+model cart {
+  user_id String  @id(map: "PK_cart") @db.UniqueIdentifier
+  list    String? @db.Text
+  users   users   @relation(fields: [user_id], references: [user_id], onUpdate: NoAction, map: "FK__cart__user_id__787EE5A0")
+}
+
+model items {
+  user_created        String @id(map: "PK_items") @db.UniqueIdentifier
+  product_name        String @db.Text
+  product_description String @db.Text
+  product_price       Float
+  product_region      String @db.Text
+  product_pictures    String @db.Text
+  users               users  @relation(fields: [user_created], references: [user_id], onUpdate: NoAction, map: "FK__items__user_crea__71D1E811")
+}
+
+model users {
+  name     String    @db.Text
+  user_id  String    @id(map: "PK_users") @db.UniqueIdentifier
+  email    String    @unique(map: "UQ_Email") @db.VarChar(255)
+  password String    @db.VarChar(255)
+  cart     cart?
+  items    items?
+  wishlist wishlist?
+}
+
+model wishlist {
+  user_id String  @id(map: "PK_wishlist") @db.UniqueIdentifier
+  list    String? @db.Text
+  users   users   @relation(fields: [user_id], references: [user_id], onUpdate: NoAction, map: "FK__wishlist__user_i__75A278F5")
+}

@@ -19,13 +19,11 @@ async function loginUser(ctx: Context, next: Next) {
 
     const samePassword = bcrypt.compareSync(password, userExists.password);
     if (samePassword) {
+      const sessionToken = jwt.sign({ user_id: userExists.user_id }, process.env.SECRET);
+      ctx.cookies.set("session_token", sessionToken);
       ctx.status = 200;
       ctx.type = 'application/json';
       ctx.body = JSON.stringify("Logged in");
-      const sessionToken = jwt.sign({ user_id: userExists.user_id }, process.env.SECRET);
-      ctx.cookies.set("session_token", sessionToken);
-
-
       return;
     } else {
       ctx.status = 401;
@@ -103,6 +101,16 @@ async function updatedAnUser(ctx: Context, next: Next) {
     if (password) updateItems.password = password;
     if (name) updateItems.name = name;
 
+    if (email) {
+      const userExists = await findUserByEmail(email);
+      if (userExists) {
+        ctx.status = 409;
+        ctx.type = 'application/json';
+        ctx.body = JSON.stringify('User already exists');
+        return;
+      };
+    }
+
     const userUpdated = await updateUser(updateItems, sessionToken.user_id)
     ctx.status = 202;
     ctx.type = 'application/json';
@@ -116,10 +124,25 @@ async function updatedAnUser(ctx: Context, next: Next) {
 
 };
 
+async function logUserOut(ctx: Context, next: Next) {
+
+  try {
+    ctx.cookies.set('session_token', null);
+    ctx.status = 200;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Logged out');
+
+  } catch (error) {
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+  }
+}
+
 module.exports = {
   createNewUser,
   deleteAnUser,
   loginUser,
   updatedAnUser,
-
+  logUserOut,
 }

@@ -8,7 +8,9 @@ router.post('/create_user', UserController.createNewUser);
 router.post('/login', UserController.loginUser);
 
 router.put('/update_user', UserController.updatedAnUser);
+
 router.delete('/delete_user', UserController.deleteAnUser);
+router.delete('/logout', UserController.logUserOut);
 
 // USER MODIFICATION ROUTES
 

@@ -33,7 +33,7 @@ async function updateItem(itemInfo: ItemType, item_id: UUID) {
     where: {
       item_id,
     },
-    data:{
+    data: {
       ...itemInfo
     }
   });
@@ -43,7 +43,7 @@ async function updateItem(itemInfo: ItemType, item_id: UUID) {
 };
 
 // FINDS A USER AND RETURNS IT'S INFORMATION
-async function findItem(item_id:UUID) {
+async function findItem(item_id: UUID) {
 
   const item: ItemCreated = prisma.items.findUnique({
     where: {

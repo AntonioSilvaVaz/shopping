@@ -1,15 +1,125 @@
 import { Next, Context } from "koa";
+import { UserRegistered, UserType } from "../types/UserTypes";
+const { createUser, findUserByEmail, deleteUser, updateUser } = require('../models/UserModel');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+async function loginUser(ctx: Context, next: Next) {
+
+  try {
+    const { email, password } = ctx.request.body as UserType;
+    const userExists: UserRegistered | undefined = await findUserByEmail(email);
+
+    if (!userExists) {
+      ctx.status = 404;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify("User doesn't exist");
+      return;
+    }
+
+    const samePassword = bcrypt.compareSync(password, userExists.password);
+    if (samePassword) {
+      ctx.status = 200;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify("Logged in");
+      const sessionToken = jwt.sign({ user_id: userExists.user_id }, process.env.SECRET);
+      ctx.cookies.set("session_token", sessionToken);
+
+
+      return;
+    } else {
+      ctx.status = 401;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify("Wrong password");
+      return;
+    }
+
+  } catch (error) {
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+  }
+
+};
 
 async function createNewUser(ctx: Context, next: Next) {
 
-  console.log(ctx.request.body);
+  try {
+    const { email, password, name }: UserType = ctx.request.body as UserType;
+    const userExists = await findUserByEmail(email);
 
+    if (userExists) {
+      ctx.status = 409;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify('User already exists');
+      return;
+    };
 
-  ctx.status = 200;
-  ctx.type = 'application/json';
-  ctx.body = JSON.stringify('HELLO');
+    const newUser = await createUser({ email, password, name });
+    ctx.status = 200;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify(newUser);
+
+  } catch (error) {
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+  }
+
+};
+
+async function deleteAnUser(ctx: Context, next: Next) {
+
+  try {
+
+    const sessionTokenJWT = ctx.cookies.get('session_token');
+    const sessionToken = jwt.verify(sessionTokenJWT, process.env.SECRET);
+    await deleteUser(sessionToken.user_id);
+
+    ctx.status = 201;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('User deleted');
+
+  } catch (error) {
+
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+
+  }
+
+};
+
+async function updatedAnUser(ctx: Context, next: Next) {
+
+  try {
+    const sessionTokenJWT = ctx.cookies.get('session_token');
+    const sessionToken = jwt.verify(sessionTokenJWT, process.env.SECRET);
+
+    const updateItems: any = {};
+    const { email, password, name } = ctx.request.body as UserType;
+
+    if (email) updateItems.email = email;
+    if (password) updateItems.password = password;
+    if (name) updateItems.name = name;
+
+    const userUpdated = await updateUser(updateItems, sessionToken.user_id)
+    ctx.status = 202;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify(userUpdated);
+
+  } catch (error) {
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+  }
+
 };
 
 module.exports = {
-  createNewUser
+  createNewUser,
+  deleteAnUser,
+  loginUser,
+  updatedAnUser,
+
 }

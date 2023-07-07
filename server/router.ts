@@ -3,6 +3,13 @@ const router = new Router();
 
 const UserController = require('./controllers/UserController');
 
-router.post('/create_item', UserController.createNewUser);
+// USER ROUTES
+router.post('/create_user', UserController.createNewUser);
+router.post('/login', UserController.loginUser);
+
+router.put('/update_user', UserController.updatedAnUser);
+router.delete('/delete_user', UserController.deleteAnUser);
+
+// USER MODIFICATION ROUTES
 
 module.exports = router;

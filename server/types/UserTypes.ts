@@ -18,7 +18,12 @@ export type ItemType = {
   product_pictures: string,
 };
 
-export type ItemCreated =  ItemType & {
+export type ItemCreated = ItemType & {
   product_id: UUID,
   user_id: UUID,
 };
+
+export type SessionTokenType = {
+  user_id: UUID,
+  iat: number,
+}

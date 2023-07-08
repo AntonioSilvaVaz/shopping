@@ -1,5 +1,5 @@
 import { Next, Context } from "koa";
-import { UserRegistered, UserType } from "../types/UserTypes";
+import { SessionTokenType, UserRegistered, UserType } from "../types/UserTypes";
 const { createUser, findUserByEmail, deleteUser, updateUser } = require('../models/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -139,7 +139,7 @@ async function logUserOut(ctx: Context, next: Next) {
 // GETS THE USER ID FROM THE SESSION TOKEN
 function getUserSessionToken(ctx: Context) {
   const sessionTokenJWT = ctx.cookies.get('session_token');
-  const sessionToken = jwt.verify(sessionTokenJWT, process.env.SECRET);
+  const sessionToken: SessionTokenType = jwt.verify(sessionTokenJWT, process.env.SECRET);
   return sessionToken.user_id;
 };
 

@@ -1,9 +1,9 @@
 import { UUID } from "crypto";
-import { ItemCreated, ItemType } from "../types/UserTypes";
+import { ItemCreated, ItemType } from "../types/ItemTypes";
 import prisma from "./connections";
 
 // CREATES AN ITEM
-async function createItem(itemInfo: ItemType, user_id: UUID) {
+async function createItem(itemInfo: ItemType, user_id: UUID): Promise<ItemCreated> {
 
   const newItem: ItemCreated = await prisma.items.create({
     data: {
@@ -27,7 +27,7 @@ async function deleteItem(item_id: UUID) {
 };
 
 // UPDATES ALL OF THE USER INFORMATION
-async function updateItem(itemInfo: ItemType, item_id: UUID) {
+async function updateItem(itemInfo: ItemType, item_id: UUID): Promise<ItemCreated> {
 
   const updatedItem: ItemCreated = await prisma.items.update({
     where: {
@@ -43,12 +43,10 @@ async function updateItem(itemInfo: ItemType, item_id: UUID) {
 };
 
 // FINDS A USER AND RETURNS IT'S INFORMATION
-async function findItem(item_id: UUID) {
+async function findItem(item_id: UUID): Promise<ItemCreated> {
 
   const item: ItemCreated = prisma.items.findUnique({
-    where: {
-      item_id
-    }
+    where: { item_id }
   });
 
   return item;

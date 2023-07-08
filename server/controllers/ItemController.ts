@@ -1,8 +1,10 @@
 import { Context, Next } from "koa";
 import { ItemCreated, ItemType } from "../types/ItemTypes";
 import { UUID } from "crypto";
+import { UserRegistered } from "../types/UserTypes";
 const { getUserSessionToken } = require('./UserController');
-const { createItem, findItem, updateItem } = require('../models/ItemsModel');
+const { createItem, findItem, updateItem, deleteItem } = require('../models/ItemsModel');
+const { findUserById } = require('../models/UserModel');
 
 async function createNewItem(ctx: Context, next: Next) {
 
@@ -85,9 +87,40 @@ async function updateAnItem(ctx: Context, next: Next) {
   }
 };
 
+async function deleteAnItem(ctx: Context, next: Next) {
+  try {
+
+    const { item_id }: { item_id: UUID } = ctx.request.body as { item_id: UUID };
+    const userId = getUserSessionToken(ctx);
+    const item: UserRegistered = await findUserById(userId);
+    const itemExists = await findItem(item_id);
+
+    if (item.user_id !== userId) {
+      ctx.status = 403;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify('Unauthorized');
+    } else if (!itemExists) {
+      ctx.status = 404;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify('Item not found');
+    } else {
+      await deleteItem(item_id);
+      ctx.status = 201;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify('Item deleted');
+    }
+
+  } catch (error) {
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+  }
+};
+
 module.exports = {
   createNewItem,
   getItem,
-  updateAnItem
+  updateAnItem,
+  deleteAnItem,
 
 }

@@ -19,6 +19,7 @@ async function createItem(itemInfo: ItemType, user_id: UUID): Promise<ItemCreate
 
 // DELETES AN ITEM BY ITEM ID
 async function deleteItem(item_id: UUID) {
+
   await prisma.items.delete({
     where: {
       item_id,

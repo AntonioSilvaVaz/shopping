@@ -10,5 +10,5 @@ export type ItemType = {
 
 export type ItemCreated = ItemType & {
   item_id: UUID,
-  user_id: UUID,
+  user_created: UUID,
 };

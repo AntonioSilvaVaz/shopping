@@ -15,6 +15,7 @@ router.delete('/logout', UserController.logUserOut);
 router.post('/create_item', ItemController.createNewItem);
 router.get('/item', ItemController.getItem);
 router.put('/update_item', ItemController.updateAnItem);
+router.delete('/delete_item', ItemController.deleteAnItem);
 
 
 module.exports = router;

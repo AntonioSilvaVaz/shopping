@@ -7,9 +7,9 @@ async function createItem(itemInfo: ItemType, user_id: UUID) {
 
   const newItem: ItemCreated = await prisma.items.create({
     data: {
-      ...itemInfo,
-      user_created: user_id,
       item_id: crypto.randomUUID(),
+      user_created: user_id,
+      ...itemInfo,
     }
   });
 

@@ -69,11 +69,8 @@ async function createNewUser(ctx: Context, next: Next) {
 async function deleteAnUser(ctx: Context, next: Next) {
 
   try {
-
-    const sessionTokenJWT = ctx.cookies.get('session_token');
-    const sessionToken = jwt.verify(sessionTokenJWT, process.env.SECRET);
-    await deleteUser(sessionToken.user_id);
-
+    const userId = getUserSessionToken(ctx);
+    await deleteUser(userId);
     ctx.status = 201;
     ctx.type = 'application/json';
     ctx.body = JSON.stringify('User deleted');
@@ -137,7 +134,14 @@ async function logUserOut(ctx: Context, next: Next) {
     ctx.type = 'application/json';
     ctx.body = JSON.stringify('Server failed');
   }
-}
+};
+
+// GETS THE USER ID FROM THE SESSION TOKEN
+function getUserSessionToken(ctx: Context) {
+  const sessionTokenJWT = ctx.cookies.get('session_token');
+  const sessionToken = jwt.verify(sessionTokenJWT, process.env.SECRET);
+  return sessionToken.user_id;
+};
 
 module.exports = {
   createNewUser,
@@ -145,4 +149,5 @@ module.exports = {
   loginUser,
   updatedAnUser,
   logUserOut,
-}
+  getUserSessionToken,
+};

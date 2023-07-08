@@ -14,13 +14,13 @@ model cart {
 }
 
 model items {
-  user_created        String @id(map: "PK_items") @db.UniqueIdentifier
+  item_id             String @id(map: "PK_items") @db.UniqueIdentifier
+  user_created        String @db.Text
   product_name        String @db.Text
   product_description String @db.Text
-  product_price       Float
+  product_price       String @db.Text
   product_region      String @db.Text
   product_pictures    String @db.Text
-  users               users  @relation(fields: [user_created], references: [user_id], onUpdate: NoAction, map: "FK__items__user_crea__71D1E811")
 }
 
 model users {
@@ -29,7 +29,6 @@ model users {
   email    String    @unique(map: "UQ_Email") @db.VarChar(255)
   password String    @db.VarChar(255)
   cart     cart?
-  items    items?
   wishlist wishlist?
 }
 

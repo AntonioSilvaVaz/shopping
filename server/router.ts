@@ -1,14 +1,19 @@
 const Router = require('@koa/router');
 const router = new Router();
 
+// ALL CONTROLLERS
 const UserController = require('./controllers/UserController');
 const ItemController = require('./controllers/ItemController');
 const CartController = require('./controllers/CartController');
 const WishlistController = require('./controllers/WishlistController');
 
+// ALL MIDDLEWARE FUNCTIONS
+const {ValidateRegisterAndLogin} = require('./middleware/AuthMiddleware');
+
 // USER ROUTES
-router.post('/create_user', UserController.createNewUser);
-router.post('/login', UserController.loginUser);
+router.post('/create_user', ValidateRegisterAndLogin, UserController.createNewUser);
+router.post('/login', ValidateRegisterAndLogin, UserController.loginUser);
+
 router.put('/update_user', UserController.updatedAnUser);
 router.delete('/delete_user', UserController.deleteAnUser);
 router.delete('/logout', UserController.logUserOut);

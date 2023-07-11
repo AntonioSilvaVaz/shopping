@@ -20,8 +20,9 @@ async function createUser(userInfo: UserType): Promise<UserRegistered> {
     }
   });
 
-  await createCart(user_id);
-  await createWishlist(user_id);
+  const createCartPromise = createCart(user_id);
+  const createWishlistPromise = createWishlist(user_id);
+  await Promise.all([createCartPromise, createWishlistPromise])
 
   return newUser;
 };

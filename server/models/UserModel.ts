@@ -2,6 +2,7 @@ import { UUID } from "crypto";
 import { UserRegistered, UserType } from "../types/UserTypes";
 import prisma from "./connections";
 const { createCart, deleteCart } = require('./CartModel');
+const { createWishlist, deleteWishlist } = require('./WishlistModel')
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 
@@ -20,19 +21,23 @@ async function createUser(userInfo: UserType): Promise<UserRegistered> {
   });
 
   await createCart(user_id);
+  await createWishlist(user_id);
 
   return newUser;
 };
 
 // DELETES AN USER BY USER ID
 async function deleteUser(user_id: UUID) {
+
+  await deleteCart(user_id);
+  await deleteWishlist(user_id);
+
   await prisma.users.delete({
     where: {
       user_id,
     }
   });
 
-  await deleteCart(user_id);
 };
 
 // UPDATES ALL OF THE USER INFORMATION

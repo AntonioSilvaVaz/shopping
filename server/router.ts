@@ -4,6 +4,7 @@ const router = new Router();
 const UserController = require('./controllers/UserController');
 const ItemController = require('./controllers/ItemController');
 const CartController = require('./controllers/CartController');
+const WishlistController = require('./controllers/WishlistController');
 
 // USER ROUTES
 router.post('/create_user', UserController.createNewUser);
@@ -22,5 +23,10 @@ router.delete('/delete_item', ItemController.deleteAnItem);
 router.get('/cart', CartController.getCart);
 router.put('/add_cart', CartController.addToCart);
 router.put('/remove_cart', CartController.removeCart);
+
+// WISHLIST ROUTES
+router.get('/wishlist', WishlistController.getWishlist);
+router.put('/add_wishlist', WishlistController.addToWishlist);
+router.put('/remove_wishlist', WishlistController.removeFromWishlist);
 
 module.exports = router;

@@ -55,7 +55,7 @@ async function addToUserWishlist(item_id: UUID, user_id: UUID, amount: number) {
   }
 
   if (!itemFound) {
-    newList.push({ amount: 1, item_id: item_id });
+    newList.push({ amount: 1, item_id });
   }
 
 

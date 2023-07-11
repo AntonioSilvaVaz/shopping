@@ -28,9 +28,9 @@ async function addToCart(ctx: Context, next: Next) {
 
   try {
 
-    const { item_id } = ctx.request.body as { item_id: UUID };
+    const { item_id, amount } = ctx.request.body as { item_id: UUID, amount: number };
     const user_id: UUID = getUserSessionToken(ctx);
-    const cartUpdated: CartType = await addToUserCart(item_id, user_id);
+    const cartUpdated: CartType = await addToUserCart(item_id, user_id, amount);
 
     ctx.status = 201;
     ctx.type = 'application/json';
@@ -40,14 +40,14 @@ async function addToCart(ctx: Context, next: Next) {
     ctx.type = 'application/json';
     ctx.body = JSON.stringify('Server failed');
   }
-}
+};
 
 async function removeCart(ctx: Context, next: Next) {
   try {
 
-    const { item_id } = ctx.request.body as { item_id: UUID };
+    const { item_id, amount } = ctx.request.body as { item_id: UUID, amount: number };
     const user_id: UUID = getUserSessionToken(ctx);
-    const cartUpdated: CartType = await removeFromUserCart(item_id, user_id);
+    const cartUpdated: CartType = await removeFromUserCart(item_id, user_id, amount);
 
     ctx.status = 201;
     ctx.type = 'application/json';
@@ -58,7 +58,7 @@ async function removeCart(ctx: Context, next: Next) {
     ctx.body = JSON.stringify('Server failed');
   }
 
-}
+};
 
 
 module.exports = {

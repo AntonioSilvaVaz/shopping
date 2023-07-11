@@ -1,6 +1,7 @@
 import { UUID } from "crypto";
 import { UserRegistered, UserType } from "../types/UserTypes";
 import prisma from "./connections";
+const { createCart, deleteCart } = require('./CartModel');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 
@@ -9,16 +10,18 @@ async function createUser(userInfo: UserType): Promise<UserRegistered> {
 
   // hashing the password
   userInfo.password = bcrypt.hashSync(userInfo.password, Number(process.env.SALT_ROUNDS));
+  const user_id = crypto.randomUUID();
 
   const newUser: UserRegistered = await prisma.users.create({
     data: {
       ...userInfo,
-      user_id: crypto.randomUUID(),
+      user_id
     }
   });
 
-  return newUser;
+  await createCart(user_id);
 
+  return newUser;
 };
 
 // DELETES AN USER BY USER ID
@@ -28,12 +31,14 @@ async function deleteUser(user_id: UUID) {
       user_id,
     }
   });
+
+  await deleteCart(user_id);
 };
 
 // UPDATES ALL OF THE USER INFORMATION
 async function updateUser(userInfo: UserType, user_id: UUID) {
 
-  if(userInfo.password){
+  if (userInfo.password) {
     userInfo.password = bcrypt.hashSync(userInfo.password, Number(process.env.SALT_ROUNDS));
   }
 
@@ -41,7 +46,7 @@ async function updateUser(userInfo: UserType, user_id: UUID) {
     where: {
       user_id,
     },
-    data:{
+    data: {
       ...userInfo
     }
   });
@@ -51,7 +56,7 @@ async function updateUser(userInfo: UserType, user_id: UUID) {
 };
 
 // FINDS A USER BY ID
-async function findUserById(user_id:UUID) {
+async function findUserById(user_id: UUID) {
 
   const user: UserRegistered = await prisma.users.findUnique({
     where: {
@@ -65,7 +70,7 @@ async function findUserById(user_id:UUID) {
 // FINDS A USER BY EMAIL
 async function findUserByEmail(email: string) {
 
-  const user: UserRegistered =  await prisma.users.findUnique({
+  const user: UserRegistered = await prisma.users.findUnique({
     where: {
       email
     }

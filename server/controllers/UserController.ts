@@ -1,5 +1,6 @@
 import { Next, Context } from "koa";
 import { SessionTokenType, UserRegistered, UserType } from "../types/UserTypes";
+import { UUID } from "crypto";
 const { createUser, findUserByEmail, deleteUser, updateUser } = require('../models/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -88,8 +89,7 @@ async function deleteAnUser(ctx: Context, next: Next) {
 async function updatedAnUser(ctx: Context, next: Next) {
 
   try {
-    const sessionTokenJWT = ctx.cookies.get('session_token');
-    const sessionToken = jwt.verify(sessionTokenJWT, process.env.SECRET);
+    const user_id = getUserSessionToken(ctx);
 
     const updateItems: any = {};
     const { email, password, name } = ctx.request.body as UserType;
@@ -108,7 +108,7 @@ async function updatedAnUser(ctx: Context, next: Next) {
       };
     }
 
-    const userUpdated = await updateUser(updateItems, sessionToken.user_id)
+    const userUpdated = await updateUser(updateItems, user_id)
     ctx.status = 202;
     ctx.type = 'application/json';
     ctx.body = JSON.stringify(userUpdated);
@@ -137,7 +137,7 @@ async function logUserOut(ctx: Context, next: Next) {
 };
 
 // GETS THE USER ID FROM THE SESSION TOKEN
-function getUserSessionToken(ctx: Context) {
+function getUserSessionToken(ctx: Context): UUID {
   const sessionTokenJWT = ctx.cookies.get('session_token');
   const sessionToken: SessionTokenType = jwt.verify(sessionTokenJWT, process.env.SECRET);
   return sessionToken.user_id;

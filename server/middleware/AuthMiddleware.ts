@@ -1,5 +1,7 @@
 import { Context, Next } from "koa";
 import { UserType } from "../types/UserTypes";
+const { getUserSessionToken } = require('../controllers/UserController');
+const { findUserById } = require('../models/UserModel');
 
 const validator = require('validator');
 
@@ -30,7 +32,36 @@ async function ValidateRegisterAndLogin(ctx: Context, next: Next) {
 
 };
 
+async function ValidateUser(ctx: Context, next: Next) {
+
+  const user_id = getUserSessionToken(ctx);
+
+  if (!user_id) {
+    ctx.status = 403;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('No user_id passed');
+    return;
+  }
+
+  const userExists = await findUserById(user_id);
+
+  if(!userExists){
+    ctx.status = 404;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Invalid user_id');
+    return;
+  } else{
+    await next();
+  }
+
+};
+
+async function ValidateUpdate(ctx: Context, next: Next) {
+
+}
+
+
 module.exports = {
   ValidateRegisterAndLogin,
-
+  ValidateUser
 }

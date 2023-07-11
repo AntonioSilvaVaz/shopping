@@ -108,7 +108,7 @@ async function updatedAnUser(ctx: Context, next: Next) {
         ctx.body = JSON.stringify('User already exists');
         return;
       };
-    }
+    };
 
     const userUpdated = await updateUser(updateItems, user_id)
     ctx.status = 202;

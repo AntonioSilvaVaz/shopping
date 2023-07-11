@@ -30,8 +30,9 @@ async function createUser(userInfo: UserType): Promise<UserRegistered> {
 // DELETES AN USER BY USER ID
 async function deleteUser(user_id: UUID) {
 
-  await deleteCart(user_id);
-  await deleteWishlist(user_id);
+  const deleteCartPromise = deleteCart(user_id);
+  const deleteWishlistPromise = deleteWishlist(user_id);
+  await Promise.all([deleteCartPromise, deleteWishlistPromise])
 
   await prisma.users.delete({
     where: {

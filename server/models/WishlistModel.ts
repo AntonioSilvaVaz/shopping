@@ -1,6 +1,6 @@
 import { UUID } from "crypto";
 import prisma from "./connections";
-import { WishlistType } from "../types/WishlistTypes";
+import { WishlistJSON, WishlistList, WishlistType } from "../types/WishlistTypes";
 
 // CREATES A NEW WISHLIST
 async function createWishlist(user_id: UUID) {
@@ -23,9 +23,9 @@ async function deleteWishlist(user_id: UUID) {
 };
 
 // GETS A WISHLIST FROM A SPECIFIC USER
-async function getWishlistFromUser(user_id: UUID) {
+async function getWishlistFromUser(user_id: UUID): Promise<WishlistJSON> {
 
-  const wishlist: WishlistType = await prisma.wishlist.findUnique({
+  const wishlist: WishlistJSON = await prisma.wishlist.findUnique({
     where: {
       user_id
     }
@@ -36,11 +36,28 @@ async function getWishlistFromUser(user_id: UUID) {
 };
 
 // ADDS TO USER WISHLIST
-async function addToUserWishlist(item_id: UUID, user_id: UUID) {
+async function addToUserWishlist(item_id: UUID, user_id: UUID, amount: number) {
 
-  const currentWishlist: WishlistType = await getWishlistFromUser(user_id);
-  const newList = JSON.parse(currentWishlist.list);
-  newList.push(item_id);
+  const currentWishlist: WishlistJSON = await getWishlistFromUser(user_id);
+  const newList: WishlistList[] = JSON.parse(currentWishlist.list);
+
+  let itemFound = false;
+
+  for (let index = 0; index < newList.length; index++) {
+
+    const item: WishlistList = newList[index];
+    if (item.item_id === item_id) {
+      itemFound = true;
+      newList[index].amount += amount;
+      break;
+    }
+
+  }
+
+  if (!itemFound) {
+    newList.push({ amount: 1, item_id: item_id });
+  }
+
 
   const wishlistUpdated: WishlistType = await prisma.wishlist.update({
     where: {
@@ -55,10 +72,31 @@ async function addToUserWishlist(item_id: UUID, user_id: UUID) {
 };
 
 // REMOVES FROM USER WISHLIST
-async function removeFromUserWishlist(item_id: UUID, user_id: UUID) {
-  const currentWishlist = await getWishlistFromUser(user_id);
-  const newList = JSON.parse(currentWishlist.list);
-  const wishlistUpdated = newList.filter((currItemId: UUID) => item_id !== currItemId);
+async function removeFromUserWishlist(item_id: UUID, user_id: UUID, amountRemove: number) {
+
+  const currentWishlist: WishlistJSON = await getWishlistFromUser(user_id);
+  const newList: WishlistList[] = JSON.parse(currentWishlist.list);
+
+  let wishlistUpdated;
+
+  if (amountRemove === -1) {
+    wishlistUpdated = newList.filter((item) => item_id !== item.item_id);
+  } else {
+    for (let index = 0; index < newList.length; index++) {
+
+      const item: WishlistList = newList[index];
+      if (item.item_id === item_id) {
+        newList[index].amount -= amountRemove;
+        if (newList[index].amount <= 0) {
+          newList.splice(index, 1);
+        }
+
+        break;
+      }
+
+    }
+    wishlistUpdated = newList;
+  }
 
   const cartUpdated: WishlistType = await prisma.wishlist.update({
     where: {

@@ -1,8 +1,10 @@
 import { Context, Next } from "koa";
 import { UserType } from "../types/UserTypes";
 import { ItemCreated, ItemType } from "../types/ItemTypes";
+import { UUID } from "crypto";
 const { getUserSessionToken } = require('../controllers/UserController');
 const { findUserById } = require('../models/UserModel');
+const { findItem } = require('../models/ItemsModel');
 
 const validator = require('validator');
 
@@ -130,6 +132,29 @@ async function ValidateUpdateItem(ctx: Context, next: Next) {
 
 };
 
+async function ValidateItem(ctx: Context, next: Next) {
+
+  const { item_id } = ctx.request.body as { item_id: UUID };
+  const isValidItemId = validator.isUUID(item_id ? item_id : 'Hello');
+
+  if (!isValidItemId) {
+    ctx.status = 400;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Invalid item_id');
+    return;
+  }
+
+  const itemExists = await findItem(item_id);
+  if (!itemExists) {
+    ctx.status = 404;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify("Item doesn't exist");
+    return;
+  } else {
+    await next();
+  }
+
+};
 
 
 module.exports = {
@@ -138,5 +163,5 @@ module.exports = {
   ValidateUpdate,
   ValidateCreateItem,
   ValidateUpdateItem,
-
-}
+  ValidateItem,
+};

@@ -14,6 +14,8 @@ const {
   ValidateUpdate,
   ValidateCreateItem,
   ValidateUpdateItem,
+  ValidateItem,
+
 
 } = require('./middleware/AuthMiddleware');
 
@@ -27,18 +29,18 @@ router.delete('/logout', ValidateUser, UserController.logUserOut);
 
 // ITEM ROUTES
 router.post('/create_item', ValidateUser, ValidateCreateItem, ItemController.createNewItem);
-router.get('/item', ValidateUser, ItemController.getItem);
+router.get('/item', ValidateUser, ValidateItem, ItemController.getItem);
 router.put('/update_item', ValidateUser, ValidateUpdateItem, ItemController.updateAnItem);
-router.delete('/delete_item', ValidateUser, ItemController.deleteAnItem);
+router.delete('/delete_item', ValidateUser, ValidateItem, ItemController.deleteAnItem);
 
 // CART ROUTES
 router.get('/cart', ValidateUser, CartController.getCart);
-router.put('/add_cart', ValidateUser, CartController.addToCart);
-router.put('/remove_cart', ValidateUser, CartController.removeCart);
+router.put('/add_cart', ValidateUser, ValidateItem, CartController.addToCart);
+router.put('/remove_cart', ValidateUser, ValidateItem, CartController.removeCart);
 
 // WISHLIST ROUTES
 router.get('/wishlist', ValidateUser, WishlistController.getWishlist);
-router.put('/add_wishlist', ValidateUser, WishlistController.addToWishlist);
-router.put('/remove_wishlist', ValidateUser, WishlistController.removeFromWishlist);
+router.put('/add_wishlist', ValidateUser, ValidateItem, WishlistController.addToWishlist);
+router.put('/remove_wishlist', ValidateUser, ValidateItem, WishlistController.removeFromWishlist);
 
 module.exports = router;

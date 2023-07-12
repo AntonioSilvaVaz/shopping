@@ -2,6 +2,7 @@ import { Context, Next } from "koa";
 import { ItemCreated, ItemType } from "../types/ItemTypes";
 import { UUID } from "crypto";
 import { UserRegistered } from "../types/UserTypes";
+import { it } from "node:test";
 const { getUserSessionToken } = require('./UserController');
 const { createItem, findItem, updateItem, deleteItem } = require('../models/ItemsModel');
 const { findUserById } = require('../models/UserModel');
@@ -67,19 +68,26 @@ async function updateAnItem(ctx: Context, next: Next) {
       product_region, product_pictures, item_id
     }: ItemCreated = ctx.request.body as ItemCreated;
 
-    if (product_name) updateItems.product_name = product_name;
-    if (product_description) updateItems.product_description = product_description;
-    if (product_price) updateItems.product_price = product_price;
-    if (product_region) updateItems.product_region = product_region;
-    if (product_pictures) updateItems.product_pictures = product_pictures;
+    const item = await findItem(item_id);
+    if (item) {
+      if (product_name) updateItems.product_name = product_name;
+      if (product_description) updateItems.product_description = product_description;
+      if (product_price) updateItems.product_price = product_price;
+      if (product_region) updateItems.product_region = product_region;
+      if (product_pictures) updateItems.product_pictures = product_pictures;
 
-    const itemUpdated = await updateItem(updateItems, item_id)
-    ctx.status = 202;
-    ctx.type = 'application/json';
-    ctx.body = JSON.stringify(itemUpdated);
+      const itemUpdated = await updateItem(updateItems, item_id)
+      ctx.status = 202;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify(itemUpdated);
+
+    } else {
+      ctx.status = 404;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify('Invalid item_id');
+    }
 
   } catch (error) {
-    console.log(error);
 
     ctx.status = 500;
     ctx.type = 'application/json';

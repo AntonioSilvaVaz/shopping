@@ -11,20 +11,24 @@ const WishlistController = require('./controllers/WishlistController');
 const {
   ValidateRegisterAndLogin,
   ValidateUser,
+  ValidateUpdate,
+  ValidateCreateItem,
+  ValidateUpdateItem,
+
 } = require('./middleware/AuthMiddleware');
 
 // USER ROUTES
 router.post('/create_user', ValidateRegisterAndLogin, UserController.createNewUser);
 router.post('/login', ValidateRegisterAndLogin, UserController.loginUser);
 
-router.put('/update_user', ValidateUser, UserController.updatedAnUser);
+router.put('/update_user', ValidateUser, ValidateUpdate, UserController.updatedAnUser);
 router.delete('/delete_user', ValidateUser, UserController.deleteAnUser);
 router.delete('/logout', ValidateUser, UserController.logUserOut);
 
 // ITEM ROUTES
-router.post('/create_item', ValidateUser, ItemController.createNewItem);
+router.post('/create_item', ValidateUser, ValidateCreateItem, ItemController.createNewItem);
 router.get('/item', ValidateUser, ItemController.getItem);
-router.put('/update_item', ValidateUser, ItemController.updateAnItem);
+router.put('/update_item', ValidateUser, ValidateUpdateItem, ItemController.updateAnItem);
 router.delete('/delete_item', ValidateUser, ItemController.deleteAnItem);
 
 // CART ROUTES

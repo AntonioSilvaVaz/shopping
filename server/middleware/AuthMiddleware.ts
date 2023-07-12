@@ -106,30 +106,26 @@ async function ValidateUpdateItem(ctx: Context, next: Next) {
 
   const info: ItemCreated = ctx.request.body as ItemCreated;
 
-  const isValidName = !validator.isEmpty(info.product_name ? info.product_name : '');
-  const isValidDescription = !validator.isEmpty(info.product_description ? info.product_description : '');
-  const isValidPrice = !validator.isEmpty(info.product_price ? info.product_price : '');
-  const isValidRegion = !validator.isEmpty(info.product_region ? info.product_region : '');
-  const isValidPictures = !validator.isEmpty(info.product_pictures ? info.product_pictures : '');
-  const isValidItemId = info.item_id != null ? !validator.isEmpty(info.item_id ? info.item_id : '') : false;
+  const isValidName = !validator.isEmpty(info.product_name ? info.product_name : 'Hello');
+  const isValidDescription = !validator.isEmpty(info.product_description ? info.product_description : 'Hello');
+  const isValidPrice = !validator.isEmpty(info.product_price ? info.product_price : 'Hello');
+  const isValidRegion = !validator.isEmpty(info.product_region ? info.product_region : 'Hello');
+  const isValidPictures = !validator.isEmpty(info.product_pictures ? info.product_pictures : 'Hello');
+  const isValidItemId = validator.isUUID(info.item_id ? info.item_id : 'Hello');
 
   if (
-    (!isValidName && info.product_name)
-    || (!isValidDescription && info.product_description)
-    || (!isValidPrice && info.product_price)
-    || (!isValidRegion && info.product_region)
-    || (!isValidPictures && info.product_pictures)
-    || (!isValidItemId && info.item_id)
+    isValidItemId && (
+      isValidDescription && isValidPrice && isValidRegion && isValidPictures && isValidItemId
+    )
   ) {
+    await next();
+  } else {
     ctx.status = 400;
     ctx.type = 'applications/json';
     ctx.body = JSON.stringify({
       isValidName, isValidDescription, isValidPrice,
       isValidRegion, isValidPictures, isValidItemId
     });
-  } else {
-
-    await next();
   }
 
 };

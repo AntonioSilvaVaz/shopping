@@ -2,7 +2,6 @@ import { Context, Next } from "koa";
 import { ItemCreated, ItemType } from "../types/ItemTypes";
 import { UUID } from "crypto";
 import { UserRegistered } from "../types/UserTypes";
-import { it } from "node:test";
 const { getUserSessionToken } = require('./UserController');
 const { createItem, findItem, updateItem, deleteItem } = require('../models/ItemsModel');
 const { findUserById } = require('../models/UserModel');
@@ -88,6 +87,7 @@ async function updateAnItem(ctx: Context, next: Next) {
     }
 
   } catch (error) {
+    console.log(error);
 
     ctx.status = 500;
     ctx.type = 'application/json';

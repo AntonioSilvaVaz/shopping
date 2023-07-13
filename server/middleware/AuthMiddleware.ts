@@ -72,9 +72,6 @@ async function ValidateUpdate(ctx: Context, next: Next) {
   const isValidPassword = !validator.isEmpty(info.password !== undefined ? info.password : '');
   const isValidName = !validator.isEmpty(info.name !== undefined ? info.name : '');
 
-  console.log(isValidEmail);
-
-
   if (
     (!isValidEmail && info.email)
     || (!isValidPassword && info.password)

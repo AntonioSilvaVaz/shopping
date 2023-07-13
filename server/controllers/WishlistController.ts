@@ -16,7 +16,6 @@ async function getWishlist(ctx: Context, next: Next) {
     ctx.body = JSON.stringify({ ...wishlist, list: JSON.parse(wishlist.list) });
 
   } catch (error) {
-    console.log(error);
 
     ctx.status = 500;
     ctx.type = 'application/json';

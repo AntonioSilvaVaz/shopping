@@ -111,17 +111,25 @@ async function deleteAnUser(ctx: Context, next: Next) {
 
 };
 
-async function updatedAnUser(ctx: Context, next: Next) {
+async function updatedAnUser(ctx: any, next: Next) {
 
+  let fileName;
   try {
     const user_id = getUserSessionToken(ctx);
 
     const updateItems: any = {};
-    const { email, password, name } = ctx.request.body as UserType;
+    const { email, password, name, profile_picture } = ctx.request.body as UserType;
 
     if (email) updateItems.email = email;
     if (password) updateItems.password = password;
     if (name) updateItems.name = name;
+    if (ctx.request.files.profile_picture) {
+      fileName = await createProfilePicture(ctx.request.files.profile_picture);
+      updateItems.profile_picture = fileName;
+      if(profile_picture){
+        deleteProfilePicture(profile_picture);
+      }
+    };
 
     if (email) {
       const userExists = await findUserByEmail(email);

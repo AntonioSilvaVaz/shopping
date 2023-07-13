@@ -24,12 +24,13 @@ model items {
 }
 
 model users {
-  name     String    @db.Text
-  user_id  String    @id(map: "PK_users") @db.UniqueIdentifier
-  email    String    @unique(map: "UQ_Email") @db.VarChar(255)
-  password String    @db.VarChar(255)
-  cart     cart?
-  wishlist wishlist?
+  name            String    @db.Text
+  user_id         String    @id(map: "PK_users") @db.UniqueIdentifier
+  email           String    @unique(map: "UQ_Email") @db.VarChar(255)
+  password        String    @db.VarChar(255)
+  profile_picture String?   @db.Text
+  cart            cart?
+  wishlist        wishlist?
 }
 
 model wishlist {

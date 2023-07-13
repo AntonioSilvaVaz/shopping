@@ -35,7 +35,7 @@ async function ValidateRegisterAndLogin(ctx: Context, next: Next) {
 
 };
 
-async function ValidateUser(ctx: Context, next: Next) {
+async function ValidateUser(ctx: any, next: Next) {
 
   const user_id = getUserSessionToken(ctx);
 
@@ -47,6 +47,11 @@ async function ValidateUser(ctx: Context, next: Next) {
   }
 
   const userExists = await findUserById(user_id);
+  ctx.request.body = {
+    ...ctx.request.body,
+    profile_picture: userExists?.profile_picture,
+  }
+
 
   if (!userExists) {
     ctx.status = 404;

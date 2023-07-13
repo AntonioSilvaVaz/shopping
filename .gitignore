@@ -8,6 +8,10 @@ pids
 *.pid
 *.seed
 
+#images
+profile_pictures/*
+items/*
+
 # testing
 coverage
 

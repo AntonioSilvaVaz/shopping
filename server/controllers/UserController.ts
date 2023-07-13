@@ -4,6 +4,18 @@ import { UUID } from "crypto";
 const { createUser, findUserByEmail, deleteUser, updateUser } = require('../models/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+
+async function createProfilePicture(img: any) {
+  const fileName = Date.now() + img.originalFilename;
+  const destinationPath = `images/profile_pictures/${fileName}`;
+  fs.renameSync(img.filepath, destinationPath);
+  return fileName;
+};
+
+async function deleteProfilePicture(fileName: string) {
+  fs.unlinkSync(`images/profile_pictures/${fileName}`);
+}
 
 async function loginUser(ctx: Context, next: Next) {
 
@@ -41,8 +53,9 @@ async function loginUser(ctx: Context, next: Next) {
 
 };
 
-async function createNewUser(ctx: Context, next: Next) {
+async function createNewUser(ctx: any, next: Next) {
 
+  let fileName;
   try {
     const { email, password, name }: UserType = ctx.request.body as UserType;
     const userExists = await findUserByEmail(email);
@@ -54,12 +67,19 @@ async function createNewUser(ctx: Context, next: Next) {
       return;
     };
 
-    const newUser = await createUser({ email, password, name });
+    if (ctx.request.files.profile_picture) {
+      fileName = await createProfilePicture(ctx.request.files.profile_picture)
+    };
+
+    const newUser = await createUser({ email, password, name, profile_picture: fileName });
     ctx.status = 200;
     ctx.type = 'application/json';
     ctx.body = JSON.stringify(newUser);
 
   } catch (error) {
+    if (fileName) {
+      deleteProfilePicture(fileName);
+    }
     ctx.status = 500;
     ctx.type = 'application/json';
     ctx.body = JSON.stringify('Server failed');
@@ -70,15 +90,18 @@ async function createNewUser(ctx: Context, next: Next) {
 async function deleteAnUser(ctx: Context, next: Next) {
 
   try {
+    const { profile_picture } = ctx.request.body as { profile_picture: string }
+
     const userId = getUserSessionToken(ctx);
     await deleteUser(userId);
+    if(profile_picture){
+      deleteProfilePicture(profile_picture)
+    }
     ctx.status = 201;
     ctx.type = 'application/json';
     ctx.body = JSON.stringify('User deleted');
 
   } catch (error) {
-
-    console.log(error);
 
     ctx.status = 500;
     ctx.type = 'application/json';
@@ -141,7 +164,7 @@ async function logUserOut(ctx: Context, next: Next) {
 // GETS THE USER ID FROM THE SESSION TOKEN
 function getUserSessionToken(ctx: Context): UUID | undefined {
   const sessionTokenJWT = ctx.cookies.get('session_token');
-  if(!sessionTokenJWT) return undefined;
+  if (!sessionTokenJWT) return undefined;
   const sessionToken: SessionTokenType = jwt.verify(sessionTokenJWT, process.env.SECRET);
   return sessionToken.user_id;
 };

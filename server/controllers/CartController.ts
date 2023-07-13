@@ -1,6 +1,6 @@
 import { UUID } from "crypto";
 import { Context, Next } from "koa";
-import { CartType } from "../types/CartTypes";
+import { CartType, CartTypeJSON } from "../types/CartTypes";
 const { getUserSessionToken } = require('./UserController');
 const { getCartFromUser, addToUserCart, removeFromUserCart } = require('../models/CartModel');
 
@@ -9,7 +9,7 @@ async function getCart(ctx: Context, next: Next) {
   try {
 
     const user_id: UUID = getUserSessionToken(ctx);
-    const cart: CartType = await getCartFromUser(user_id);
+    const cart: CartTypeJSON = await getCartFromUser(user_id);
 
     ctx.status = 200;
     ctx.type = 'application/json';
@@ -30,7 +30,7 @@ async function addToCart(ctx: Context, next: Next) {
 
     const { item_id, amount } = ctx.request.body as { item_id: UUID, amount: number };
     const user_id: UUID = getUserSessionToken(ctx);
-    const cartUpdated: CartType = await addToUserCart(item_id, user_id, amount);
+    const cartUpdated: CartTypeJSON = await addToUserCart(item_id, user_id, amount);
 
     ctx.status = 201;
     ctx.type = 'application/json';
@@ -47,7 +47,7 @@ async function removeCart(ctx: Context, next: Next) {
 
     const { item_id, amount } = ctx.request.body as { item_id: UUID, amount: number };
     const user_id: UUID = getUserSessionToken(ctx);
-    const cartUpdated: CartType = await removeFromUserCart(item_id, user_id, amount);
+    const cartUpdated: CartTypeJSON = await removeFromUserCart(item_id, user_id, amount);
 
     ctx.status = 201;
     ctx.type = 'application/json';

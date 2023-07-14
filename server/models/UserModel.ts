@@ -14,6 +14,12 @@ async function createUser(userInfo: UserType): Promise<UserRegistered> {
   const user_id = crypto.randomUUID();
 
   const newUser: UserRegistered = await prisma.users.create({
+    select: {
+      name: true,
+      user_id: true,
+      email: true,
+      profile_picture: true,
+    },
     data: {
       ...userInfo,
       user_id
@@ -53,6 +59,12 @@ async function updateUser(userInfo: UserType, user_id: UUID) {
     where: {
       user_id,
     },
+    select: {
+      name: true,
+      user_id: true,
+      email: true,
+      profile_picture: true,
+    },
     data: {
       ...userInfo
     }
@@ -68,7 +80,13 @@ async function findUserById(user_id: UUID) {
   const user: UserRegistered = await prisma.users.findUnique({
     where: {
       user_id
-    }
+    },
+    select: {
+      name: true,
+      user_id: true,
+      email: true,
+      profile_picture: true,
+    },
   });
 
   return user;
@@ -79,8 +97,15 @@ async function findUserByEmail(email: string) {
 
   const user: UserRegistered = await prisma.users.findUnique({
     where: {
-      email
-    }
+      email,
+    },
+    select: {
+      name: true,
+      user_id: true,
+      email: true,
+      profile_picture: true,
+      password: true,
+    },
   });
 
   return user;

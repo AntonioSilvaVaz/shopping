@@ -138,6 +138,10 @@ async function ValidateItem(ctx: Context, next: Next) {
 
   const { item_id } = ctx.request.body as { item_id: UUID };
   const isValidItemId = validator.isUUID(item_id ? item_id : 'Hello');
+  console.log(item_id);
+
+  console.log(item_id ? item_id : 'Hello');
+
 
   if (!isValidItemId) {
     ctx.status = 400;

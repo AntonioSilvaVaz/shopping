@@ -10,7 +10,15 @@ async function createItem(itemInfo: ItemType, user_id: UUID): Promise<ItemCreate
       item_id: crypto.randomUUID(),
       user_created: user_id,
       ...itemInfo,
-    }
+    },
+    select: {
+      product_name: true,
+      product_description: true,
+      product_price: true,
+      product_region: true,
+      product_pictures: true,
+      item_id: true,
+    },
   });
 
   return newItem;
@@ -36,7 +44,15 @@ async function updateItem(itemInfo: ItemType, item_id: UUID): Promise<ItemCreate
     },
     data: {
       ...itemInfo
-    }
+    },
+    select: {
+      product_name: true,
+      product_description: true,
+      product_price: true,
+      product_region: true,
+      product_pictures: true,
+      item_id: true,
+    },
   });
 
   return updatedItem;
@@ -47,7 +63,18 @@ async function updateItem(itemInfo: ItemType, item_id: UUID): Promise<ItemCreate
 async function findItem(item_id: UUID): Promise<ItemCreated> {
 
   const item: ItemCreated = prisma.items.findUnique({
-    where: { item_id }
+    where: {
+      item_id
+    },
+    select: {
+      product_name: true,
+      product_description: true,
+      product_price: true,
+      product_region: true,
+      product_pictures: true,
+      item_id: true,
+      user_created: true,
+    },
   });
 
   return item;

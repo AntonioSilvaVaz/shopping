@@ -7,6 +7,10 @@ async function createCart(user_id: UUID) {
     data: {
       user_id,
       list: JSON.stringify([]),
+    },
+    select: {
+      user_id: true,
+      list: true
     }
   });
   return cartCreated;
@@ -25,6 +29,10 @@ async function getCartFromUser(user_id: UUID): Promise<CartTypeJSON> {
   const cart: CartTypeJSON = await prisma.cart.findUnique({
     where: {
       user_id
+    },
+    select: {
+      user_id: true,
+      list: true
     }
   });
 
@@ -57,6 +65,10 @@ async function addToUserCart(item_id: UUID, user_id: UUID, amount: number) {
   const cartUpdated: CartType = await prisma.cart.update({
     where: {
       user_id
+    },
+    select: {
+      user_id: true,
+      list: true
     },
     data: {
       list: JSON.stringify(currList)
@@ -94,6 +106,10 @@ async function removeFromUserCart(item_id: UUID, user_id: UUID, amountRemove: nu
   const cartUpdated: CartType = await prisma.cart.update({
     where: {
       user_id
+    },
+    select: {
+      user_id: true,
+      list: true
     },
     data: {
       list: JSON.stringify(updatedList)

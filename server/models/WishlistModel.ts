@@ -8,7 +8,11 @@ async function createWishlist(user_id: UUID) {
     data: {
       user_id,
       list: JSON.stringify([]),
-    }
+    },
+    select: {
+      user_id: true,
+      list: true
+    },
   });
   return wishlistCreated;
 };
@@ -28,7 +32,11 @@ async function getWishlistFromUser(user_id: UUID): Promise<WishlistJSON> {
   const wishlist: WishlistJSON = await prisma.wishlist.findUnique({
     where: {
       user_id
-    }
+    },
+    select: {
+      user_id: true,
+      list: true
+    },
   });
 
   return wishlist;
@@ -62,6 +70,10 @@ async function addToUserWishlist(item_id: UUID, user_id: UUID, amount: number) {
   const wishlistUpdated: WishlistType = await prisma.wishlist.update({
     where: {
       user_id
+    },
+    select: {
+      user_id: true,
+      list: true
     },
     data: {
       list: JSON.stringify(newList)
@@ -101,6 +113,10 @@ async function removeFromUserWishlist(item_id: UUID, user_id: UUID, amountRemove
   const cartUpdated: WishlistType = await prisma.wishlist.update({
     where: {
       user_id
+    },
+    select: {
+      user_id: true,
+      list: true
     },
     data: {
       list: JSON.stringify(wishlistUpdated)

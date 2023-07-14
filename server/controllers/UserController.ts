@@ -77,6 +77,8 @@ async function createNewUser(ctx: any, next: Next) {
     ctx.body = JSON.stringify(newUser);
 
   } catch (error) {
+    console.log(error);
+
     if (fileName) {
       deleteProfilePicture(fileName);
     }
@@ -102,6 +104,7 @@ async function deleteAnUser(ctx: Context, next: Next) {
     ctx.body = JSON.stringify('User deleted');
 
   } catch (error) {
+    console.log(error);
 
     ctx.status = 500;
     ctx.type = 'application/json';

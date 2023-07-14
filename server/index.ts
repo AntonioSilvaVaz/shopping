@@ -3,6 +3,7 @@ const Koa = require('koa');
 const cors = require('koa-cors');
 const dotenv = require('dotenv').config();
 const { koaBody } = require('koa-body');
+const bodyParser = require('koa-bodyparser');
 
 
 const router = require('./router');
@@ -14,6 +15,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(bodyParser())
 app.use(koaBody({
   multipart: true,
   urlencoded: true

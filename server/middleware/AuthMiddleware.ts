@@ -89,14 +89,14 @@ async function ValidateUpdate(ctx: Context, next: Next) {
 
 };
 
-async function ValidateCreateItem(ctx: Context, next: Next) {
+async function ValidateCreateItem(ctx: any, next: Next) {
   const info: ItemType = ctx.request.body as ItemType;
 
   const isValidName = !validator.isEmpty(info.product_name ? info.product_name : '');
   const isValidDescription = !validator.isEmpty(info.product_description ? info.product_description : '');
   const isValidPrice = !validator.isEmpty(info.product_price ? info.product_price : '');
   const isValidRegion = !validator.isEmpty(info.product_region ? info.product_region : '');
-  const isValidPictures = !validator.isEmpty(info.product_pictures ? info.product_pictures : '');
+  const isValidPictures = ctx.request.files.product_pictures;
 
 
   if (isValidName && isValidDescription && isValidPrice && isValidRegion && isValidPictures) {

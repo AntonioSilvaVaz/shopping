@@ -15,7 +15,7 @@ async function createProfilePicture(img: any) {
 
 async function deleteProfilePicture(fileName: string) {
   fs.unlinkSync(`images/profile_pictures/${fileName}`);
-}
+};
 
 async function loginUser(ctx: Context, next: Next) {
 
@@ -77,7 +77,6 @@ async function createNewUser(ctx: any, next: Next) {
     ctx.body = JSON.stringify(newUser);
 
   } catch (error) {
-    console.log(error);
 
     if (fileName) {
       deleteProfilePicture(fileName);

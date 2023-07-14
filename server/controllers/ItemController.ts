@@ -5,17 +5,46 @@ import { UserRegistered } from "../types/UserTypes";
 const { getUserSessionToken } = require('./UserController');
 const { createItem, findItem, updateItem, deleteItem } = require('../models/ItemsModel');
 const { findUserById } = require('../models/UserModel');
+const fs = require('fs');
 
-async function createNewItem(ctx: Context, next: Next) {
 
+async function createItemPicture(img: any[]) {
+
+  const fileNames: string[] = [];
+
+  for (let index = 0; index < img.length; index++) {
+    const file = img[index];
+    const fileName = Date.now() + file.originalFilename;
+    fileNames.push(fileName);
+    const destinationPath = `images/items/${fileName}`;
+    fs.renameSync(file.filepath, destinationPath);
+  }
+
+  return fileNames;
+};
+
+async function deleteItemPicture(fileNames: string[]) {
+  fileNames.forEach(fileName => {
+    fs.unlinkSync(`images/items/${fileName}`);
+  });
+};
+
+async function createNewItem(ctx: any, next: Next) {
+
+  let fileNames: string[] | undefined;
   try {
 
     const userId = getUserSessionToken(ctx);
     const {
       product_name, product_description, product_price,
-      product_region, product_pictures
+      product_region
     }: ItemType = ctx.request.body as ItemType;
 
+    if (ctx.request.files.product_pictures) {
+      fileNames = await createItemPicture(ctx.request.files.product_pictures);
+    };
+
+    const product_pictures = JSON.stringify(fileNames);
     const productInfo = { product_name, product_description, product_price, product_region, product_pictures };
     const itemCreated: ItemCreated = await createItem(productInfo, userId);
 
@@ -24,6 +53,11 @@ async function createNewItem(ctx: Context, next: Next) {
     ctx.body = JSON.stringify(itemCreated);
 
   } catch (error) {
+    console.log(error);
+
+    if (fileNames) {
+      deleteItemPicture(fileNames);
+    }
     ctx.status = 500;
     ctx.type = 'application/json';
     ctx.body = JSON.stringify('Server failed');

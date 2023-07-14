@@ -53,7 +53,6 @@ async function createNewItem(ctx: any, next: Next) {
     ctx.body = JSON.stringify(itemCreated);
 
   } catch (error) {
-    console.log(error);
 
     if (fileNames) {
       deleteItemPicture(fileNames);
@@ -92,14 +91,15 @@ async function getItem(ctx: Context, next: Next) {
 
 };
 
-async function updateAnItem(ctx: Context, next: Next) {
+async function updateAnItem(ctx: any, next: Next) {
+  let fileName;
   try {
 
     const updateItems: any = {};
 
     const {
       product_name, product_description, product_price,
-      product_region, product_pictures, item_id
+      product_region, item_id
     }: ItemCreated = ctx.request.body as ItemCreated;
 
     const item = await findItem(item_id);
@@ -108,7 +108,6 @@ async function updateAnItem(ctx: Context, next: Next) {
       if (product_description) updateItems.product_description = product_description;
       if (product_price) updateItems.product_price = product_price;
       if (product_region) updateItems.product_region = product_region;
-      if (product_pictures) updateItems.product_pictures = product_pictures;
 
       const itemUpdated = await updateItem(updateItems, item_id)
       ctx.status = 202;

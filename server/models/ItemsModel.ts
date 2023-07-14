@@ -35,6 +35,16 @@ async function deleteItem(item_id: UUID) {
   });
 };
 
+async function deleteAllFromUser(user_id: UUID) {
+
+  const userItems = await prisma.items.deleteMany({
+    where: {
+      user_created: user_id,
+    },
+  });
+  return userItems;
+};
+
 // UPDATES ALL OF THE USER INFORMATION
 async function updateItem(itemInfo: ItemType, item_id: UUID): Promise<ItemCreated> {
 
@@ -85,4 +95,5 @@ module.exports = {
   deleteItem,
   updateItem,
   findItem,
+  deleteAllFromUser
 }

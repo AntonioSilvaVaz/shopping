@@ -15,7 +15,7 @@ model cart {
 
 model items {
   item_id             String @id(map: "PK_items") @db.UniqueIdentifier
-  user_created        String @db.Text
+  user_created        String @db.VarChar(Max)
   product_name        String @db.Text
   product_description String @db.Text
   product_price       String @db.Text

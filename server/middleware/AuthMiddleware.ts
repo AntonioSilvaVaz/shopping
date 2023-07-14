@@ -47,7 +47,10 @@ async function ValidateUser(ctx: any, next: Next) {
   }
 
   const userExists = await findUserById(user_id);
+  const item_id = ctx.params.item_id;
+
   ctx.request.body = {
+    item_id,
     ...ctx.request.body,
     profile_picture: userExists?.profile_picture,
   }
@@ -137,11 +140,8 @@ async function ValidateUpdateItem(ctx: Context, next: Next) {
 async function ValidateItem(ctx: Context, next: Next) {
 
   const { item_id } = ctx.request.body as { item_id: UUID };
+
   const isValidItemId = validator.isUUID(item_id ? item_id : 'Hello');
-  console.log(item_id);
-
-  console.log(item_id ? item_id : 'Hello');
-
 
   if (!isValidItemId) {
     ctx.status = 400;

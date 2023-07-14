@@ -29,9 +29,9 @@ router.delete('/logout', ValidateUser, UserController.logUserOut);
 
 // ITEM ROUTES
 router.post('/create_item', ValidateUser, ValidateCreateItem, ItemController.createNewItem);
-router.get('/item', ValidateUser, ValidateItem, ItemController.getItem);
+router.get('/item/:item_id', ValidateUser, ValidateItem, ItemController.getItem);
 router.put('/update_item', ValidateUser, ValidateUpdateItem, ItemController.updateAnItem);
-router.delete('/delete_item', ValidateUser, ValidateItem, ItemController.deleteAnItem);
+router.delete('/delete_item/:item_id', ValidateUser, ValidateItem, ItemController.deleteAnItem);
 
 // CART ROUTES
 router.get('/cart', ValidateUser, CartController.getCart);

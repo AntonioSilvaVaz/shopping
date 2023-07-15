@@ -2,7 +2,7 @@ import { UUID } from "crypto";
 import { UserRegistered, UserType } from "../types/UserTypes";
 import prisma from "./connections";
 const { createCart, deleteCart } = require('./CartModel');
-const { createWishlist, deleteWishlist } = require('./WishlistModel')
+const { createWishlist, deleteWishlist } = require('./WishlistModel');
 const { deleteAllFromUser } = require('./ItemsModel');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
@@ -40,13 +40,18 @@ async function deleteUser(user_id: UUID) {
   const deleteCartPromise = deleteCart(user_id);
   const deleteWishlistPromise = deleteWishlist(user_id);
   const deleteUserItems = deleteAllFromUser(user_id);
-  await Promise.all([deleteCartPromise, deleteWishlistPromise, deleteUserItems])
+  const [_, __, fileNames] = await Promise.all([deleteCartPromise, deleteWishlistPromise, deleteUserItems])
 
   await prisma.users.delete({
     where: {
       user_id,
     }
   });
+
+  console.log(fileNames);
+
+
+  return fileNames
 
 };
 

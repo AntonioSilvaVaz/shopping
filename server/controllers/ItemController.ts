@@ -34,7 +34,6 @@ async function createNewItem(ctx: any, next: Next) {
   try {
 
     const userId = getUserSessionToken(ctx);
-    console.log(userId);
     const {
       product_name, product_description, product_price,
       product_region
@@ -53,9 +52,6 @@ async function createNewItem(ctx: any, next: Next) {
     ctx.body = JSON.stringify(itemCreated);
 
   } catch (error) {
-    console.log(error);
-    console.log((error as Error).message);
-
 
     if (fileNames) {
       deleteItemPicture(fileNames);

@@ -18,6 +18,12 @@ async function deleteProfilePicture(fileName: string) {
   fs.unlinkSync(`images/profile_pictures/${fileName}`);
 };
 
+async function deleteItemPicture(fileNames: string[]) {
+  fileNames.forEach(fileName => {
+    fs.unlinkSync(`images/items/${fileName}`);
+  });
+};
+
 async function loginUser(ctx: Context, next: Next) {
 
   try {
@@ -95,7 +101,11 @@ async function deleteAnUser(ctx: Context, next: Next) {
     const { profile_picture } = ctx.request.body as { profile_picture: string }
 
     const userId = getUserSessionToken(ctx);
-    await deleteUser(userId);
+    const pictures_delete: string[] = await deleteUser(userId);
+    pictures_delete.forEach(value =>{
+      deleteItemPicture(JSON.parse(value));
+    })
+
     if (profile_picture) {
       deleteProfilePicture(profile_picture)
     }

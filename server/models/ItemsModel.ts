@@ -1,7 +1,8 @@
 import { UUID } from "crypto";
 import { ItemCreated, ItemType } from "../types/ItemTypes";
 import prisma from "./connections";
-const { deleteItemPicture } = require('../controllers/ItemController');
+
+// const { deleteItemPicture } = require('../controllers/ItemController');
 
 // CREATES AN ITEM
 async function createItem(itemInfo: ItemType, user_id: UUID): Promise<ItemCreated> {
@@ -58,10 +59,6 @@ async function deleteAllFromUser(user_id: UUID) {
 
   const productPictures: string[] = userItems[0].map((item: { product_pictures: string }) => {
     return item.product_pictures;
-  });
-
-  productPictures.forEach((item)=>{
-    deleteItemPicture(JSON.parse(item));
   });
 
   return productPictures;

@@ -5,8 +5,8 @@ import { UUID } from "crypto";
 const { getUserSessionToken } = require('../controllers/UserController');
 const { findUserById } = require('../models/UserModel');
 const { findItem } = require('../models/ItemsModel');
-
 const validator = require('validator');
+const fs = require('fs');
 
 async function ValidateRegisterAndLogin(ctx: Context, next: Next) {
 
@@ -162,6 +162,29 @@ async function ValidateItem(ctx: Context, next: Next) {
 
 };
 
+async function ValidateImage(ctx: any, next: Next) {
+  const { item_id, fileName } = ctx.request.body as { item_id: UUID, fileName: string };
+
+  const isValidPictures = ctx.request.files?.product_pictures;
+  const isValidItemId = validator.isUUID(item_id ? item_id : 'Hello');
+  const isValidFileName = await validateFileName(fileName);
+
+  const isRemoveRoute = ctx.URL.pathname === '/remove_image_item' ? true : false;
+
+  if ((isValidPictures && isValidItemId) || (isValidItemId && isValidFileName && isRemoveRoute)) {
+    await next();
+  } else {
+    ctx.status = 400;
+    ctx.type = 'applications/json';
+    ctx.body = JSON.stringify({ isValidPictures, isValidItemId, isValidFileName });
+  }
+};
+
+async function validateFileName(fileName: string) {
+  const files = fs.readdirSync('./images/items');
+  return files.includes(fileName);
+}
+
 
 module.exports = {
   ValidateRegisterAndLogin,
@@ -170,4 +193,5 @@ module.exports = {
   ValidateCreateItem,
   ValidateUpdateItem,
   ValidateItem,
+  ValidateImage,
 };

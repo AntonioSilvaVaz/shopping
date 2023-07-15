@@ -109,11 +109,11 @@ async function findItem(item_id: UUID): Promise<ItemCreated> {
   return item;
 };
 
-async function updateImage(item_id: UUID, fileName: string): Promise<ItemCreated> {
+async function updateImage(item_id: UUID, fileNames: string[]): Promise<ItemCreated> {
 
   const picturesJSON = (await findItem(item_id)).product_pictures;
   const product_pictures: string[] = JSON.parse(picturesJSON);
-  product_pictures.push(fileName);
+  product_pictures.push(...fileNames);
   const itemInfo: string = JSON.stringify(product_pictures);
 
   const updatedItem = await updateItem({ product_pictures: itemInfo }, item_id);

@@ -36,15 +36,8 @@ async function addOneItemImage(ctx: any, next: Next) {
       item_id
     }: { item_id: UUID } = ctx.request.body as { item_id: UUID };
 
-    if (!ctx.request.files.product_pictures) {
-      ctx.status = 201;
-      ctx.type = 'application/json';
-      ctx.body = JSON.stringify('Missing information');
-    };
-
     fileNames = await createItemPicture(ctx.request.files.product_pictures);
-    const product_pictures = JSON.stringify(fileNames);
-    const itemUpdated: ItemCreated = await updateImage(item_id, product_pictures);
+    const itemUpdated: ItemCreated = await updateImage(item_id, fileNames);
 
     ctx.status = 201;
     ctx.type = 'application/json';
@@ -61,7 +54,7 @@ async function addOneItemImage(ctx: any, next: Next) {
   }
 };
 
-async function deleteItemImage(ctx: any, next: Next) {
+async function deleteOneItemImage(ctx: any, next: Next) {
   try {
 
     const {
@@ -219,6 +212,6 @@ module.exports = {
   getItem,
   updateAnItem,
   deleteAnItem,
-  deleteItemImage,
+  deleteOneItemImage,
   addOneItemImage,
 }

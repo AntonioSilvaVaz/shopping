@@ -1,6 +1,7 @@
 import { UUID } from "crypto";
 import { ItemCreated, ItemType } from "../types/ItemTypes";
 import prisma from "./connections";
+const { deleteItemPicture } = require('../controllers/ItemController');
 
 // CREATES AN ITEM
 async function createItem(itemInfo: ItemType, user_id: UUID): Promise<ItemCreated> {
@@ -28,21 +29,42 @@ async function createItem(itemInfo: ItemType, user_id: UUID): Promise<ItemCreate
 // DELETES AN ITEM BY ITEM ID
 async function deleteItem(item_id: UUID) {
 
-  await prisma.items.delete({
+  const item: ItemCreated = await prisma.items.delete({
     where: {
       item_id,
     }
   });
+
+  return item.product_pictures;
 };
 
 async function deleteAllFromUser(user_id: UUID) {
 
-  const userItems = await prisma.items.deleteMany({
-    where: {
-      user_created: user_id,
-    },
+  const userItems = await prisma.$transaction([
+    prisma.items.findMany({
+      where: {
+        user_created: user_id,
+      },
+      select: {
+        product_pictures: true,
+      }
+    }),
+    prisma.items.deleteMany({
+      where: {
+        user_created: user_id,
+      }
+    })
+  ])
+
+  const productPictures: string[] = userItems[0].map((item: { product_pictures: string }) => {
+    return item.product_pictures;
   });
-  return userItems;
+
+  productPictures.forEach((item)=>{
+    deleteItemPicture(JSON.parse(item));
+  });
+
+  return productPictures;
 };
 
 // UPDATES ALL OF THE USER INFORMATION

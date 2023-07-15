@@ -7,7 +7,6 @@ const { createItem, findItem, updateItem, deleteItem } = require('../models/Item
 const { findUserById } = require('../models/UserModel');
 const fs = require('fs');
 
-
 async function createItemPicture(img: any[]) {
 
   const fileNames: string[] = [];
@@ -35,6 +34,7 @@ async function createNewItem(ctx: any, next: Next) {
   try {
 
     const userId = getUserSessionToken(ctx);
+    console.log(userId);
     const {
       product_name, product_description, product_price,
       product_region
@@ -53,6 +53,9 @@ async function createNewItem(ctx: any, next: Next) {
     ctx.body = JSON.stringify(itemCreated);
 
   } catch (error) {
+    console.log(error);
+    console.log((error as Error).message);
+
 
     if (fileNames) {
       deleteItemPicture(fileNames);
@@ -145,7 +148,10 @@ async function deleteAnItem(ctx: Context, next: Next) {
       ctx.type = 'application/json';
       ctx.body = JSON.stringify('Item not found');
     } else {
-      await deleteItem(item_id);
+      const pictureDeleteJSON: string = await deleteItem(item_id);
+      const picturesDelete = JSON.parse(pictureDeleteJSON);
+      await deleteItemPicture(picturesDelete);
+
       ctx.status = 201;
       ctx.type = 'application/json';
       ctx.body = JSON.stringify('Item deleted');
@@ -163,5 +169,6 @@ module.exports = {
   getItem,
   updateAnItem,
   deleteAnItem,
+  deleteItemPicture,
 
 }

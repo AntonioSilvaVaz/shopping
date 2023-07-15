@@ -2,6 +2,7 @@ import { Next, Context } from "koa";
 import { SessionTokenType, UserRegistered, UserType } from "../types/UserTypes";
 import { UUID } from "crypto";
 const { createUser, findUserByEmail, deleteUser, updateUser } = require('../models/UserModel');
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -95,7 +96,7 @@ async function deleteAnUser(ctx: Context, next: Next) {
 
     const userId = getUserSessionToken(ctx);
     await deleteUser(userId);
-    if(profile_picture){
+    if (profile_picture) {
       deleteProfilePicture(profile_picture)
     }
     ctx.status = 201;
@@ -103,6 +104,7 @@ async function deleteAnUser(ctx: Context, next: Next) {
     ctx.body = JSON.stringify('User deleted');
 
   } catch (error) {
+    console.log(error);
 
     ctx.status = 500;
     ctx.type = 'application/json';
@@ -127,7 +129,7 @@ async function updatedAnUser(ctx: any, next: Next) {
     if (ctx.request.files.profile_picture) {
       fileName = await createProfilePicture(ctx.request.files.profile_picture);
       updateItems.profile_picture = fileName;
-      if(profile_picture){
+      if (profile_picture) {
         deleteProfilePicture(profile_picture);
       }
     };

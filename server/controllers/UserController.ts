@@ -114,7 +114,6 @@ async function deleteAnUser(ctx: Context, next: Next) {
     ctx.body = JSON.stringify('User deleted');
 
   } catch (error) {
-    console.log(error);
 
     ctx.status = 500;
     ctx.type = 'application/json';

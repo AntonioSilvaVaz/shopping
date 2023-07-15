@@ -65,7 +65,7 @@ async function deleteAllFromUser(user_id: UUID) {
 };
 
 // UPDATES ALL OF THE USER INFORMATION
-async function updateItem(itemInfo: ItemType, item_id: UUID): Promise<ItemCreated> {
+async function updateItem(itemInfo: ItemType | {product_pictures: string}, item_id: UUID): Promise<ItemCreated> {
 
   const updatedItem: ItemCreated = await prisma.items.update({
     where: {
@@ -109,10 +109,34 @@ async function findItem(item_id: UUID): Promise<ItemCreated> {
   return item;
 };
 
+async function updateImage(item_id: UUID, fileName: string): Promise<ItemCreated> {
+
+  const picturesJSON = (await findItem(item_id)).product_pictures;
+  const product_pictures: string[] = JSON.parse(picturesJSON);
+  product_pictures.push(fileName);
+  const itemInfo: string = JSON.stringify(product_pictures);
+
+  const updatedItem = await updateItem({ product_pictures: itemInfo }, item_id);
+  return updatedItem;
+};
+
+async function deleteImage(item_id: UUID, fileName: string): Promise<ItemCreated> {
+
+  const picturesJSON = (await findItem(item_id)).product_pictures;
+  const product_pictures: string[] = JSON.parse(picturesJSON);
+  const filteredArray = product_pictures.filter((item) => item !== fileName);
+  const itemInfo: string = JSON.stringify(filteredArray);
+
+  const updatedItem = await updateItem({ product_pictures: itemInfo }, item_id);
+  return updatedItem;
+};
+
 module.exports = {
   createItem,
   deleteItem,
   updateItem,
   findItem,
-  deleteAllFromUser
+  deleteAllFromUser,
+  updateImage,
+  deleteImage
 }

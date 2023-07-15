@@ -3,7 +3,7 @@ import { ItemCreated, ItemType } from "../types/ItemTypes";
 import { UUID } from "crypto";
 import { UserRegistered } from "../types/UserTypes";
 const { getUserSessionToken } = require('./UserController');
-const { createItem, findItem, updateItem, deleteItem } = require('../models/ItemsModel');
+const { createItem, findItem, updateItem, deleteItem, updateImage, deleteImage } = require('../models/ItemsModel');
 const { findUserById } = require('../models/UserModel');
 const fs = require('fs');
 
@@ -26,6 +26,61 @@ async function deleteItemPicture(fileNames: string[]) {
   fileNames.forEach(fileName => {
     fs.unlinkSync(`images/items/${fileName}`);
   });
+};
+
+async function addOneItemImage(ctx: any, next: Next) {
+  let fileNames: string[] | undefined;
+  try {
+
+    const {
+      item_id
+    }: { item_id: UUID } = ctx.request.body as { item_id: UUID };
+
+    if (!ctx.request.files.product_pictures) {
+      ctx.status = 201;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify('Missing information');
+    };
+
+    fileNames = await createItemPicture(ctx.request.files.product_pictures);
+    const product_pictures = JSON.stringify(fileNames);
+    const itemUpdated: ItemCreated = await updateImage(item_id, product_pictures);
+
+    ctx.status = 201;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify(itemUpdated);
+
+  } catch (error) {
+
+    if (fileNames) {
+      deleteItemPicture(fileNames);
+    }
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+  }
+};
+
+async function deleteItemImage(ctx: any, next: Next) {
+  try {
+
+    const {
+      item_id, fileName
+    }: { item_id: UUID, fileName: string } = ctx.request.body as { item_id: UUID, fileName: string };
+
+    const itemUpdated: ItemCreated = await deleteImage(item_id, fileName);
+    deleteItemPicture([fileName]);
+
+    ctx.status = 201;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify(itemUpdated);
+
+  } catch (error) {
+
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+  }
 };
 
 async function createNewItem(ctx: any, next: Next) {
@@ -91,7 +146,6 @@ async function getItem(ctx: Context, next: Next) {
 };
 
 async function updateAnItem(ctx: any, next: Next) {
-  let fileName;
   try {
 
     const updateItems: any = {};
@@ -165,6 +219,6 @@ module.exports = {
   getItem,
   updateAnItem,
   deleteAnItem,
-  deleteItemPicture,
-
+  deleteItemImage,
+  addOneItemImage,
 }

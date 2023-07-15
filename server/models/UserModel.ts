@@ -48,9 +48,6 @@ async function deleteUser(user_id: UUID) {
     }
   });
 
-  console.log(fileNames);
-
-
   return fileNames
 
 };

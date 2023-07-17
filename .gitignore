@@ -11,6 +11,10 @@ pids
 #images
 profile_pictures/*
 items/*
+public/
+
+#personal
+helpers
 
 # testing
 coverage
@@ -24,6 +28,5 @@ dist
 
 # Private or Temp Stuff
 .env*
-helpers
 private
 Temp*

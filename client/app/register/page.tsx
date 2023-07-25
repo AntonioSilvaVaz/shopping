@@ -1,10 +1,10 @@
 "use client";
-import "./loginAndRegister.css";
+import "../login/loginAndRegister.css";
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import BackgroundImages from "../components/backgroundImages/backgroundImages";
 import { toast } from "react-toastify";
 import Notification from "../components/notification/notification";
+import BackgroundImages from "../components/backgroundImages/backgroundImages";
 
 export default function LoginPage() {
   const [message, setMessage] = useState<string>("");
@@ -12,16 +12,22 @@ export default function LoginPage() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setMessage("Failed Login");
+    setMessage("Failed Register");
     notify();
   };
 
   return (
-    <section id="login">
+    <section id="register">
       <Notification />
       <div className="form-container">
-        <h2>Login</h2>
+        <h2>Register</h2>
         <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="name">
+              <h6>name</h6>
+            </label>
+            <input type="text" id="name" name="name" required />
+          </div>
           <div>
             <label htmlFor="email">
               <h6>email</h6>
@@ -35,19 +41,20 @@ export default function LoginPage() {
             <input type="password" id="password" name="password" required />
           </div>
           <button type="submit">
-            <h5>Login</h5>
+            <h5>Register</h5>
           </button>
         </form>
         <div>
           <h5>
-            Don't have an account?
+            Already have an account?
             <br />
-            <Link style={{ color: "white" }} href={"/register"}>
-              <u>Register Now</u>
+            <Link style={{ color: "white" }} href={"/login"}>
+              <u>Login Now</u>
             </Link>
           </h5>
         </div>
       </div>
+
       <BackgroundImages />
     </section>
   );

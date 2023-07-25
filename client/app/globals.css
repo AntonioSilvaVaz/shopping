@@ -39,3 +39,14 @@ h6{
   font-size: 15px;
   font-family: 'Nunito', sans-serif;
 }
+
+@media only screen and (max-width: 400px) {
+  h2{
+    font-size: 25px;
+  }
+
+  h5{
+    font-size: 18px;
+  }
+
+}

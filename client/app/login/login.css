@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .form-container {
@@ -71,4 +72,29 @@ button:hover{
   position: relative;
   width: calc(100% / 5);
   height: calc(100% / 4);
+}
+
+@media only screen and (max-width: 600px) {
+  .form-container{
+    padding: 45px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .form-container{
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+  }
+
+  input{
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  button{
+    width: 100px;
+    padding: 5px;
+    margin: auto;
+  }
 }

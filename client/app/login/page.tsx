@@ -1,23 +1,33 @@
 'use client';
 import './login.css';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
+import Link from 'next/link'
 import Image from 'next/image';
+
+import { toast } from 'react-toastify';
+import Notification from '../components/notification';
 
 export default function LoginPage() {
 
+  const [message, setMessage] = useState<string>('');
+  const notify = () => toast(message);
+
   const allImagePaths: string[] = [];
-  for (let index = 1; index < 11; index++) {
+  for (let index = 1; index < 21; index++) {
     const imagePath = `/login_images/${index}.jpg`;
     allImagePaths.push(imagePath);
   }
 
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  };
+    setMessage('Failed Login');
+    notify();
+  }
 
   return (
     <section id="login">
+      <Notification />
       <div className='form-container'>
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
@@ -27,7 +37,7 @@ export default function LoginPage() {
                 email
               </h6>
             </label>
-            <input type="text" id="email" name="email" required />
+            <input type="email" id="email" name="email" required />
           </div>
           <div>
             <label htmlFor="password">
@@ -43,18 +53,27 @@ export default function LoginPage() {
             </h5>
           </button>
         </form>
+        <div>
+          <h5>Don't have an account?
+            <br />
+            <Link style={{ color: 'white' }} href={'/register'}>
+              <u>
+                Register Now
+              </u>
+            </Link>
+          </h5>
+        </div>
       </div>
+
       <div className='background'>
 
         {allImagePaths.map((imagePath: string, index: number) => {
           return (
             <div key={imagePath} className='image-container'>
-              <Image src={imagePath} fill={true} objectFit='cover' alt={`Image ${index}`} />
+              <Image src={imagePath} fill={true} objectFit='cover' objectPosition='100% 30%' alt={`Image ${index}`} />
             </div>
           )
         })}
-
-
 
       </div>
     </section>

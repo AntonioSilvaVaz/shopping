@@ -5,4 +5,6 @@ export type ItemProps = {
   item_id: UUID;
   creator_id: UUID;
   price: number;
+  productPicture: string;
+  sellerPicture: string;
 }

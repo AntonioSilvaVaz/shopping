@@ -13,6 +13,8 @@ export default function ItemBox({
   item_id,
   creator_id,
   price,
+  sellerPicture,
+  productPicture,
 }: ItemProps) {
   const router = useRouter();
   const [clicked, setClicked] = useState<boolean>(false)
@@ -32,10 +34,10 @@ export default function ItemBox({
       <div className="pointer" onClick={goToProduct}>
         <div className="item-picture">
           <Image
-            alt="seller picture"
+            alt="product picture"
             className="picture"
             fill={true}
-            src={"/login_images/15.jpg"}
+            src={productPicture}
           />
         </div>
         <div className="profile-picture pointer" onClick={goToSeller}>
@@ -43,17 +45,17 @@ export default function ItemBox({
             alt="seller picture"
             className="picture"
             fill={true}
-            src={"/login_images/6.jpg"}
+            src={sellerPicture}
           />
         </div>
       </div>
       <div className="item-title">
         <div>
-          <h5>{title}</h5>
+          <h6>{title}</h6>
         </div>
         <div className="item-add">
           <div>
-            <h5>{price}€</h5>
+            <h6>{price}€</h6>
           </div>
 
           <div>

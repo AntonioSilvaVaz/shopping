@@ -40,6 +40,10 @@ h6{
   font-family: 'Nunito', sans-serif;
 }
 
+.pointer:hover{
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 400px) {
   h2{
     font-size: 25px;

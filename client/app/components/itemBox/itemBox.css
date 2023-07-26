@@ -1,0 +1,40 @@
+.item-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  width: 200px;
+  height: max-content;
+}
+
+.item-picture {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.profile-picture {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  border: 2px solid black;
+  overflow: hidden;
+  border-radius: 0 0 0 20px;
+  width: 60px;
+  height: 60px;
+}
+
+.picture {
+  position: relative;
+  object-fit: cover;
+}
+
+.item-title{
+  padding: 8px 0;
+  background-color: rgb(102, 102, 102);
+  color: white;
+  text-align: center;
+  width: 100%;
+  height: max-content;
+}

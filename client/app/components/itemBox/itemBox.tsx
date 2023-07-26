@@ -2,17 +2,21 @@
 import Image from "next/image";
 import { MouseEvent } from "react";
 import { ItemProps } from "@/app/types";
+import {useRouter} from "next/navigation"
 import "./itemBox.css";
 
-export default function ItemBox({ title, item_id }: ItemProps) {
+export default function ItemBox({ title, item_id, creator_id }: ItemProps) {
+
+  const router = useRouter();
+
   function goToProduct(e: MouseEvent<HTMLDivElement>) {
+    router.push(`/product/${item_id}`)
     console.log("going to the product page");
   }
 
   function goToSeller(e: MouseEvent<HTMLDivElement>) {
-    // STOPS FROM ALSO CLICKING IN THE GO TO PRODUCT
     e.stopPropagation();
-
+    router.push(`/user/${creator_id}`);
     console.log("going to the seller page");
   }
 

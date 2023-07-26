@@ -1,5 +1,5 @@
 
-# Blackjack
+# Shopping
 This project in under development but once ready users can publish/buy diferent products from each other. The backend API is ready to go and the frontend in under development.
 
 

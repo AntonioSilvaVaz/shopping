@@ -29,7 +29,7 @@ This project in under development but once ready users can publish/buy diferent 
 
 ## Features
 
-- Create new products ors Users
+- Create new products or Users
 - Find new or users products
 - Update user or product information
 - Delete products or Accounts

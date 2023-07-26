@@ -1,6 +1,6 @@
 
 # Shopping
-This project in under development but once ready users can publish/buy diferent products from each other. The backend API is ready to go and the frontend in under development.
+This project is under development but once ready users can publish/buy different products from each other. The backend API is ready to go and the frontend is under development.
 
 
 ## Screenshots
@@ -30,10 +30,10 @@ This project in under development but once ready users can publish/buy diferent 
 ## Features
 
 - Create new products or Users
-- Find new or users products
+- Find new users or products
 - Update user or product information
-- Delete products or Accounts
-- Add to cart or wishlist
+- Delete product or user account
+- Add to cart or to wishlist
 - Remove from cart or wishlist
 - Buy the product from the x user
 ## Author

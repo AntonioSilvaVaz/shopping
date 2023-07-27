@@ -29,8 +29,8 @@ This project is under development but once ready users can publish/buy different
 
 ## Features
 
-- Create new products or Users
-- Find new users or products
+- Create new product or user account
+- Find users or products
 - Update user or product information
 - Delete product or user account
 - Add to cart or to wishlist

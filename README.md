@@ -5,9 +5,9 @@ This project is under development but once ready users can publish/buy different
 
 ## Screenshots
 
-![example 1](https://github.com/AntonioSilvaVaz/shopping/blob/main/assets/image.png)
+<!--![example 1](https://github.com/AntonioSilvaVaz/shopping/blob/main/assets/image.png)-->
 
-![example 1](https://github.com/AntonioSilvaVaz/shopping/blob/main/assets/gif.gif)
+<!--![example 1](https://github.com/AntonioSilvaVaz/shopping/blob/main/assets/gif.gif)-->
 
 
 ## Stack

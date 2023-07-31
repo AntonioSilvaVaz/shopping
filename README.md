@@ -12,9 +12,9 @@ This project is under development but once ready users can publish/buy different
 
 ## Stack
 
-**Front-end:** next.js, toastify, react-icons, typescript
+**Front-end:** Next.js, Toastify, react-icons, Typescript
 
-**Back-end:** node.js, KOA, prisma, jsonwebtoken, typescript
+**Back-end:** node.js, KOA, prisma, jsonwebtoken, Typescript
 
 ## Env variables backend
 

@@ -3,9 +3,8 @@ import Image from "next/image";
 import { MouseEvent, useState } from "react";
 import { ItemProps } from "@/app/types";
 import { useRouter } from "next/navigation";
-import { BsCartPlusFill } from "react-icons/bs";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { addToCart, addToWishlist } from "@/app/utils/ItemUtils";
+import { addToWishlist } from "@/app/utils/ItemUtils";
 import "./itemBox.css";
 
 export default function ItemBox({
@@ -18,7 +17,6 @@ export default function ItemBox({
 }: ItemProps) {
   const router = useRouter();
   const [clicked, setClicked] = useState<boolean>(false)
-  const [amount, setAmount] = useState<number>(1);
 
   function goToProduct(e: MouseEvent<HTMLDivElement>) {
     router.push(`/product/${item_id}`);
@@ -61,24 +59,10 @@ export default function ItemBox({
           <div>
             <button
               className="add pointer"
-              onClick={() => addToWishlist(item_id, amount, setClicked)}
+              onClick={() => addToWishlist(item_id, 1, setClicked)}
             >
               {clicked ? <AiFillHeart /> : <AiOutlineHeart />}
             </button>
-            <button
-              className="add pointer"
-              onClick={() => addToCart(item_id, amount)}
-            >
-              <BsCartPlusFill />
-            </button>
-            <input
-              type="number"
-              value={amount}
-              min={1}
-              max={9}
-              onChange={(e) => setAmount(Number(e.target.value))}
-              name="amount"
-            />
           </div>
         </div>
       </div>

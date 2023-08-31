@@ -1,20 +1,32 @@
 "use client";
 import "../login/loginAndRegister.css";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, use, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import Notification from "../components/notification/notification";
 import BackgroundImages from "../components/backgroundImages/backgroundImages";
+import { registerUser } from "../utils/User";
 
 export default function LoginPage() {
-  const [message, setMessage] = useState<string>("");
-  const notify = () => toast(message);
+  const [imgSelected, setImageSelected] = useState<string | null>(null);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setMessage("Failed Register");
-    notify();
+    const formData = new FormData(event.currentTarget);
+    const res = await registerUser(formData);
+    toast(res);
   };
+
+  const changeProfilePicture = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImageSelected(event.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   return (
     <section id="register">
@@ -22,6 +34,16 @@ export default function LoginPage() {
       <div className="form-container">
         <h2>Register</h2>
         <form onSubmit={handleSubmit}>
+          {
+            imgSelected &&
+            <img className="profile-picture" src={imgSelected} alt="ProfilePicture" />
+          }
+          <div>
+            <label className="label-profile-picture" htmlFor="profile_picture">
+              <h6>Select Profile picture</h6>
+            </label>
+            <input onChange={changeProfilePicture} type="file" accept="jpg png gif" id="profile_picture" name="profile_picture" />
+          </div>
           <div>
             <label htmlFor="name">
               <h6>name</h6>

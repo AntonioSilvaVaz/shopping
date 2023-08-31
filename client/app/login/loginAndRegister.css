@@ -47,6 +47,23 @@ form div {
   gap: 5px;
 }
 
+.label-profile-picture{
+  background-color: rgb(44, 43, 43);
+  padding: 10px;
+}
+
+.profile-picture{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 200px;
+  overflow: hidden;
+}
+
+#profile_picture{
+  display:  none;
+}
+
 input {
   width: 200px;
   padding: 15px 10px;

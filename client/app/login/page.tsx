@@ -5,15 +5,22 @@ import Link from "next/link";
 import BackgroundImages from "../components/backgroundImages/backgroundImages";
 import { toast } from "react-toastify";
 import Notification from "../components/notification/notification";
+import { loginUser } from "../utils/User";
 
 export default function LoginPage() {
-  const [message, setMessage] = useState<string>("");
-  const notify = () => toast(message);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setMessage("Failed Login");
-    notify();
+    const formData = new FormData(event.currentTarget);
+
+    const email = formData.get('email')?.toString();
+    const password = formData.get('password')?.toString();
+
+    if(email && password){
+      const res = await loginUser({email, password});
+      toast(res);
+    }
+
   };
 
   return (

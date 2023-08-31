@@ -9,3 +9,19 @@ export type ItemProps = {
   sellerPicture: string;
   showProfilePicture: boolean;
 }
+
+export type UserRegisterType = {
+  email: string;
+  password: string;
+  name: string;
+  profile_picture: string;
+}
+
+export type UserRegisteredType = UserRegisterType & {
+  user_id: UUID;
+}
+
+export type UserLoginInformation = {
+  email: string;
+  password: string;
+}

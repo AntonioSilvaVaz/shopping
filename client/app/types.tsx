@@ -7,4 +7,5 @@ export type ItemProps = {
   price: number;
   productPicture: string;
   sellerPicture: string;
+  showProfilePicture: boolean;
 }

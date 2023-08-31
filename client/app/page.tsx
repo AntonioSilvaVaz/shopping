@@ -14,6 +14,7 @@ export default function Home() {
           creator_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
           title="Super Cool Painting"
           item_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
+          showProfilePicture={true}
         />
         <ItemBox
           price={30.0}
@@ -22,6 +23,7 @@ export default function Home() {
           creator_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
           title="Super Cool Painting"
           item_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
+          showProfilePicture={true}
         />
         <ItemBox
           price={30.0}
@@ -30,6 +32,7 @@ export default function Home() {
           creator_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
           title="Super Cool Painting"
           item_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
+          showProfilePicture={true}
         />
         <ItemBox
           price={30.0}
@@ -38,6 +41,7 @@ export default function Home() {
           creator_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
           title="Super Cool Painting"
           item_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
+          showProfilePicture={true}
         />
         <ItemBox
           price={30.0}
@@ -46,6 +50,7 @@ export default function Home() {
           creator_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
           title="Super Cool Painting"
           item_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
+          showProfilePicture={true}
         />
         <ItemBox
           price={30.0}
@@ -54,6 +59,7 @@ export default function Home() {
           creator_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
           title="Super Cool Painting"
           item_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
+          showProfilePicture={true}
         />
         <ItemBox
           price={30.0}
@@ -62,6 +68,7 @@ export default function Home() {
           creator_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
           title="Super Cool Painting"
           item_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
+          showProfilePicture={true}
         />
         <ItemBox
           price={30.0}
@@ -70,6 +77,7 @@ export default function Home() {
           creator_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
           title="Super Cool Painting"
           item_id="dsbaud8a-dnasy8yda-dbas8-bd6sa-vd76asdsa"
+          showProfilePicture={true}
         />
       </div>
     </section>

@@ -1,0 +1,49 @@
+#user{
+  width: 100%;
+  height: max-content;
+  padding: 0 30px;
+  display: grid;
+  box-sizing: border-box;
+  grid-template-areas:
+  'seller seller . . .'
+  'name name . . .'
+  '. .products-sold . .'
+  'products products products products products';
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: max-content;
+}
+
+.seller-picture{
+  grid-area: seller;
+  width: 165px;
+  height: 165px;
+  border-radius: 2000px;
+  overflow: hidden;
+}
+
+.name{
+  margin: 10px 0;
+  display: flex;
+  width: 165px;
+  grid-area: name;
+  justify-content: center;
+}
+
+.products-sold{
+  margin-bottom: 10px;
+  grid-area: products-sold;
+}
+
+.seller-picture img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.products-container{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  grid-area: products;
+}

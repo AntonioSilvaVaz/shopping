@@ -1,0 +1,20 @@
+nav {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+nav div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+nav div a {
+  color: black;
+  text-decoration: none;
+}

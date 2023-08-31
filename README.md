@@ -1,7 +1,6 @@
 
 # Shopping
-This project is under development but once ready users can publish/buy different products from each other. The backend API is ready to go and the frontend is under development.
-
+This project is currently in its developmental phase, but once completed, users will have the exciting opportunity to publish and purchase a wide array of products from fellow users. The backend API is fully prepared and raring to go, while the frontend is actively under construction, ensuring a seamless and feature-rich experience for all users. Stay tuned for an exciting launch!
 
 ## Screenshots
 

@@ -6,8 +6,13 @@ import BackgroundImages from "../components/backgroundImages/backgroundImages";
 import { toast } from "react-toastify";
 import Notification from "../components/notification/notification";
 import { loginUser } from "../utils/User";
+import { login, logOut } from "../redux/user-reducer";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
 
 export default function LoginPage() {
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -16,9 +21,13 @@ export default function LoginPage() {
     const email = formData.get('email')?.toString();
     const password = formData.get('password')?.toString();
 
-    if(email && password){
-      const res = await loginUser({email, password});
-      toast(res);
+    if (email && password) {
+      const res = await loginUser({ email, password });
+      toast(res.text);
+
+      if (res.data) {
+        dispatch(login({ ...res.data }));
+      }
     }
 
   };

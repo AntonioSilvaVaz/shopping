@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import TopBar from './components/TopBar/TopBar';
+import { ReduxProvider } from './redux/provider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <TopBar />
-        {children}
+        <ReduxProvider>
+          <TopBar />
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   )

@@ -27,15 +27,14 @@ export async function loginUser(userInformation: UserLoginInformation) {
     body: JSON.stringify(userInformation),
   });
 
-  const data = await res.json();
-
   if (res.ok) {
-    return 'Logged in';
+    const data: UserRegisteredType = await res.json();
+    return { text: 'Logged in', data };
   } else if (res.status === 400) {
-    return 'Wrong credentials';
+    return { text: 'Wrong credentials' };
   } else if (res.status === 404) {
-    return 'User not found';
+    return { text: 'User not found' };
   } else {
-    return 'Server failed';
+    return { text: 'Server failed' };
   }
 };

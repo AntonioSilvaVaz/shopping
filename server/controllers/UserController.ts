@@ -43,7 +43,7 @@ async function loginUser(ctx: Context, next: Next) {
       ctx.cookies.set("session_token", sessionToken);
       ctx.status = 200;
       ctx.type = 'application/json';
-      ctx.body = JSON.stringify("Logged in");
+      ctx.body = JSON.stringify(userExists);
       return;
     } else {
       ctx.status = 401;

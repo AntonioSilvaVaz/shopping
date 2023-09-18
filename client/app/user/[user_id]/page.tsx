@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useParams } from 'next/navigation';
 import { ItemCreated } from '@/app/types';
 import { useRouter } from 'next/navigation';
+
 export default function UserProfile() {
   const { user_id }: any = useParams();
   const router = useRouter();

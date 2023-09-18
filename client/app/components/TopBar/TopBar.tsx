@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { useAppSelector } from '@/app/redux/store';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { AiOutlineHeart } from 'react-icons/ai';
+import { useRouter } from 'next/navigation';
 
 export default function TopBar() {
 
-  const isUserAuthenticated = useAppSelector((state) => state.user.value.isAuth);
-
+  const { isAuth, profile_picture, user_id } = useAppSelector((state) => state.user.value);
+  const router = useRouter();
 
   return (
     <nav>
@@ -22,15 +23,19 @@ export default function TopBar() {
       </div>
       <div className='links'>
         {
-          isUserAuthenticated ?
+          isAuth ?
             <>
-              <button className='hover'>
-                <AiOutlineHeart fontSize={25} />
+              <button className='pointer'>
+                <AiOutlineHeart fontSize={20} />
               </button>
               |
-              <button className='hover'>
-                <AiOutlineShoppingCart fontSize={25} />
+              <button className='pointer'>
+                <AiOutlineShoppingCart fontSize={20} />
               </button>
+              |
+              <div className='profile-picture pointer' onClick={() => router.push(`/user/${user_id}`)}>
+                <img src={`http://localhost:3001/images/profile_pictures/${profile_picture}`} alt="You" />
+              </div>
             </>
             :
             <>

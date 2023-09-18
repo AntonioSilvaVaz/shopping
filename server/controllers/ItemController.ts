@@ -3,7 +3,7 @@ import { ItemCreated, ItemType } from "../types/ItemTypes";
 import { UUID } from "crypto";
 import { UserRegistered } from "../types/UserTypes";
 const { getUserSessionToken } = require('./UserController');
-const { createItem, findItem, updateItem, deleteItem, updateImage, deleteImage } = require('../models/ItemsModel');
+const { createItem, findItem, updateItem, deleteItem, updateImage, deleteImage, findAllItems } = require('../models/ItemsModel');
 const { findUserById } = require('../models/UserModel');
 const fs = require('fs');
 
@@ -207,6 +207,38 @@ async function deleteAnItem(ctx: Context, next: Next) {
   }
 };
 
+async function getAllUserItems(ctx: Context, next: Next) {
+  try {
+
+    const { user_id }: { user_id: UUID } = ctx.request.body as { user_id: UUID };
+    const userExists = await findUserById(user_id);
+
+    if(!userExists){
+      ctx.status = 404;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify('Items not found');
+      return;
+    }
+
+    const items = await findAllItems(user_id);
+
+    if (!items) {
+      ctx.status = 404;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify('No items found');
+    } else {
+      ctx.status = 200;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify(items);
+    }
+
+  } catch (error) {
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+  }
+}
+
 module.exports = {
   createNewItem,
   getItem,
@@ -214,4 +246,5 @@ module.exports = {
   deleteAnItem,
   deleteOneItemImage,
   addOneItemImage,
+  getAllUserItems,
 }

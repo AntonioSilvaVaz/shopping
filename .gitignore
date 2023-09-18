@@ -9,8 +9,7 @@ pids
 *.seed
 
 #images
-profile_pictures/*
-items/*
+images/
 public/
 
 #personal

@@ -36,6 +36,8 @@ router.put('/remove_image_item', ValidateUser, ValidateImage, ItemController.del
 
 router.delete('/delete_item/:item_id', ValidateUser, ValidateItem, ItemController.deleteAnItem);
 
+// public routes
+router.post('/user_items', ItemController.getAllUserItems);
 
 // CART ROUTES
 router.get('/cart', ValidateUser, CartController.getCart);

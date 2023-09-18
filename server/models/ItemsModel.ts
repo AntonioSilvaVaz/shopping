@@ -2,8 +2,6 @@ import { UUID } from "crypto";
 import { ItemCreated, ItemType } from "../types/ItemTypes";
 import prisma from "./connections";
 
-// const { deleteItemPicture } = require('../controllers/ItemController');
-
 // CREATES AN ITEM
 async function createItem(itemInfo: ItemType, user_id: UUID): Promise<ItemCreated> {
 
@@ -131,6 +129,25 @@ async function deleteImage(item_id: UUID, fileName: string): Promise<ItemCreated
   return updatedItem;
 };
 
+async function findAllItems(user_id:UUID) {
+  const items: ItemCreated = prisma.items.findMany({
+    where: {
+      user_created: user_id
+    },
+    select: {
+      product_name: true,
+      product_description: true,
+      product_price: true,
+      product_region: true,
+      product_pictures: true,
+      item_id: true,
+      user_created: true,
+    },
+  });
+
+  return items;
+}
+
 module.exports = {
   createItem,
   deleteItem,
@@ -138,5 +155,6 @@ module.exports = {
   findItem,
   deleteAllFromUser,
   updateImage,
-  deleteImage
+  deleteImage,
+  findAllItems
 }

@@ -7,9 +7,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-async function createProfilePicture(img: any) {
-  const fileName = Date.now() + img.originalFilename;
-  const destinationPath = `images/profile_pictures/${fileName}`;
+async function createProfilePicture(img: any, fileName: string) {
+  const destinationPath = `images/profile_pictures/${fileName}.jpg`;
   fs.renameSync(img.filepath, destinationPath);
   return fileName;
 };
@@ -74,11 +73,12 @@ async function createNewUser(ctx: any, next: Next) {
       return;
     };
 
+    const newUser = await createUser({ email, password, name });
+
     if (ctx.request.files.profile_picture) {
-      fileName = await createProfilePicture(ctx.request.files.profile_picture)
+      fileName = await createProfilePicture(ctx.request.files.profile_picture, newUser.user_id);
     };
 
-    const newUser = await createUser({ email, password, name, profile_picture: fileName });
     ctx.status = 200;
     ctx.type = 'application/json';
     ctx.body = JSON.stringify(newUser);
@@ -128,6 +128,7 @@ async function updatedAnUser(ctx: any, next: Next) {
   let fileName;
   try {
     const user_id = getUserSessionToken(ctx);
+    if(!user_id) return;
 
     const updateItems: any = {};
     const { email, password, name, profile_picture } = ctx.request.body as UserType;
@@ -136,7 +137,7 @@ async function updatedAnUser(ctx: any, next: Next) {
     if (password) updateItems.password = password;
     if (name) updateItems.name = name;
     if (ctx.request.files.profile_picture) {
-      fileName = await createProfilePicture(ctx.request.files.profile_picture);
+      fileName = await createProfilePicture(ctx.request.files.profile_picture, user_id);
       updateItems.profile_picture = fileName;
       if (profile_picture) {
         deleteProfilePicture(profile_picture);

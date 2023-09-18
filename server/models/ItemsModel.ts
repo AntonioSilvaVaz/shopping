@@ -146,6 +146,22 @@ async function findAllItems(user_id:UUID) {
   });
 
   return items;
+};
+
+async function getAllItems() {
+  const items: ItemCreated = prisma.items.findMany({
+    select: {
+      product_name: true,
+      product_description: true,
+      product_price: true,
+      product_region: true,
+      product_pictures: true,
+      item_id: true,
+      user_created: true,
+    },
+  });
+
+  return items;
 }
 
 module.exports = {
@@ -156,5 +172,6 @@ module.exports = {
   deleteAllFromUser,
   updateImage,
   deleteImage,
-  findAllItems
+  findAllItems,
+  getAllItems,
 }

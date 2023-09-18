@@ -17,13 +17,9 @@ export default function UserProfile() {
     const info = await getAnUserItems(user_id);
 
     if (info === 500) {
-      console.log('SERVER FAILED');
-
-      // router.push('/server-down');
+      router.push('/server-down');
     } else if (info === 404) {
-      console.log('USER NOT FOUND');
-
-      // router.push('/404');
+      router.push('/404');
     } else {
       setUserProducts(info);
     }

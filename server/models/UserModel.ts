@@ -23,6 +23,7 @@ async function createUser(userInfo: UserType): Promise<UserRegistered> {
     },
     data: {
       ...userInfo,
+      profile_picture: user_id + '.jpg',
       user_id
     }
   });

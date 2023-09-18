@@ -219,7 +219,6 @@ async function getAllUserItems(ctx: Context, next: Next) {
       ctx.body = JSON.stringify('Items not found');
       return;
     }
-
     const items = await findAllItems(user_id);
 
     if (!items) {
@@ -233,6 +232,8 @@ async function getAllUserItems(ctx: Context, next: Next) {
     }
 
   } catch (error) {
+    console.log(error);
+
     ctx.status = 500;
     ctx.type = 'application/json';
     ctx.body = JSON.stringify('Server failed');

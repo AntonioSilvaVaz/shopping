@@ -1,6 +1,7 @@
 "use client";
 import "./Product.css";
 import { useParams, useRouter } from "next/navigation";
+import { BsCartPlus, BsFillSuitHeartFill } from 'react-icons/bs';
 
 export default function Product() {
 
@@ -39,10 +40,10 @@ export default function Product() {
 
       <div className="add">
         <button className="pointer">
-          <h6>Wishlist</h6>
+          <BsFillSuitHeartFill fontSize={18} />
         </button>
         <button className="pointer">
-          <h6>Add to cart</h6>
+          <BsCartPlus fontSize={18} />
         </button>
       </div>
 

@@ -38,6 +38,9 @@
 
 #product .price {
   grid-area: price;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #product .add {
@@ -63,9 +66,13 @@
 }
 
 .add button {
-  width: 140px;
+  width: 100px;
   height: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   border: 2px solid black;
-  border-radius: 30px;
+  border-radius: 5px;
 }

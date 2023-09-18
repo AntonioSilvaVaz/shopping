@@ -38,3 +38,7 @@ export async function loginUser(userInformation: UserLoginInformation) {
     return { text: 'Server failed' };
   }
 };
+
+export async function getAnUserItems(userId:string) {
+
+};

@@ -6,15 +6,25 @@ import { toast } from "react-toastify";
 import Notification from "../components/notification/notification";
 import BackgroundImages from "../components/backgroundImages/backgroundImages";
 import { registerUser } from "../utils/User";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [imgSelected, setImageSelected] = useState<string | null>(null);
+  const router = useRouter()
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const res = await registerUser(formData);
-    toast(res);
+
+    if(res === 201){
+      toast('User registered');
+      router.push('/');
+    } else if(res === 409){
+      toast('User already registered');
+    } else {
+      router.push('/500');
+    }
   };
 
   const changeProfilePicture = async (e: ChangeEvent<HTMLInputElement>) => {

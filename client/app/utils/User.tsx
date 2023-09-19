@@ -8,11 +8,11 @@ export async function registerUser(userInformation: FormData) {
   });
 
   if (res.ok) {
-    return 'User registered';
+    return 201;
   } else if (res.status === 409) {
-    return 'User already exists';
+    return 409;
   } else {
-    return 'Server failed';
+    return 500;
   }
 
 };

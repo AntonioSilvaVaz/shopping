@@ -9,8 +9,10 @@ import { loginUser } from "../utils/User";
 import { login, logOut } from "../redux/user-reducer";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -26,6 +28,7 @@ export default function LoginPage() {
       toast(res.text);
 
       if (res.data) {
+        router.push('/my-profile');
         dispatch(login({ ...res.data }));
       }
     }

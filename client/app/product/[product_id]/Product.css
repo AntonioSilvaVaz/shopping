@@ -12,7 +12,7 @@
     'title title title title title'
     'image image image location location'
     'description description description street street'
-    'price price test test test';
+    'price add-btn add-btn test test';
 
 }
 
@@ -44,7 +44,7 @@
 }
 
 #product .add {
-  grid-area: test;
+  grid-area: add-btn;
   display: flex;
   gap: 20px;
 }

@@ -117,7 +117,8 @@ async function createNewItem(ctx: any, next: Next) {
 
 async function getItem(ctx: Context, next: Next) {
   try {
-    const { item_id } = ctx.request.body as { item_id: UUID };
+
+    const item_id = ctx.request.url.split('/')[2];
     const item = await findItem(item_id);
 
     if (item) {

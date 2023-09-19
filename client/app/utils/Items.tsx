@@ -31,3 +31,21 @@ export async function getAllItems() {
     return 500;
   }
 };
+
+export async function getItemInfo(item_id: string) {
+  const res = await fetch(`http://localhost:3001/item/${item_id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  });
+
+  if (res.ok) {
+    const data: ItemCreated = await res.json();
+    return data;
+  } else if(res.status === 404){
+    return 404;
+  } else {
+    return 500;
+  }
+};

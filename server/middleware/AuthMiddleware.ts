@@ -139,7 +139,7 @@ async function ValidateUpdateItem(ctx: Context, next: Next) {
 
 async function ValidateItem(ctx: Context, next: Next) {
 
-  const { item_id } = ctx.request.body as { item_id: UUID };
+  const item_id = ctx.request.url.split('/')[2];
 
   const isValidItemId = validator.isUUID(item_id ? item_id : 'Hello');
 

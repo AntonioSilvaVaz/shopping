@@ -123,6 +123,7 @@ async function getItem(ctx: Context, next: Next) {
     if (item) {
       ctx.status = 200;
       ctx.type = "application/json";
+      item.product_pictures = JSON.parse(item.product_pictures);
       ctx.body = JSON.stringify(item);
     } else {
       ctx.status = 404;
@@ -218,7 +219,14 @@ async function getAllUserItems(ctx: Context, next: Next) {
       ctx.body = JSON.stringify("Items not found");
       return;
     }
-    const items = await findAllItems(user_id);
+
+    let items: ItemCreated[] = await findAllItems(user_id);
+    items = items.map((item) => {
+      return {
+        ...item,
+        product_pictures: JSON.parse(item.product_pictures)
+      };
+    });
 
     if (!items) {
       ctx.status = 404;
@@ -240,11 +248,18 @@ async function getAllUserItems(ctx: Context, next: Next) {
 
 async function loadAllItems(ctx: Context, next: Next) {
   try {
-    const items = await getAllItems();
+    let items: ItemCreated[] = await getAllItems();
+    items = items.map((item) => {
+      return {
+        ...item,
+        product_pictures: JSON.parse(item.product_pictures)
+      };
+    });
     ctx.status = 200;
     ctx.type = "application/json";
     ctx.body = JSON.stringify(items);
   } catch (error) {
+
     ctx.status = 500;
     ctx.type = "application/json";
     ctx.body = JSON.stringify("Server failed");

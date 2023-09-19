@@ -32,20 +32,18 @@ export default function ItemBox({
     <div className="item-box">
       <div className="pointer" onClick={goToProduct}>
         <div className="item-picture">
-          <Image
+          <img
+            src={productPicture}
             alt="product picture"
             className="picture"
-            fill={true}
-            src={productPicture}
           />
         </div>
         {
           showProfilePicture &&
           <div className="profile-picture pointer" onClick={goToSeller}>
-            <Image
+            <img
               alt="seller picture"
               className="picture"
-              fill={true}
               src={sellerPicture}
             />
           </div>

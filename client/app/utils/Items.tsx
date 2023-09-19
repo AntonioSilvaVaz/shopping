@@ -6,7 +6,7 @@ export async function addToCart(item_id: UUID, amount: number) {
   // ADD TO THE USER CART
 }
 
-export async function addToWishlist(item_id: UUID, amount: number, setClicked: Dispatch<SetStateAction<boolean>>) {
+export async function addToWishlist(item_id: string, amount: number, setClicked: Dispatch<SetStateAction<boolean>>) {
   setClicked((clicked: boolean) => {
     console.log(clicked);
 

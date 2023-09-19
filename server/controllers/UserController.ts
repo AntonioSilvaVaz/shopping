@@ -1,7 +1,7 @@
 import { Next, Context } from "koa";
 import { SessionTokenType, UserRegistered, UserType } from "../types/UserTypes";
 import { UUID } from "crypto";
-const { createUser, findUserByEmail, deleteUser, updateUser } = require('../models/UserModel');
+const { createUser, findUserByEmail, deleteUser, updateUser, findUserById } = require('../models/UserModel');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -182,6 +182,30 @@ async function logUserOut(ctx: Context, next: Next) {
   }
 };
 
+async function getUserInfo(ctx:Context, next: Next) {
+  try {
+    const { user_id } = ctx.request.body as { user_id: UUID }
+    const userInfo = await findUserById(user_id);
+
+    if(userInfo === null){
+      ctx.status = 404;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify(404);
+      return;
+    } else{
+      ctx.status = 200;
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify(userInfo);
+    }
+
+
+  } catch (error) {
+    ctx.status = 500;
+    ctx.type = 'application/json';
+    ctx.body = JSON.stringify('Server failed');
+  }
+};
+
 // GETS THE USER ID FROM THE SESSION TOKEN
 function getUserSessionToken(ctx: Context): UUID | undefined {
   const sessionTokenJWT = ctx.cookies.get('session_token');
@@ -197,4 +221,5 @@ module.exports = {
   updatedAnUser,
   logUserOut,
   getUserSessionToken,
+  getUserInfo,
 };

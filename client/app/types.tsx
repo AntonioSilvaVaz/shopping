@@ -9,19 +9,26 @@ export type ItemType = {
 };
 
 export type ItemCreated = ItemType & {
-  item_id: UUID,
-  user_created: UUID,
+  item_id: string,
+  user_created: string,
 };
 
 
 export type ItemProps = {
   title: string;
-  item_id: UUID;
-  creator_id: UUID;
+  item_id: string;
+  creator_id: string;
   price: number;
   productPicture: string;
   sellerPicture: string;
   showProfilePicture: boolean;
+}
+
+export type UserInfo = {
+  email: string;
+  name: string;
+  profile_picture: string;
+  user_id: string;
 }
 
 export type UserRegisterType = {

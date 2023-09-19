@@ -6,7 +6,7 @@ type UserProducts = {
 
 type ProductType = {
   item_id: string;
-  user_id: string;
+  user_created: string;
   product_name: string;
   product_description: string;
   product_price: number;

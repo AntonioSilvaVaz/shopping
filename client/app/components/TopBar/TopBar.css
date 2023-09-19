@@ -21,8 +21,10 @@ nav div a {
 }
 
 .links .profile-picture{
-  width: 50px;
-  height: 50px;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 0;
   border-radius: 100px;
   overflow: hidden;
 }

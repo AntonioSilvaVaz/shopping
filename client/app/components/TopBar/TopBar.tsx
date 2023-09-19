@@ -33,7 +33,7 @@ export default function TopBar() {
                 <AiOutlineShoppingCart fontSize={20} />
               </button>
               |
-              <div className='profile-picture pointer' onClick={() => router.push(`/user/${user_id}`)}>
+              <div className='profile-picture pointer' onClick={() => router.push(`/my-profile`)}>
                 <img src={`http://localhost:3001/images/profile_pictures/${profile_picture}`} alt="You" />
               </div>
             </>

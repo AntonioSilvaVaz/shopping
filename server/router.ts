@@ -39,6 +39,7 @@ router.delete('/delete_item/:item_id', ValidateUser, ValidateItem, ItemControlle
 // public routes
 router.post('/user_items', ItemController.getAllUserItems);
 router.get('/load_all_items', ItemController.loadAllItems);
+router.post('/user_info', UserController.getUserInfo);
 
 // CART ROUTES
 router.get('/cart', ValidateUser, CartController.getCart);

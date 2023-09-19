@@ -1,4 +1,4 @@
-import { UserRegisteredType, UserLoginInformation, ItemCreated } from "../types";
+import { UserRegisteredType, UserLoginInformation, ItemCreated, UserInfo } from "../types";
 
 export async function registerUser(userInformation: FormData) {
 
@@ -53,6 +53,25 @@ export async function getAnUserItems(user_id: string) {
 
   if (res.ok) {
     const data: ItemCreated[] = await res.json();
+    return data;
+  } else if (res.status === 404) {
+    return 404;
+  } else {
+    return 500;
+  }
+};
+
+export async function getAnUserInfo(user_id:string) {
+  const res = await fetch('http://localhost:3001/user_info', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify({ user_id }),
+  });
+
+  if (res.ok) {
+    const data: UserInfo = await res.json();
     return data;
   } else if (res.status === 404) {
     return 404;

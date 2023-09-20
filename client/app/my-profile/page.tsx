@@ -1,20 +1,38 @@
 "use client";
 import './profile.css';
 import ItemBox from '@/app/components/itemBox/itemBox';
-import { getAnUserItems, getAnUserInfo } from '@/app/utils/User';
-import { useState, useEffect } from 'react';
 import Link from "next/link";
-import { useParams } from 'next/navigation';
-import { ItemCreated, UserInfo } from '@/app/types';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../redux/store';
+import { useEffect } from 'react';
+import { getAnUserItems } from '../utils/User';
+import { useDispatch } from 'react-redux';
+import { updateProducts } from '../redux/products-reducer';
 
 export default function UserProfile() {
-  const { user_id }: any = useParams();
-  const router = useRouter();
 
-  const {name, profile_picture} = useAppSelector((state) => state.user.value);
-  const products = useAppSelector((state) => state.products.value)
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const { name, profile_picture, user_id } = useAppSelector((state) => state.user.value);
+  const { products, productsLoaded } = useAppSelector((state) => state.products.value);
+
+  async function getProducts() {
+    const data: any = await getAnUserItems(user_id);
+    if(data === 404){
+      router.push('/404');
+    } else if(data === 500){
+      router.push('/500');
+    } else{
+      dispatch(updateProducts({products: data, productsLoaded: true}));
+    }
+  };
+
+  useEffect(() => {
+    if(productsLoaded === false){
+      getProducts();
+    }
+  }, [])
 
   return (
     <section id="user">

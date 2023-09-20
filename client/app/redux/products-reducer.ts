@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type UserProducts = {
-  value: ProductType[];
+  value: {
+    productsLoaded: boolean;
+    products: ProductType[];
+  }
 };
 
 type ProductType = {
@@ -15,14 +18,25 @@ type ProductType = {
 };
 
 const userProductsState: UserProducts = {
-  value: [],
+  value: {
+    productsLoaded: false,
+    products: []
+  },
 };
 
 const userProducts = createSlice({
   name: "user products",
   initialState: userProductsState,
-  reducers: {},
+  reducers: {
+    updateProducts: (state, action: PayloadAction<{products: ProductType[], productsLoaded: boolean}>) => {
+      return {
+        value: {
+          ...action.payload
+        },
+      };
+    },
+  },
 });
 
-export const {} = userProducts.actions
+export const { updateProducts } = userProducts.actions;
 export default userProducts.reducer;

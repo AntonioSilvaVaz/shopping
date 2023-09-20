@@ -49,8 +49,6 @@ export async function getAnUserItems(user_id: string) {
     body: JSON.stringify({ user_id }),
   });
 
-  console.log(res);
-
   if (res.ok) {
     const data: ItemCreated[] = await res.json();
     return data;

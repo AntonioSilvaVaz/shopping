@@ -6,7 +6,7 @@ import BackgroundImages from "../components/backgroundImages/backgroundImages";
 import { toast } from "react-toastify";
 import Notification from "../components/notification/notification";
 import { loginUser } from "../utils/User";
-import { login, logOut } from "../redux/user-reducer";
+import { login } from "../redux/user-reducer";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { useRouter } from "next/navigation";

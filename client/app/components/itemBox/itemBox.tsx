@@ -17,7 +17,6 @@ export default function ItemBox({
   showProfilePicture
 }: ItemProps) {
   const router = useRouter();
-  const [clicked, setClicked] = useState<boolean>(false)
 
   function goToProduct(e: MouseEvent<HTMLDivElement>) {
     router.push(`/product/${item_id}`);
@@ -57,15 +56,6 @@ export default function ItemBox({
         <div className="item-add">
           <div>
             <h6>{price}€</h6>
-          </div>
-
-          <div>
-            <button
-              className="add pointer"
-              onClick={() => addToWishlist(item_id, 1, setClicked)}
-            >
-              {clicked ? <AiFillHeart /> : <AiOutlineHeart />}
-            </button>
           </div>
         </div>
       </div>

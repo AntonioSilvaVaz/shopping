@@ -1,9 +1,26 @@
 import { UUID } from "crypto";
 import { ItemCreated, ListType } from "../types";
 
-export async function addToCart(item_id: UUID, amount: number) {
+export async function getUserCart() {
+  const res = await fetch('http://localhost:3001/cart', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    method: 'GET',
+  });
 
-  console.log('RUNNING');
+  if (res.ok) {
+    const data: ListType = await res.json();
+    return data;
+  } else if (res.status === 404) {
+    return 404;
+  } else {
+    return 500;
+  }
+};
+
+export async function addToCart(item_id: UUID, amount: number) {
 
   const res = await fetch('http://localhost:3001/add_cart', {
     headers: {

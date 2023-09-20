@@ -48,10 +48,8 @@ export type UserLoginInformation = {
 }
 
 export type ItemClickedType = {
-  list: {
-    amount: number;
-    item_id: string;
-  }
+  amount: number;
+  item_id: string;
 };
 
 export type ListType = {

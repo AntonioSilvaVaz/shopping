@@ -25,11 +25,11 @@ export default function TopBar() {
         {
           isAuth ?
             <>
-              <button className='pointer'>
+              <button className='pointer' onClick={() => router.push('/my-wishlist')}>
                 <AiOutlineHeart fontSize={20} />
               </button>
               |
-              <button className='pointer'>
+              <button className='pointer' onClick={() => router.push('/my-cart')}>
                 <AiOutlineShoppingCart fontSize={20} />
               </button>
               |

@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { BsCartPlus, BsFillSuitHeartFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import { ItemType } from "@/app/types";
-import { getItemInfo } from "@/app/utils/Items";
+import { addToCart, addToWishlist, getItemInfo } from "@/app/utils/Items";
 
 export default function Product() {
 
@@ -24,7 +24,7 @@ export default function Product() {
     } else {
       setItemInfo(data)
     }
-  }
+  };
 
   useEffect(() => {
     getAllInfo();
@@ -62,10 +62,10 @@ export default function Product() {
       </div>
 
       <div className="add">
-        <button className="pointer">
+        <button className="pointer" onClick={() => addToWishlist(product_id, 1)}>
           <BsFillSuitHeartFill fontSize={18} />
         </button>
-        <button className="pointer">
+        <button className="pointer" onClick={() => addToCart(product_id, 1)} >
           <BsCartPlus fontSize={18} />
         </button>
       </div>

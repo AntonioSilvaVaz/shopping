@@ -46,3 +46,15 @@ export type UserLoginInformation = {
   email: string;
   password: string;
 }
+
+export type ItemClickedType = {
+  list: {
+    amount: number;
+    item_id: string;
+  }
+};
+
+export type ListType = {
+  user_id: string;
+  list: ItemClickedType[]
+}

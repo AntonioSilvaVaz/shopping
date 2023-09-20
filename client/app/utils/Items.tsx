@@ -1,19 +1,45 @@
 import { UUID } from "crypto";
-import { SetStateAction, Dispatch } from "react";
-import { ItemCreated } from "../types";
+import { ItemCreated, ListType } from "../types";
 
 export async function addToCart(item_id: UUID, amount: number) {
-  // ADD TO THE USER CART
-}
 
-export async function addToWishlist(item_id: string, amount: number, setClicked: Dispatch<SetStateAction<boolean>>) {
-  setClicked((clicked: boolean) => {
-    console.log(clicked);
+  console.log('RUNNING');
 
-    return !clicked;
-  })
-  // ADD TO USER WISHLIST
-}
+  const res = await fetch('http://localhost:3001/add_cart', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    method: 'PUT',
+    body: JSON.stringify({ item_id, amount }),
+  });
+
+  if (res.ok) {
+    const data: ListType = await res.json();
+    return data;
+  } else {
+    return 500;
+  }
+};
+
+export async function addToWishlist(item_id: string, amount: number) {
+
+  const res = await fetch('http://localhost:3001/add_wishlist', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    credentials: 'include',
+    body: JSON.stringify({ item_id, amount }),
+  });
+
+  if (res.ok) {
+    const data: ListType = await res.json();
+    return data;
+  } else {
+    return 500;
+  }
+};
 
 export async function getAllItems() {
 
@@ -43,7 +69,7 @@ export async function getItemInfo(item_id: string) {
   if (res.ok) {
     const data: ItemCreated = await res.json();
     return data;
-  } else if(res.status === 404){
+  } else if (res.status === 404) {
     return 404;
   } else {
     return 500;

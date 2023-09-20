@@ -39,7 +39,14 @@ async function loginUser(ctx: Context, next: Next) {
     const samePassword = bcrypt.compareSync(password, userExists.password);
     if (samePassword) {
       const sessionToken = jwt.sign({ user_id: userExists.user_id }, process.env.SECRET);
-      ctx.cookies.set("session_token", sessionToken);
+      ctx.cookies.set("session_token", sessionToken, {
+        path: "/",
+        domain: "localhost",
+        secure: false, // Since it's on localhost, not using HTTPS.
+        httpOnly: true,
+        maxAge: 3600000,
+        sameSite: "strict",
+      });
       ctx.status = 200;
       ctx.type = 'application/json';
       ctx.body = JSON.stringify(userExists);
@@ -209,6 +216,7 @@ async function getUserInfo(ctx:Context, next: Next) {
 // GETS THE USER ID FROM THE SESSION TOKEN
 function getUserSessionToken(ctx: Context): UUID | undefined {
   const sessionTokenJWT = ctx.cookies.get('session_token');
+
   if (!sessionTokenJWT) return undefined;
   const sessionToken: SessionTokenType = jwt.verify(sessionTokenJWT, process.env.SECRET);
   return sessionToken.user_id;

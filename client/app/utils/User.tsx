@@ -5,6 +5,7 @@ export async function registerUser(userInformation: FormData) {
   const res = await fetch('http://localhost:3001/create_user', {
     method: 'POST',
     body: userInformation,
+    credentials: 'include',
   });
 
   if (res.ok) {
@@ -24,6 +25,7 @@ export async function loginUser(userInformation: UserLoginInformation) {
       'Content-Type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     body: JSON.stringify(userInformation),
   });
 
@@ -65,6 +67,7 @@ export async function getAnUserInfo(user_id:string) {
       'Content-Type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     body: JSON.stringify({ user_id }),
   });
 

@@ -41,6 +41,18 @@ export async function loginUser(userInformation: UserLoginInformation) {
   }
 };
 
+export async function validateUser() {
+  const res = await fetch('http://localhost:3001/validate_user', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+    credentials: 'include',
+  });
+
+  return res;
+};
+
 export async function getAnUserItems(user_id: string) {
 
   const res = await fetch('http://localhost:3001/user_items', {

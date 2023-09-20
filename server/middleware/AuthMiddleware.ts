@@ -36,7 +36,6 @@ async function ValidateRegisterAndLogin(ctx: Context, next: Next) {
 }
 
 async function ValidateUser(ctx: any, next: Next) {
-
   const user_id = getUserSessionToken(ctx);
 
   if (!user_id) {
@@ -59,7 +58,6 @@ async function ValidateUser(ctx: any, next: Next) {
     ctx.status = 404;
     ctx.type = "application/json";
     ctx.body = JSON.stringify("Invalid user_id");
-    return;
   } else {
     await next();
   }

@@ -21,6 +21,7 @@ const {
 // USER ROUTES
 router.post('/create_user', ValidateRegisterAndLogin, UserController.createNewUser);
 router.post('/login', ValidateRegisterAndLogin, UserController.loginUser);
+router.get('/validate_user', ValidateUser, UserController.sendUserId);
 
 router.put('/update_user', ValidateUser, ValidateUpdate, UserController.updatedAnUser);
 router.delete('/delete_user', ValidateUser, UserController.deleteAnUser);

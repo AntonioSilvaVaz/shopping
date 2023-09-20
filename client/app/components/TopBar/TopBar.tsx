@@ -6,11 +6,44 @@ import { useAppSelector } from '@/app/redux/store';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { getAnUserInfo, validateUser } from '@/app/utils/User';
+import { login } from '@/app/redux/user-reducer';
+import { useEffect } from 'react';
 
 export default function TopBar() {
 
-  const { isAuth, profile_picture, user_id } = useAppSelector((state) => state.user.value);
+  const { isAuth, profile_picture } = useAppSelector((state) => state.user.value);
+
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  async function checkIfUserIsValid() {
+
+    const res = await validateUser();
+
+    if (res.ok) {
+      const { user_id } = await res.json();
+      const userInfo = await getAnUserInfo(user_id);
+
+      if (userInfo === 404) {
+        router.push('/login');
+      } else if (userInfo === 500) {
+        router.push('/500');
+      } else {
+        dispatch(login({ ...userInfo }));
+      }
+
+    } else if (res.status === 403) {
+      router.push('/login');
+    } else if (res.status === 500) {
+      router.push('/500');
+    }
+  }
+
+  useEffect(() => {
+    checkIfUserIsValid();
+  }, []);
 
   return (
     <nav>

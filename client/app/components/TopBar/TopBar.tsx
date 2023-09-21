@@ -6,16 +6,20 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { getAnUserInfo, logOutUser, validateUser } from '@/app/utils/User';
+import { getAnUserInfo, getAnUserItems, logOutUser, validateUser } from '@/app/utils/User';
 import { logOut, login } from '@/app/redux/user-reducer';
 import { useEffect } from 'react';
-import { emptyProducts } from '@/app/redux/products-reducer';
+import { emptyProducts, updateProducts } from '@/app/redux/products-reducer';
 import { emptyWishlist } from '@/app/redux/wishlist-reducer';
-import { emptyCart } from '@/app/redux/cart-reducer';
+import { emptyCart, updateCart } from '@/app/redux/cart-reducer';
+import { getItemInfo, getUserCart } from '@/app/utils/Items';
+import { ItemCreated, ListType, UserRegisteredType } from '@/app/types';
 
 export default function TopBar() {
 
-  const { isAuth, profile_picture } = useAppSelector((state) => state.user.value);
+  const { isAuth, profile_picture, user_id } = useAppSelector((state) => state.user.value);
+  const {cartUpdated} = useAppSelector((state) => state.cart.value);
+  const {productsLoaded} = useAppSelector((state) => state.products.value);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -23,6 +27,8 @@ export default function TopBar() {
   async function checkIfUserIsValid() {
 
     const res = await validateUser();
+
+    console.log('CHECKING IF USER IS VALID');
 
     if (res.ok) {
       const { user_id } = await res.json();
@@ -33,7 +39,7 @@ export default function TopBar() {
       } else if (userLoginRes.status === 500) {
         router.push('/500');
       } else {
-        const userInfo = await userLoginRes.json();
+        const userInfo: UserRegisteredType = await userLoginRes.json();
         dispatch(login({ ...userInfo }));
       }
 
@@ -51,22 +57,71 @@ export default function TopBar() {
     dispatch(emptyWishlist());
     dispatch(logOut());
 
-    if(res.status === 403){
+    if (res.status === 403) {
       router.push('/403');
-    } else if(res.status === 404){
+    } else if (res.status === 404) {
       router.push('/404');
-    } else if(res.status === 500){
+    } else if (res.status === 500) {
       router.push('/500');
     } else {
       router.push('/login');
     }
   };
 
+  async function getCartItems() {
+
+    const res = await getUserCart();
+
+    if (res.status === 404) {
+      router.push('/404');
+    } else if (res.status === 500) {
+      router.push('/500');
+    } else {
+
+      const data: ListType = await res.json();
+      const cartWithInfo: ItemCreated[] = [];
+
+      for (let index = 0; index < data.list.length; index++) {
+        const item = data.list[index];
+        const itemInfoRes = await getItemInfo(item.item_id);
+
+        if (itemInfoRes.status !== 404 && itemInfoRes.status !== 500) {
+          const info = await itemInfoRes.json();
+          cartWithInfo.push(info);
+        };
+      }
+
+      dispatch(updateCart({ cart: cartWithInfo, cartUpdated: true }));
+    }
+  };
+
+  async function getProducts(user_id: string) {
+    const res = await getAnUserItems(user_id);
+    if (res.status === 404) {
+      router.push('/404');
+    } else if (res.status === 500) {
+      router.push('/500');
+    } else {
+      const data = await res.json();
+      dispatch(updateProducts({ products: data, productsLoaded: true }));
+    }
+  };
+
   useEffect(() => {
+
     if (!isAuth) {
       checkIfUserIsValid();
     }
-  }, []);
+
+    if(isAuth && !cartUpdated){
+      getCartItems();
+    }
+
+    if(isAuth && !productsLoaded){
+      getProducts(user_id);
+    }
+
+  }, [isAuth]);
 
 
   return (
@@ -82,13 +137,13 @@ export default function TopBar() {
         {
           isAuth ?
             <>
-              <button className='pointer' onClick={() => router.push('/my-wishlist')}>
+              <Link className='pointer' href={'/my-cart'}>
                 <AiOutlineHeart fontSize={20} />
-              </button>
+              </Link>
               |
-              <button className='pointer' onClick={() => router.push('/my-cart')}>
+              <Link className='pointer' href={'/my-cart'}>
                 <AiOutlineShoppingCart fontSize={20} />
-              </button>
+              </Link>
               |
               <div className='menu'>
 

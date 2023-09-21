@@ -12,7 +12,7 @@ type CartType = {
   product_description: string;
   product_price: number;
   product_region: string;
-  product_pictures: string;
+  product_pictures: string[];
   item_id: string;
   user_created: string;
 };

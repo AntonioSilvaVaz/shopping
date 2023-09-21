@@ -2,38 +2,12 @@
 import './profile.css';
 import ItemBox from '@/app/components/itemBox/itemBox';
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../redux/store';
-import { useEffect } from 'react';
-import { getAnUserItems } from '../utils/User';
-import { useDispatch } from 'react-redux';
-import { updateProducts } from '../redux/products-reducer';
 
 export default function UserProfile() {
 
-  const router = useRouter();
-  const dispatch = useDispatch();
-
   const { name, profile_picture, user_id } = useAppSelector((state) => state.user.value);
-  const { products, productsLoaded } = useAppSelector((state) => state.products.value);
-
-  async function getProducts() {
-    const res = await getAnUserItems(user_id);
-    if(res.status === 404){
-      router.push('/404');
-    } else if(res.status === 500){
-      router.push('/500');
-    } else{
-      const data = await res.json();
-      dispatch(updateProducts({products: data, productsLoaded: true}));
-    }
-  };
-
-  useEffect(() => {
-    if(productsLoaded === false){
-      getProducts();
-    }
-  }, [])
+  const { products } = useAppSelector((state) => state.products.value);
 
   return (
     <section id="user">

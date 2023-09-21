@@ -12,7 +12,7 @@ export default function Product() {
   const router = useRouter();
 
   const [itemInfo, setItemInfo]: [ItemType, any] = useState({
-    product_description: '', product_name: '', product_pictures: '', product_price: 0, product_region: ''
+    product_description: '', product_name: '', product_pictures: [], product_price: 0, product_region: ''
   });
 
   async function getAllInfo() {

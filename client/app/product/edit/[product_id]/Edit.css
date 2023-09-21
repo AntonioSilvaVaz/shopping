@@ -1,0 +1,53 @@
+#edit{
+  position: relative;
+  height: max-content;
+  width: 100%;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: max-content;
+  display: grid;
+  gap: 20px;
+  grid-template-areas:
+  'title title . . .'
+  'images images images images images'
+  'description description description description description'
+  'price . . . .'
+  ;
+}
+
+#edit .name{
+  grid-area: title;
+}
+
+#edit .price {
+  grid-area: price;
+}
+
+#edit .image-container{
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  grid-area: images;
+}
+
+#edit .image-container .image-holder{
+  position: relative;
+  width: 200px;
+  height: 150px;
+}
+
+#edit .image-holder .icon{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  color: rgb(93, 0, 0);
+  background-color: rgba(255, 255, 255, 0.352);
+  position: absolute;
+}
+
+#edit .description{
+  grid-area: description;
+}

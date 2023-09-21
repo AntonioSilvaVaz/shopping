@@ -1,54 +1,11 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../redux/store';
-import { getItemInfo, getUserCart } from '../utils/Items';
 import './Cart.css';
-import { useDispatch } from 'react-redux';
-import { updateCart } from '../redux/cart-reducer';
-import { useEffect } from 'react';
-import { ItemCreated, ListType } from '../types';
 import ItemBox from '../components/itemBox/itemBox';
 
 export default function Cart() {
 
   const { cart, cartUpdated } = useAppSelector((state) => state.cart.value);
-  const router = useRouter();
-  const dispatch = useDispatch();
-
-  async function getCartItems() {
-
-    const res = await getUserCart();
-
-    if (res.status === 404) {
-      router.push('/404');
-    } else if (res.status === 500) {
-      router.push('/500');
-    } else {
-
-
-      const data: ListType = await res.json();
-      const cartWithInfo: ItemCreated[] = [];
-
-      for (let index = 0; index < data.list.length; index++) {
-        const item = data.list[index];
-        const itemInfoRes = await getItemInfo(item.item_id);
-
-        if (itemInfoRes.status !== 404 && itemInfoRes.status !== 500) {
-          const info = await itemInfoRes.json();
-          cartWithInfo.push(info);
-        };
-      }
-
-      dispatch(updateCart({ cart: cartWithInfo, cartUpdated: true }));
-    }
-  };
-
-  useEffect(() => {
-    if (!cartUpdated) {
-      getCartItems();
-    };
-  }, [])
-
 
   return (
     <section id='cart'>

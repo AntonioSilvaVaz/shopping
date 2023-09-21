@@ -25,6 +25,19 @@ export async function loginUser(userInformation: UserLoginInformation) {
   return res;
 };
 
+export async function logOutUser() {
+
+  const res = await fetch('http://localhost:3001/logout', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'DELETE',
+    credentials: 'include',
+  });
+
+  return res;
+};
+
 export async function validateUser() {
   const res = await fetch('http://localhost:3001/validate_user', {
     headers: {

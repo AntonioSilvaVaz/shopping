@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import './TopBar.css';
 import Link from 'next/link';
 import { useAppSelector } from '@/app/redux/store';
@@ -6,8 +6,8 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { getAnUserInfo, validateUser } from '@/app/utils/User';
-import { login } from '@/app/redux/user-reducer';
+import { getAnUserInfo, logOutUser, validateUser } from '@/app/utils/User';
+import { logOut, login } from '@/app/redux/user-reducer';
 import { useEffect } from 'react';
 
 export default function TopBar() {
@@ -18,8 +18,6 @@ export default function TopBar() {
   const dispatch = useDispatch();
 
   async function checkIfUserIsValid() {
-
-    console.log('RUNNING');
 
     const res = await validateUser();
 
@@ -43,21 +41,38 @@ export default function TopBar() {
     }
   };
 
+  async function logUserOut() {
+    const res = await logOutUser();
+    dispatch(logOut());
+
+    if(res.status === 403){
+      router.push('/403');
+    } else if(res.status === 404){
+      router.push('/404');
+    } else if(res.status === 500){
+      router.push('/500');
+    } else {
+      router.push('/login');
+    }
+  };
+
   useEffect(() => {
-    checkIfUserIsValid();
+    if (!isAuth) {
+      checkIfUserIsValid();
+    }
   }, []);
 
 
   return (
     <nav>
-      <div>
+      <div className='nav-container'>
         <h3>
           <Link href={'/'}>
             Shopping
           </Link>
         </h3>
       </div>
-      <div className='links'>
+      <div className='links nav-container'>
         {
           isAuth ?
             <>
@@ -69,8 +84,21 @@ export default function TopBar() {
                 <AiOutlineShoppingCart fontSize={20} />
               </button>
               |
-              <div className='profile-picture pointer' onClick={() => router.push(`/my-profile`)}>
-                <img src={`http://localhost:3001/images/profile_pictures/${profile_picture}`} alt="You" />
+              <div className='menu'>
+
+                <div className='user-picture'>
+                  <img src={`http://localhost:3001/images/profile_pictures/${profile_picture}`} alt="You" />
+                </div>
+
+                <div className='dropdown'>
+                  <Link className='item' href={'/my-profile'}>
+                    <h6>My Profile</h6>
+                  </Link>
+                  <button onClick={logUserOut} className='pointer item'>
+                    <h6>Logout</h6>
+                  </button>
+                </div>
+
               </div>
             </>
             :

@@ -1,3 +1,4 @@
+'use client';
 import "./loginAndRegister.css";
 import { FormEvent } from "react";
 import Link from "next/link";

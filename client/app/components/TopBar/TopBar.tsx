@@ -46,9 +46,9 @@ export default function TopBar() {
 
   async function logUserOut() {
     const res = await logOutUser();
-    dispatch(emptyProducts);
-    dispatch(emptyCart);
-    dispatch(emptyWishlist);
+    dispatch(emptyProducts());
+    dispatch(emptyCart());
+    dispatch(emptyWishlist());
     dispatch(logOut());
 
     if(res.status === 403){

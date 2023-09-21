@@ -8,14 +8,7 @@ export async function registerUser(userInformation: FormData) {
     credentials: 'include',
   });
 
-  if (res.ok) {
-    return 201;
-  } else if (res.status === 409) {
-    return 409;
-  } else {
-    return 500;
-  }
-
+  return res;
 };
 
 export async function loginUser(userInformation: UserLoginInformation) {
@@ -29,16 +22,7 @@ export async function loginUser(userInformation: UserLoginInformation) {
     body: JSON.stringify(userInformation),
   });
 
-  if (res.ok) {
-    const data: UserRegisteredType = await res.json();
-    return { text: 'Logged in', data };
-  } else if (res.status === 400) {
-    return { text: 'Wrong credentials' };
-  } else if (res.status === 404) {
-    return { text: 'User not found' };
-  } else {
-    return { text: 'Server failed' };
-  }
+  return res;
 };
 
 export async function validateUser() {
@@ -63,14 +47,7 @@ export async function getAnUserItems(user_id: string) {
     body: JSON.stringify({ user_id }),
   });
 
-  if (res.ok) {
-    const data: ItemCreated[] = await res.json();
-    return data;
-  } else if (res.status === 404) {
-    return 404;
-  } else {
-    return 500;
-  }
+  return res;
 };
 
 export async function getAnUserInfo(user_id:string) {
@@ -83,12 +60,5 @@ export async function getAnUserInfo(user_id:string) {
     body: JSON.stringify({ user_id }),
   });
 
-  if (res.ok) {
-    const data: UserInfo = await res.json();
-    return data;
-  } else if (res.status === 404) {
-    return 404;
-  } else {
-    return 500;
-  }
+  return res;
 };

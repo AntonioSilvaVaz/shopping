@@ -1,5 +1,4 @@
-"use client";
-
+'use client'
 import './TopBar.css';
 import Link from 'next/link';
 import { useAppSelector } from '@/app/redux/store';
@@ -20,17 +19,20 @@ export default function TopBar() {
 
   async function checkIfUserIsValid() {
 
+    console.log('RUNNING');
+
     const res = await validateUser();
 
     if (res.ok) {
       const { user_id } = await res.json();
-      const userInfo = await getAnUserInfo(user_id);
+      const userLoginRes = await getAnUserInfo(user_id);
 
-      if (userInfo === 404) {
-        router.push('/login');
-      } else if (userInfo === 500) {
+      if (userLoginRes.status === 404) {
+        router.push('/register');
+      } else if (userLoginRes.status === 500) {
         router.push('/500');
       } else {
+        const userInfo = await userLoginRes.json();
         dispatch(login({ ...userInfo }));
       }
 
@@ -39,11 +41,12 @@ export default function TopBar() {
     } else if (res.status === 500) {
       router.push('/500');
     }
-  }
+  };
 
   useEffect(() => {
     checkIfUserIsValid();
   }, []);
+
 
   return (
     <nav>

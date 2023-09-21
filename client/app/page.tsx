@@ -4,20 +4,19 @@ import ItemBox from "./components/itemBox/itemBox";
 import "./home.css";
 import { ItemCreated } from './types';
 import { getAllItems } from './utils/Items';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
 
   const [items, setItems]: [ItemCreated[], any] = useState([]);
-  const router = useRouter();
 
   async function getAllInformation() {
-    const data = await getAllItems();
-    console.log(data);
+    const res = await getAllItems();
 
-    if (data === 500) {
-      router.push('/500');
+    if (res.status === 500) {
+      redirect('/500');
     } else {
+      const data = await res.json();
       setItems(data);
     }
   };

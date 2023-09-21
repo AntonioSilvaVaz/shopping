@@ -10,17 +10,17 @@ import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [imgSelected, setImageSelected] = useState<string | null>(null);
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const res = await registerUser(formData);
 
-    if(res === 201){
+    if(res.status === 201){
       toast('User registered');
       router.push('/');
-    } else if(res === 409){
+    } else if(res.status === 409){
       toast('User already registered');
     } else {
       router.push('/500');
@@ -36,7 +36,7 @@ export default function LoginPage() {
       };
       reader.readAsDataURL(file);
     }
-  }
+  };
 
   return (
     <section id="register">

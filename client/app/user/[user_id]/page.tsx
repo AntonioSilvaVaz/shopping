@@ -16,33 +16,36 @@ export default function UserProfile() {
   const [userInfo, setUserInfo]: [UserInfo, any] = useState({ name: '', email: '', user_id: '', profile_picture: '' });
 
   async function getUserProducts() {
-    const info = await getAnUserItems(user_id);
+    const res = await getAnUserItems(user_id);
 
-    if (info === 500) {
-      router.push('/server-down');
-    } else if (info === 404) {
+    if (res.status === 500) {
+      router.push('/500');
+    } else if (res.status === 404) {
       router.push('/404');
     } else {
-      setUserProducts(info);
+      const data = await res.json();
+      setUserProducts(data);
     }
   };
 
   async function getUserInfo() {
-    const info = await getAnUserInfo(user_id);
+    const res = await getAnUserInfo(user_id);
 
-    if (info === 500) {
-      router.push('/server-down');
-    } else if (info === 404) {
+    if (res.status === 500) {
+      router.push('/500');
+    } else if (res.status === 404) {
       router.push('/404');
     } else {
-      setUserInfo(info);
+      const data = await res.json();
+      setUserInfo(data);
     }
   };
 
   useEffect(() => {
     getUserInfo();
     getUserProducts();
-  }, []);
+  }, [])
+
 
   return (
     <section id="user">

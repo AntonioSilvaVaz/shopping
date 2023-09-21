@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import { ItemCreated, ListType } from "../types";
+import { ItemCreated } from "../types";
 
 export async function getUserCart() {
   const res = await fetch('http://localhost:3001/cart', {
@@ -10,14 +10,7 @@ export async function getUserCart() {
     method: 'GET',
   });
 
-  if (res.ok) {
-    const data: ListType = await res.json();
-    return data;
-  } else if (res.status === 404) {
-    return 404;
-  } else {
-    return 500;
-  }
+  return res;
 };
 
 export async function addToCart(item_id: UUID, amount: number) {
@@ -31,12 +24,7 @@ export async function addToCart(item_id: UUID, amount: number) {
     body: JSON.stringify({ item_id, amount }),
   });
 
-  if (res.ok) {
-    const data: ListType = await res.json();
-    return data;
-  } else {
-    return 500;
-  }
+  return res;
 };
 
 export async function addToWishlist(item_id: string, amount: number) {
@@ -50,12 +38,7 @@ export async function addToWishlist(item_id: string, amount: number) {
     body: JSON.stringify({ item_id, amount }),
   });
 
-  if (res.ok) {
-    const data: ListType = await res.json();
-    return data;
-  } else {
-    return 500;
-  }
+  return res;
 };
 
 export async function getAllItems() {
@@ -67,12 +50,7 @@ export async function getAllItems() {
     method: 'GET',
   });
 
-  if (res.ok) {
-    const data: ItemCreated[] = await res.json();
-    return data;
-  } else {
-    return 500;
-  }
+  return res;
 };
 
 export async function getItemInfo(item_id: string) {
@@ -83,12 +61,5 @@ export async function getItemInfo(item_id: string) {
     method: 'GET',
   });
 
-  if (res.ok) {
-    const data: ItemCreated = await res.json();
-    return data;
-  } else if (res.status === 404) {
-    return 404;
-  } else {
-    return 500;
-  }
+  return res;
 };

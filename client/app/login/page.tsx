@@ -1,6 +1,5 @@
-"use client";
 import "./loginAndRegister.css";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import Link from "next/link";
 import BackgroundImages from "../components/backgroundImages/backgroundImages";
 import { toast } from "react-toastify";
@@ -8,13 +7,12 @@ import Notification from "../components/notification/notification";
 import { loginUser } from "../utils/User";
 import { login } from "../redux/user-reducer";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -25,12 +23,18 @@ export default function LoginPage() {
 
     if (email && password) {
       const res = await loginUser({ email, password });
-      toast(res.text);
 
-      if (res.data) {
+      if(res.status === 500){
+        router.push('/500');
+      } else if(res.status === 404){
+        toast("User doesn't exist");
+      } else if(res.status === 403){
+        toast("Wrong credentials");
+      } else{
+        const data = await res.json();
         router.push('/my-profile');
-        dispatch(login({ ...res.data }));
-      }
+        dispatch(login({ ...data }));
+      };
     }
 
   };

@@ -1,10 +1,6 @@
-"use client";
-import Image from "next/image";
-import { MouseEvent, useState } from "react";
+import { MouseEvent } from "react";
 import { ItemProps } from "@/app/types";
 import { useRouter } from "next/navigation";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { addToWishlist } from "@/app/utils/Items";
 import "./itemBox.css";
 
 export default function ItemBox({

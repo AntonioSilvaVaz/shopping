@@ -16,12 +16,13 @@ export default function Product() {
   });
 
   async function getAllInfo() {
-    const data = await getItemInfo(product_id);
-    if (data === 404) {
+    const res = await getItemInfo(product_id);
+    if (res.status === 404) {
       router.push('/404')
-    } else if (data === 500) {
+    } else if (res.status === 500) {
       router.push('/500')
     } else {
+      const data = await res.json();
       setItemInfo(data)
     }
   };
@@ -29,6 +30,7 @@ export default function Product() {
   useEffect(() => {
     getAllInfo();
   }, []);
+
 
   return (
     <section id="product">

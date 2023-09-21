@@ -18,12 +18,13 @@ export default function UserProfile() {
   const { products, productsLoaded } = useAppSelector((state) => state.products.value);
 
   async function getProducts() {
-    const data: any = await getAnUserItems(user_id);
-    if(data === 404){
+    const res = await getAnUserItems(user_id);
+    if(res.status === 404){
       router.push('/404');
-    } else if(data === 500){
+    } else if(res.status === 500){
       router.push('/500');
     } else{
+      const data = await res.json();
       dispatch(updateProducts({products: data, productsLoaded: true}));
     }
   };

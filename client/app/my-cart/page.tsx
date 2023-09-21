@@ -6,44 +6,49 @@ import './Cart.css';
 import { useDispatch } from 'react-redux';
 import { updateCart } from '../redux/cart-reducer';
 import { useEffect } from 'react';
-import { ItemCreated } from '../types';
+import { ItemCreated, ListType } from '../types';
 import ItemBox from '../components/itemBox/itemBox';
 
 export default function Cart() {
 
-  const {cart, cartUpdated} = useAppSelector((state) => state.cart.value);
+  const { cart, cartUpdated } = useAppSelector((state) => state.cart.value);
   const router = useRouter();
   const dispatch = useDispatch();
 
   async function getCartItems() {
 
-    const data = await getUserCart();
+    const res = await getUserCart();
 
-    if (data === 404) {
+    if (res.status === 404) {
       router.push('/404');
-    } else if (data === 500) {
+    } else if (res.status === 500) {
       router.push('/500');
     } else {
 
+
+      const data: ListType = await res.json();
       const cartWithInfo: ItemCreated[] = [];
+
       for (let index = 0; index < data.list.length; index++) {
         const item = data.list[index];
-        const itemInfo = await getItemInfo(item.item_id);
+        const itemInfoRes = await getItemInfo(item.item_id);
 
-        if (itemInfo !== 404 && itemInfo !== 500) {
-          cartWithInfo.push(itemInfo);
+        if (itemInfoRes.status !== 404 && itemInfoRes.status !== 500) {
+          const info = await itemInfoRes.json();
+          cartWithInfo.push(info);
         };
       }
 
-      dispatch(updateCart({cart: cartWithInfo, cartUpdated: true}));
+      dispatch(updateCart({ cart: cartWithInfo, cartUpdated: true }));
     }
   };
 
   useEffect(() => {
-    if(!cartUpdated){
+    if (!cartUpdated) {
       getCartItems();
-    }
-  }, []);
+    };
+  }, [])
+
 
   return (
     <section id='cart'>

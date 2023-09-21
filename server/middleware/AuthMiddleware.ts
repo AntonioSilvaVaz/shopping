@@ -201,6 +201,8 @@ async function ValidateImage(ctx: any, next: Next) {
     fileName: string;
   };
 
+  console.log(item_id, fileName);
+
   const isValidPictures = ctx.request.files?.product_pictures;
   const isValidItemId = validator.isUUID(item_id ? item_id : "Hello");
   const isValidFileName = await validateFileName(fileName);

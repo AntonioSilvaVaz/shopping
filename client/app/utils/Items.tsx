@@ -63,3 +63,16 @@ export async function getItemInfo(item_id: string) {
 
   return res;
 };
+
+export async function deleteItemImage(item_id: string, fileName: string) {
+  const res = await fetch(`http://localhost:3001/remove_image_item`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    credentials: 'include',
+    body: JSON.stringify({item_id, fileName}),
+  });
+
+  return res;
+};

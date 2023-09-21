@@ -9,6 +9,9 @@ import { useDispatch } from 'react-redux';
 import { getAnUserInfo, logOutUser, validateUser } from '@/app/utils/User';
 import { logOut, login } from '@/app/redux/user-reducer';
 import { useEffect } from 'react';
+import { emptyProducts } from '@/app/redux/products-reducer';
+import { emptyWishlist } from '@/app/redux/wishlist-reducer';
+import { emptyCart } from '@/app/redux/cart-reducer';
 
 export default function TopBar() {
 
@@ -43,6 +46,9 @@ export default function TopBar() {
 
   async function logUserOut() {
     const res = await logOutUser();
+    dispatch(emptyProducts);
+    dispatch(emptyCart);
+    dispatch(emptyWishlist);
     dispatch(logOut());
 
     if(res.status === 403){

@@ -14,8 +14,16 @@ const wishlistState: WishlistState = { value: [{ item_id: "", amount: 0 }] };
 const wishlist = createSlice({
   name: "wishlist",
   initialState: wishlistState,
-  reducers: {},
+  reducers: {
+    emptyWishlist: (state) => {
+      return {
+        value: {
+          ...wishlistState.value,
+        },
+      };
+    },
+  },
 });
 
-export const {} = wishlist.actions;
+export const {emptyWishlist} = wishlist.actions;
 export default wishlist.reducer;

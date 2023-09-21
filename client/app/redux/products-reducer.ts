@@ -28,6 +28,13 @@ const userProducts = createSlice({
   name: "user products",
   initialState: userProductsState,
   reducers: {
+    emptyProducts: (state) => {
+      return {
+        value: {
+          ...userProductsState.value,
+        }
+      }
+    },
     updateProducts: (state, action: PayloadAction<{products: ProductType[], productsLoaded: boolean}>) => {
       return {
         value: {
@@ -38,5 +45,5 @@ const userProducts = createSlice({
   },
 });
 
-export const { updateProducts } = userProducts.actions;
+export const { updateProducts, emptyProducts } = userProducts.actions;
 export default userProducts.reducer;

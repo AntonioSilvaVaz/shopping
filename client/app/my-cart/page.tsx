@@ -1,11 +1,11 @@
 'use client';
-import { useAppSelector } from '../redux/store';
 import './Cart.css';
+import { useAppSelector } from '../redux/store';
 import ItemBox from '../components/itemBox/itemBox';
 
 export default function Cart() {
 
-  const { cart, cartUpdated } = useAppSelector((state) => state.cart.value);
+  const { cart } = useAppSelector((state) => state.cart.value);
 
   return (
     <section id='cart'>
@@ -22,11 +22,8 @@ export default function Cart() {
                 key={index}
                 price={item.product_price}
                 productPicture={`http://localhost:3001/images/item_pictures/${item.product_pictures[0]}`}
-                sellerPicture={`http://localhost:3001/images/profile_pictures/${item.user_created}.jpg`}
-                creator_id={item.user_created}
                 title={item.product_name}
                 item_id={item.item_id}
-                showProfilePicture={false}
               />)
           })
         }

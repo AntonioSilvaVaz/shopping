@@ -1,4 +1,3 @@
-import { UUID } from "crypto";
 
 export type ItemType = {
   product_name: string,
@@ -17,11 +16,8 @@ export type ItemCreated = ItemType & {
 export type ItemProps = {
   title: string;
   item_id: string;
-  creator_id: string;
   price: number;
   productPicture: string;
-  sellerPicture: string;
-  showProfilePicture: boolean;
 }
 
 export type UserInfo = {

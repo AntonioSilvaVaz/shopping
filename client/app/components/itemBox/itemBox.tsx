@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import { ItemProps, ListType, WishlistType } from "@/app/types";
+import { ItemProps, ListType } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { AiOutlineHeart } from 'react-icons/ai';
 import { BsCartPlus } from 'react-icons/bs';
@@ -31,7 +31,7 @@ export default function ItemBox({
       router.push('/500');
     } else {
       const data: ListType = await res.json();
-      updateWishlist(data.list);
+      updateWishlist({wishlist: data.list, updated: true});
     }
   };
 

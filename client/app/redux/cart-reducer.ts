@@ -1,18 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ItemClickedType, ItemCreated, ListType } from "../types";
 
 type CartState = {
   value: {
-    cart: CartType[];
+    cart: ItemClickedType[];
+    cartWithInfo: ItemCreated[];
     cartUpdated: boolean;
   };
 };
 
-type CartType = {
-  item_id: string;
-  amount: number;
+const cartState: CartState = {
+  value: {
+    cart: [],
+    cartWithInfo: [],
+    cartUpdated: false,
+  },
 };
-
-const cartState: CartState = { value: { cart: [], cartUpdated: false } };
 
 const cart = createSlice({
   name: "cart",
@@ -27,10 +30,14 @@ const cart = createSlice({
     },
     updateCart: (
       state,
-      action: PayloadAction<{ cart: CartType[], cartUpdated: boolean }>
+      action: PayloadAction<{ cart: ItemClickedType[]; cartUpdated: boolean }>
     ) => {
       return {
-        value: action.payload,
+        value: {
+          cart: action.payload.cart,
+          cartUpdated: true,
+          cartWithInfo: state.value.cartWithInfo,
+        },
       };
     },
   },

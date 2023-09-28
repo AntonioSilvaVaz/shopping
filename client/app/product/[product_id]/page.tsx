@@ -67,7 +67,7 @@ export default function Product() {
       router.push('/500');
     } else {
       const data: ListType = await res.json();
-      updateWishlist(data.list);
+      updateWishlist({wishlist: data.list, updated: true});
     }
   };
 

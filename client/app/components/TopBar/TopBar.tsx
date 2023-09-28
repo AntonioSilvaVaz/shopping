@@ -10,15 +10,16 @@ import { getAnUserInfo, getAnUserItems, logOutUser, validateUser } from '@/app/u
 import { logOut, login } from '@/app/redux/user-reducer';
 import { useEffect } from 'react';
 import { emptyProducts, updateProducts } from '@/app/redux/products-reducer';
-import { emptyWishlist } from '@/app/redux/wishlist-reducer';
+import { emptyWishlist, updateWishlist } from '@/app/redux/wishlist-reducer';
 import { emptyCart, updateCart } from '@/app/redux/cart-reducer';
-import { getItemInfo, getUserCart } from '@/app/utils/Items';
+import { getItemInfo, getUserCart, getUserWishlist } from '@/app/utils/Items';
 import { ItemCreated, ListType, UserRegisteredType } from '@/app/types';
 
 export default function TopBar() {
 
   const { isAuth, profile_picture, user_id } = useAppSelector((state) => state.user.value);
   const { cartUpdated } = useAppSelector((state) => state.cart.value);
+  const { updated } = useAppSelector((state) => state.wishlist.value);
   const { productsLoaded } = useAppSelector((state) => state.products.value);
 
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function TopBar() {
 
   async function checkIfUserIsValid() {
 
-    if(!document.cookie) return;
+    if (!document.cookie) return;
 
     const res = await validateUser();
     console.log('CHECKING IF USER IS VALID');
@@ -96,6 +97,40 @@ export default function TopBar() {
     }
   };
 
+  async function getWishlist() {
+
+    const res = await getUserWishlist();
+
+    if (res.status === 404) {
+      router.push('/404');
+    } else if (res.status === 403) {
+      router.push('/login');
+    } else if (res.status === 500) {
+      router.push('/500');
+    } else {
+
+      const data: ListType = await res.json();
+      const wishlistWithInfo: ItemCreated[] = [];
+
+      for (let index = 0; index < data.list.length; index++) {
+
+        const item = data.list[index];
+        const itemInfoRes = await getItemInfo(item.item_id);
+        if (itemInfoRes.status !== 404 && itemInfoRes.status !== 500) {
+          const info = await itemInfoRes.json();
+          wishlistWithInfo.push(info);
+        };
+      }
+
+      console.log('STARTED');
+
+      updateWishlist({ wishlist: wishlistWithInfo, updated: true });
+
+      console.log('FINISHED');
+
+    }
+  }
+
   async function getProducts(user_id: string) {
     const res = await getAnUserItems(user_id);
     if (res.status === 404) {
@@ -122,6 +157,10 @@ export default function TopBar() {
       getProducts(user_id);
     }
 
+    if (isAuth && !updated) {
+      getWishlist();
+    }
+
   }, [isAuth]);
 
 
@@ -138,7 +177,7 @@ export default function TopBar() {
         {
           isAuth ?
             <>
-              <Link className='pointer' href={'/my-cart'}>
+              <Link className='pointer' href={'/my-wishlist'}>
                 <AiOutlineHeart fontSize={20} />
               </Link>
               |

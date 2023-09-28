@@ -11,6 +11,18 @@ export async function getUserCart() {
   return res;
 };
 
+export async function getUserWishlist() {
+  const res = await fetch('http://localhost:3001/wishlist', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    method: 'GET',
+  });
+
+  return res;
+};
+
 export async function addToCart(item_id: string, amount: number) {
 
   const res = await fetch('http://localhost:3001/add_cart', {

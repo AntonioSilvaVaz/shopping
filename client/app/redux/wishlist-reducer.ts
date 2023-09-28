@@ -1,15 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ItemClickedType, ItemCreated } from "../types";
 
 type WishlistState = {
-  value: WishlistType[];
+  value: {
+    wishlist: ItemClickedType[];
+    wishlistInfo: ItemCreated[];
+    updated: boolean;
+  };
 };
 
-type WishlistType = {
-  item_id: string;
-  amount: number;
+const wishlistState: WishlistState = {
+  value: {
+    wishlist: [],
+    wishlistInfo: [],
+    updated: false,
+  },
 };
-
-const wishlistState: WishlistState = { value: [{ item_id: "", amount: 0 }] };
 
 const wishlist = createSlice({
   name: "wishlist",
@@ -25,10 +31,14 @@ const wishlist = createSlice({
 
     updateWishlist: (
       state,
-      action: PayloadAction<WishlistType[]>
+      action: PayloadAction<{ wishlist: ItemClickedType[]; updated: boolean }>
     ) => {
       return {
-        value: action.payload,
+        value: {
+          updated: action.payload.updated,
+          wishlist: action.payload.wishlist,
+          wishlistInfo: state.value.wishlistInfo,
+        }
       };
     },
   },

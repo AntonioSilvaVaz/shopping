@@ -1,0 +1,9 @@
+#wishlist{
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 30px;
+  box-sizing: border-box;
+}

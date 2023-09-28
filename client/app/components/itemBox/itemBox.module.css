@@ -49,7 +49,12 @@
   font-size: 20px;
 }
 
+.hr{
+  align-self: center;
+  height: 20px;
+}
+
 .button_container{
   display: flex;
-  gap: 16px;
+  gap: 8px;
 }

@@ -64,7 +64,7 @@ export default function ItemBox({
             <button className="pointer" onClick={addWishlist}>
               <AiOutlineHeart />
             </button>
-            |
+            <hr className={styles.hr} />
             <button className="pointer" onClick={addCart}>
               <BsCartPlus />
             </button>

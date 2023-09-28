@@ -1,14 +1,15 @@
 "use client";
-import './User.css';
 import ItemBox from '@/app/components/itemBox/itemBox';
 import { getAnUserItems, getAnUserInfo } from '@/app/utils/User';
 import { useState, useEffect } from 'react';
-import Link from "next/link";
 import { useParams } from 'next/navigation';
 import { ItemCreated, UserInfo } from '@/app/types';
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import styles from './user.module.css';
 
 export default function UserProfile() {
+
   const { user_id }: any = useParams();
   const router = useRouter();
 
@@ -48,19 +49,22 @@ export default function UserProfile() {
 
 
   return (
-    <section id="user">
-      <div className="seller-picture">
-        <Link href={`/user/${user_id}`}>
-          <img src={`http://localhost:3001/images/profile_pictures/${userInfo.profile_picture}`} />
-        </Link>
+    <section id={styles.user}>
+      <div className={styles.seller_info}>
+        <div className={styles.seller_picture}>
+          <Link href={`/user/${user_id}`}>
+            <img src={`http://localhost:3001/images/profile_pictures/${userInfo.profile_picture}`} />
+          </Link>
+        </div>
+        <div className={styles.name}>
+          <h5>{userInfo.name}</h5>
+        </div>
       </div>
-      <h5 className='name'>{userInfo.name}</h5>
       {userProducts.length > 0 ?
-        <h5 className='products-sold'>Products sold by this user</h5> :
-        <h5 className='products-sold'>This user doesn't sell any products</h5>
+        <h5 className={styles.products_sold}>Products sold by this user</h5> :
+        <h5 className={styles.products_sold}>This user doesn't sell any products</h5>
       }
-      <div className='products-container'>
-
+      <div className={styles.products_container}>
         {
           userProducts.map((item, index) => {
             return (
@@ -76,7 +80,6 @@ export default function UserProfile() {
               />)
           })
         }
-
       </div>
     </section>
   )

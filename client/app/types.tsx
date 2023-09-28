@@ -6,6 +6,7 @@ export type ItemType = {
   product_price: number,
   product_region: string,
   product_pictures: string[],
+  user_created: string,
 };
 
 export type ItemCreated = ItemType & {
@@ -38,7 +39,7 @@ export type UserRegisterType = {
 }
 
 export type UserRegisteredType = UserRegisterType & {
-  user_id: UUID;
+  user_id: string;
 }
 
 export type UserLoginInformation = {

@@ -1,4 +1,4 @@
-.item-container {
+.item_container {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -6,32 +6,32 @@
   height: max-content;
 }
 
-.image-container{
+.image_container{
   width: 100%;
   height: 170px;
 }
 
-.image-container img{
+.image_container img{
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.items-container{
+.items_container{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.text-container{
+.text_container{
   width: 100%;
   box-sizing: border-box;
   text-align: start;
   padding: 10px;
 }
 
-.price-container{
+.price_container{
   width: 100%;
   display: flex;
   align-items: center;
@@ -42,14 +42,14 @@
   box-sizing: border-box;
 }
 
-.price-container button{
+.price_container button{
   color: white;
   background-color: transparent;
   border: 0;
   font-size: 20px;
 }
 
-.button-container{
+.button_container{
   display: flex;
   gap: 16px;
 }

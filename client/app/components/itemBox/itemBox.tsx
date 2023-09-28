@@ -3,10 +3,10 @@ import { ItemProps, ListType, WishlistType } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { AiOutlineHeart } from 'react-icons/ai';
 import { BsCartPlus } from 'react-icons/bs';
-import "./itemBox.css";
 import { addToCart, addToWishlist } from "@/app/utils/Items";
 import { updateWishlist } from "@/app/redux/wishlist-reducer";
 import { updateCart } from "@/app/redux/cart-reducer";
+import styles from "./itemBox.module.css";
 
 export default function ItemBox({
   title,
@@ -14,6 +14,7 @@ export default function ItemBox({
   price,
   productPicture,
 }: ItemProps) {
+
   const router = useRouter();
 
   function goToProduct(e: MouseEvent<HTMLDivElement>) {
@@ -22,34 +23,44 @@ export default function ItemBox({
 
   async function addWishlist() {
     const res = await addToWishlist(item_id, 1);
-    if (res.ok) {
-      const data: WishlistType = await res.json();
-      updateWishlist(data.list);
-    } else {
+    if (res.status === 404) {
+      router.push('/404');
+    } else if (res.status === 403) {
+      router.push('/login');
+    } else if (res.status === 500) {
       router.push('/500');
+    } else {
+      const data: ListType = await res.json();
+      updateWishlist(data.list);
     }
   };
 
   async function addCart() {
     const res = await addToCart(item_id, 1);
-    if (res.ok) {
+    if (res.status === 404) {
+      router.push('/404');
+    } else if (res.status === 403) {
+      router.push('/login');
+    } else if (res.status === 500) {
+      router.push('/500');
+    } else {
       const data: ListType = await res.json();
       updateCart({ cart: data.list, cartUpdated: true });
     }
   };
 
   return (
-    <div className="item-container">
-      <div className="image-container pointer" onClick={goToProduct}>
+    <div className={styles.item_container}>
+      <div className={`${styles.image_container} pointer`} onClick={goToProduct}>
         <img src={productPicture} alt="" />
       </div>
-      <div className="items-container">
-        <div className="text-container">
+      <div className={styles.items_container}>
+        <div className={styles.text_container}>
           <h4>{title}</h4>
         </div>
-        <div className="price-container">
+        <div className={styles.price_container}>
           <h4>{price}€</h4>
-          <div className="button-container">
+          <div className={styles.button_container}>
             <button className="pointer" onClick={addWishlist}>
               <AiOutlineHeart />
             </button>

@@ -1,5 +1,3 @@
-import { UUID } from "crypto";
-import { ItemCreated } from "../types";
 
 export async function getUserCart() {
   const res = await fetch('http://localhost:3001/cart', {

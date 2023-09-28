@@ -39,6 +39,7 @@ export async function logOutUser() {
 };
 
 export async function validateUser() {
+
   const res = await fetch('http://localhost:3001/validate_user', {
     headers: {
       'Content-Type': 'application/json',

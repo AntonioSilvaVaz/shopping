@@ -13,7 +13,7 @@ export async function getUserCart() {
   return res;
 };
 
-export async function addToCart(item_id: UUID, amount: number) {
+export async function addToCart(item_id: string, amount: number) {
 
   const res = await fetch('http://localhost:3001/add_cart', {
     headers: {

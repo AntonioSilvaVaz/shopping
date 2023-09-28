@@ -22,8 +22,17 @@ const wishlist = createSlice({
         },
       };
     },
+
+    updateWishlist: (
+      state,
+      action: PayloadAction<WishlistType[]>
+    ) => {
+      return {
+        value: action.payload,
+      };
+    },
   },
 });
 
-export const {emptyWishlist} = wishlist.actions;
+export const { emptyWishlist, updateWishlist } = wishlist.actions;
 export default wishlist.reducer;

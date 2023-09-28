@@ -13,7 +13,6 @@ export type ItemCreated = ItemType & {
   user_created: string,
 };
 
-
 export type ItemProps = {
   title: string;
   item_id: string;
@@ -55,4 +54,9 @@ export type ItemClickedType = {
 export type ListType = {
   user_id: string;
   list: ItemClickedType[]
+}
+
+export type WishlistType = {
+  user_id: string;
+  list: ItemClickedType[];
 }

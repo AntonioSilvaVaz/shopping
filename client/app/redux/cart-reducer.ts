@@ -8,13 +8,8 @@ type CartState = {
 };
 
 type CartType = {
-  product_name: string;
-  product_description: string;
-  product_price: number;
-  product_region: string;
-  product_pictures: string[];
   item_id: string;
-  user_created: string;
+  amount: number;
 };
 
 const cartState: CartState = { value: { cart: [], cartUpdated: false } };
@@ -32,7 +27,7 @@ const cart = createSlice({
     },
     updateCart: (
       state,
-      action: PayloadAction<{ cart: CartType[]; cartUpdated: boolean }>
+      action: PayloadAction<{ cart: CartType[], cartUpdated: boolean }>
     ) => {
       return {
         value: action.payload,

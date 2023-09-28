@@ -18,16 +18,17 @@ import { ItemCreated, ListType, UserRegisteredType } from '@/app/types';
 export default function TopBar() {
 
   const { isAuth, profile_picture, user_id } = useAppSelector((state) => state.user.value);
-  const {cartUpdated} = useAppSelector((state) => state.cart.value);
-  const {productsLoaded} = useAppSelector((state) => state.products.value);
+  const { cartUpdated } = useAppSelector((state) => state.cart.value);
+  const { productsLoaded } = useAppSelector((state) => state.products.value);
 
   const router = useRouter();
   const dispatch = useDispatch();
 
   async function checkIfUserIsValid() {
 
-    const res = await validateUser();
+    if(!document.cookie) return;
 
+    const res = await validateUser();
     console.log('CHECKING IF USER IS VALID');
 
     if (res.ok) {
@@ -113,11 +114,11 @@ export default function TopBar() {
       checkIfUserIsValid();
     }
 
-    if(isAuth && !cartUpdated){
+    if (isAuth && !cartUpdated) {
       getCartItems();
     }
 
-    if(isAuth && !productsLoaded){
+    if (isAuth && !productsLoaded) {
       getProducts(user_id);
     }
 

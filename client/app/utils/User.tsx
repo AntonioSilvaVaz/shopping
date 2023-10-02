@@ -1,4 +1,4 @@
-import { UserRegisteredType, UserLoginInformation, ItemCreated, UserInfo } from "../types";
+import { UserLoginInformation } from "../types";
 
 export async function registerUser(userInformation: FormData) {
 

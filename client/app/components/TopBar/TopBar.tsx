@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { emptyProducts, updateProducts } from '@/app/redux/products-reducer';
 import { emptyWishlist, updateWishlist } from '@/app/redux/wishlist-reducer';
 import { emptyCart, updateCart } from '@/app/redux/cart-reducer';
-import { getItemInfo, getUserCart, getUserWishlist } from '@/app/utils/Items';
+import { getAllItemsInfo, getItemInfo, getUserCart, getUserWishlist } from '@/app/utils/Items';
 import { ItemCreated, ListType, UserRegisteredType } from '@/app/types';
 
 export default function TopBar() {
@@ -30,7 +30,6 @@ export default function TopBar() {
     if (!document.cookie) return;
 
     const res = await validateUser();
-    console.log('CHECKING IF USER IS VALID');
 
     if (res.ok) {
       const { user_id } = await res.json();
@@ -76,24 +75,16 @@ export default function TopBar() {
 
     if (res.status === 404) {
       router.push('/404');
+    } else if (res.status === 403) {
+      router.push('/login');
     } else if (res.status === 500) {
       router.push('/500');
     } else {
 
       const data: ListType = await res.json();
-      const cartWithInfo: ItemCreated[] = [];
+      const dataInfo = await getAllItemsInfo(data);
 
-      for (let index = 0; index < data.list.length; index++) {
-        const item = data.list[index];
-        const itemInfoRes = await getItemInfo(item.item_id);
-
-        if (itemInfoRes.status !== 404 && itemInfoRes.status !== 500) {
-          const info = await itemInfoRes.json();
-          cartWithInfo.push(info);
-        };
-      }
-
-      dispatch(updateCart({ cart: cartWithInfo, cartUpdated: true }));
+      dispatch(updateCart({ cart: data.list, cartInfo: dataInfo, cartUpdated: true }));
     }
   };
 
@@ -110,24 +101,8 @@ export default function TopBar() {
     } else {
 
       const data: ListType = await res.json();
-      const wishlistWithInfo: ItemCreated[] = [];
-
-      for (let index = 0; index < data.list.length; index++) {
-
-        const item = data.list[index];
-        const itemInfoRes = await getItemInfo(item.item_id);
-        if (itemInfoRes.status !== 404 && itemInfoRes.status !== 500) {
-          const info = await itemInfoRes.json();
-          wishlistWithInfo.push(info);
-        };
-      }
-
-      console.log('STARTED');
-
-      updateWishlist({ wishlist: wishlistWithInfo, updated: true });
-
-      console.log('FINISHED');
-
+      const dataInfo = await getAllItemsInfo(data);
+      dispatch(updateWishlist({ wishlist: data.list, wishlistInfo: dataInfo, updated: true }));
     }
   }
 
@@ -149,16 +124,10 @@ export default function TopBar() {
       checkIfUserIsValid();
     }
 
-    if (isAuth && !cartUpdated) {
+    if (isAuth) {
       getCartItems();
-    }
-
-    if (isAuth && !productsLoaded) {
-      getProducts(user_id);
-    }
-
-    if (isAuth && !updated) {
       getWishlist();
+      getProducts(user_id);
     }
 
   }, [isAuth]);

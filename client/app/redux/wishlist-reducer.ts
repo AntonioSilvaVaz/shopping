@@ -31,13 +31,13 @@ const wishlist = createSlice({
 
     updateWishlist: (
       state,
-      action: PayloadAction<{ wishlist: ItemClickedType[]; updated: boolean }>
+      action: PayloadAction<{ wishlist: ItemClickedType[], wishlistInfo: ItemCreated[], updated: boolean }>
     ) => {
       return {
         value: {
           updated: action.payload.updated,
           wishlist: action.payload.wishlist,
-          wishlistInfo: state.value.wishlistInfo,
+          wishlistInfo: action.payload.wishlistInfo,
         }
       };
     },

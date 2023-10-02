@@ -7,22 +7,26 @@ import Notification from "../components/notification/notification";
 import BackgroundImages from "../components/backgroundImages/backgroundImages";
 import { registerUser } from "../utils/User";
 import { useRouter } from "next/navigation";
+import { UserInfo } from "../types";
+import { useDispatch } from "react-redux";
 
 export default function LoginPage() {
   const [imgSelected, setImageSelected] = useState<string | null>(null);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const res = await registerUser(formData);
 
-    if(res.status === 201){
+    if(res.status === 200){
       toast('User registered');
-      router.push('/');
+      const data: UserInfo = await res.json();
+      router.push('/login');
     } else if(res.status === 409){
       toast('User already registered');
-    } else {
+    } else if(res.status === 500) {
       router.push('/500');
     }
   };

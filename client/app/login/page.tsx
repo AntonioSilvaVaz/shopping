@@ -9,6 +9,7 @@ import { loginUser } from "../utils/User";
 import { login } from "../redux/user-reducer";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { UserInfo } from "../types";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,9 +33,9 @@ export default function LoginPage() {
       } else if(res.status === 403){
         toast("Wrong credentials");
       } else{
-        const data = await res.json();
+        const data: UserInfo = await res.json();
         router.push('/my-profile');
-        dispatch(login({ ...data }));
+        dispatch(login(data));
       };
     }
 

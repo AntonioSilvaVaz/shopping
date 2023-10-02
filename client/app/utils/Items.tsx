@@ -1,3 +1,4 @@
+import { ItemCreated, ListType } from "../types";
 
 export async function getUserCart() {
   const res = await fetch('http://localhost:3001/cart', {
@@ -58,7 +59,12 @@ export async function getAllItems() {
       'Content-Type': 'application/json',
     },
     method: 'GET',
+    next: {
+      revalidate: 10,
+    }
   });
+
+  console.log(res);
 
   return res;
 };
@@ -81,8 +87,24 @@ export async function deleteItemImage(item_id: string, fileName: string) {
     },
     method: 'PUT',
     credentials: 'include',
-    body: JSON.stringify({item_id, fileName}),
+    body: JSON.stringify({ item_id, fileName }),
   });
 
   return res;
+};
+
+export async function getAllItemsInfo(data: ListType) {
+  const dataInfo: ItemCreated[] = [];
+
+  for (let index = 0; index < data.list.length; index++) {
+
+    const item = data.list[index];
+    const itemInfoRes = await getItemInfo(item.item_id);
+    if (itemInfoRes.status !== 404 && itemInfoRes.status !== 500) {
+      const info = await itemInfoRes.json();
+      dataInfo.push(info);
+    };
+  };
+
+  return dataInfo;
 };

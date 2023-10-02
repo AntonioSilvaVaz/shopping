@@ -3,6 +3,7 @@ import './profile.css';
 import ItemBox from '@/app/components/itemBox/itemBox';
 import Link from "next/link";
 import { useAppSelector } from '../redux/store';
+import CreateItem from '../components/createItem/CreateItem';
 
 export default function UserProfile() {
 
@@ -31,15 +32,13 @@ export default function UserProfile() {
                 key={index}
                 price={item.product_price}
                 productPicture={`http://localhost:3001/images/item_pictures/${item.product_pictures[0]}`}
-                sellerPicture={`http://localhost:3001/images/profile_pictures/${profile_picture}`}
-                creator_id={item.user_created}
                 title={item.product_name}
                 item_id={item.item_id}
-                showProfilePicture={false}
               />)
           })
         }
 
+        <CreateItem/>
       </div>
     </section>
   )

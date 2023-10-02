@@ -5,18 +5,18 @@ import ItemBox from '../components/itemBox/itemBox';
 
 export default function Cart() {
 
-  const { cart } = useAppSelector((state) => state.cart.value);
+  const { cartWithInfo } = useAppSelector((state) => state.cart.value);
 
   return (
     <section id='cart'>
-      {cart.length > 0 ?
+      {cartWithInfo.length > 0 ?
         <h5 className='products-sold'>Items in your cart</h5> :
         <h5 className='products-sold'>You don't have any items in your cart</h5>
       }
 
       <div className='products-container'>
         {
-          cart.map((item, index) => {
+          cartWithInfo.map((item, index) => {
             return (
               <ItemBox
                 key={index}

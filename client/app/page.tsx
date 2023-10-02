@@ -36,11 +36,8 @@ export default function Home() {
                 key={index}
                 price={item.product_price}
                 productPicture={`http://localhost:3001/images/item_pictures/${item.product_pictures[0]}`}
-                sellerPicture={`http://localhost:3001/images/profile_pictures/${item.user_created}.jpg`}
-                creator_id={item.user_created}
                 title={item.product_name}
                 item_id={item.item_id}
-                showProfilePicture={true}
               />)
           })
         }

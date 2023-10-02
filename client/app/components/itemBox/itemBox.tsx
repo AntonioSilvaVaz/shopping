@@ -3,7 +3,7 @@ import { ItemProps, ListType } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { AiOutlineHeart } from 'react-icons/ai';
 import { BsCartPlus } from 'react-icons/bs';
-import { addToCart, addToWishlist } from "@/app/utils/Items";
+import { addToCart, addToWishlist, getAllItemsInfo } from "@/app/utils/Items";
 import { updateWishlist } from "@/app/redux/wishlist-reducer";
 import { updateCart } from "@/app/redux/cart-reducer";
 import styles from "./itemBox.module.css";
@@ -31,7 +31,8 @@ export default function ItemBox({
       router.push('/500');
     } else {
       const data: ListType = await res.json();
-      updateWishlist({wishlist: data.list, updated: true});
+      const dataInfo = await getAllItemsInfo(data);
+      updateWishlist({ wishlist: data.list, wishlistInfo: dataInfo, updated: true });
     }
   };
 
@@ -45,7 +46,8 @@ export default function ItemBox({
       router.push('/500');
     } else {
       const data: ListType = await res.json();
-      updateCart({ cart: data.list, cartUpdated: true });
+      const dataInfo = await getAllItemsInfo(data);
+      updateCart({ cart: data.list, cartInfo: dataInfo, cartUpdated: true });
     }
   };
 

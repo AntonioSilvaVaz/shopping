@@ -30,13 +30,13 @@ const cart = createSlice({
     },
     updateCart: (
       state,
-      action: PayloadAction<{ cart: ItemClickedType[]; cartUpdated: boolean }>
+      action: PayloadAction<{ cart: ItemClickedType[], cartInfo: ItemCreated[], cartUpdated: boolean }>
     ) => {
       return {
         value: {
           cart: action.payload.cart,
           cartUpdated: true,
-          cartWithInfo: state.value.cartWithInfo,
+          cartWithInfo: action.payload.cartInfo,
         },
       };
     },

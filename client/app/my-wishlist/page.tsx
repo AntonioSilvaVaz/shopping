@@ -1,25 +1,20 @@
 'use client';
-import { ItemCreated, ListType } from '../types';
-import { getItemInfo, getUserWishlist } from '../utils/Items';
-import { useState, useEffect } from 'react';
 import { useAppSelector } from '../redux/store';
-import { useRouter } from 'next/navigation';
 import styles from './wishlist.module.css';
 import ItemBox from '../components/itemBox/itemBox';
 
 export default function Wishlist() {
 
-  const { wishlist, updated } = useAppSelector(state => state.wishlist.value);
-  console.log(wishlist, updated);
+  const { wishlistInfo } = useAppSelector(state => state.wishlist.value);
 
   return (
     <section id={styles.wishlist}>
-      {wishlist.map((item, index) => {
+      {wishlistInfo.map((item, index) => {
         return (
           <ItemBox
             title={item.product_name}
             item_id={item.item_id}
-            productPicture={item.product_pictures[0]}
+            productPicture={`http://localhost:3001/images/item_pictures/${item.product_pictures[0]}`}
             price={item.product_price}
             key={index}
           />

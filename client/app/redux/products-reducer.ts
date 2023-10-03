@@ -42,8 +42,16 @@ const userProducts = createSlice({
         },
       };
     },
+    addProduct: (state, action: PayloadAction<{newProduct: ProductType}>)=>{
+      return {
+        value: {
+          products: [...state.value.products, action.payload.newProduct],
+          productsLoaded: true,
+        }
+      }
+    }
   },
 });
 
-export const { updateProducts, emptyProducts } = userProducts.actions;
+export const { updateProducts, emptyProducts, addProduct } = userProducts.actions;
 export default userProducts.reducer;

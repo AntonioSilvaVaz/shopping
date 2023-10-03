@@ -4,7 +4,7 @@ export type ItemType = {
   product_description: string,
   product_price: number,
   product_region: string,
-  product_pictures: string[],
+  product_pictures: string[] | string,
   user_created: string,
 };
 

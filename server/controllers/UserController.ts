@@ -50,8 +50,8 @@ async function loginUser(ctx: Context, next: Next) {
       ctx.cookies.set("session_token", sessionToken, {
         path: "/",
         domain: "localhost",
-        secure: false, // Since it's on localhost, not using HTTPS.
-        httpOnly: true,
+        secure: false,
+        httpOnly: false,
         maxAge: 3600000,
         sameSite: "strict",
       });

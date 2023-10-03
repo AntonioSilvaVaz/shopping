@@ -5,6 +5,8 @@ import { createProduct } from '@/app/utils/Items';
 import { ItemCreated } from '@/app/types';
 import { toast } from "react-toastify";
 import Notification from '../notification/notification';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '@/app/redux/products-reducer';
 
 export default function CreateItem({ setShowCreateItem }: { setShowCreateItem: any }) {
 
@@ -14,6 +16,7 @@ export default function CreateItem({ setShowCreateItem }: { setShowCreateItem: a
   const [price, setPrice] = useState('');
   const [region, setRegion] = useState('');
   const router = useRouter();
+  const dispatch = useDispatch();
 
   function closeShowCreateItem() {
     setShowCreateItem(false);
@@ -47,16 +50,15 @@ export default function CreateItem({ setShowCreateItem }: { setShowCreateItem: a
     const formData = new FormData(e.currentTarget);
     const res = await createProduct(formData);
     if (res.ok) {
-      const data: ItemCreated = await res.json();
+      const data: any = await res.json();
+      data.product_pictures = JSON.parse(data.product_pictures);
       router.push(`/product/${data.item_id}`);
+      dispatch(addProduct({ newProduct: data }));
     } else if (res.status === 403) {
       router.push('/login');
     } else if (res.status === 500) {
       router.push('/500')
     } else if (res.status === 400) {
-      const data = await res.json();
-      console.log(data);
-
       toast('Missing information');
     }
   };

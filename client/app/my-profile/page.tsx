@@ -4,14 +4,19 @@ import ItemBox from '@/app/components/itemBox/itemBox';
 import Link from "next/link";
 import { useAppSelector } from '../redux/store';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { useState } from 'react';
+import CreateItem from '../components/createItem/CreateItem';
 
 export default function UserProfile() {
 
   const { name, profile_picture, user_id } = useAppSelector((state) => state.user.value);
   const { products } = useAppSelector((state) => state.products.value);
+  const [showCreateItem, setShowCreateItem] = useState(false);
 
   return (
     <section id={styles.user}>
+
+      {showCreateItem && <CreateItem setShowCreateItem={setShowCreateItem} />}
       <div className={styles.seller_picture}>
         <Link href={`/user/${user_id}`}>
           <img src={`http://localhost:3001/images/profile_pictures/${profile_picture}`} />
@@ -28,7 +33,7 @@ export default function UserProfile() {
 
       <div className={styles.products_container}>
 
-        <div className={`${styles.create_item} pointer`}>
+        <div className={`${styles.create_item} pointer`} onClick={() => setShowCreateItem(true)}>
           <div className={styles.plus}>
             <AiOutlinePlus />
           </div>

@@ -1,0 +1,106 @@
+.holder {
+  position: absolute;
+  width: 100%;
+  height: max-content;
+  min-height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.423);
+  z-index: 1;
+}
+
+.create_item {
+  position: relative;
+  margin: auto;
+  background-color: white;
+  width: 900px;
+  height: max-content;
+  gap: 10px;
+  z-index: 3;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.close {
+  position: absolute;
+  padding: 10px 30px;
+  border: 0;
+  right: 0;
+  top: 0;
+  background-color: transparent;
+  color: black;
+}
+
+.form {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form input {
+  border: 1px solid black;
+  padding: 10px;
+  width: 500px;
+  border-radius: 10px;
+}
+
+.description{
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  width: 500px;
+  height: 100px;
+  resize: none;
+  overflow-y: auto;
+}
+
+.price input{
+  width: max-content;
+}
+
+.button_create_image{
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  height: max-content;
+  padding: 10px;
+  background-color: black;
+  color: white;
+}
+
+.button_create_image input{
+  border: 0;
+  color: black;
+  display: none;
+}
+
+.all_images_container{
+  width: 500px;
+  height: max-content;
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.img_container{
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+}
+
+.publish{
+  width: max-content;
+  border: 0;
+  padding: 10px 30px;
+  background-color: black;
+  color: white;
+  margin: auto;
+  border-radius: 20px;
+}

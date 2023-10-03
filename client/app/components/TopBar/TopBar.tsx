@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { emptyProducts, updateProducts } from '@/app/redux/products-reducer';
 import { emptyWishlist, updateWishlist } from '@/app/redux/wishlist-reducer';
 import { emptyCart, updateCart } from '@/app/redux/cart-reducer';
-import { getAllItemsInfo, getItemInfo, getUserCart, getUserWishlist } from '@/app/utils/Items';
+import { getAllItemsInfo, getUserCart, getUserWishlist } from '@/app/utils/Items';
 import { ListType, UserRegisteredType } from '@/app/types';
 
 export default function TopBar() {
@@ -24,7 +24,6 @@ export default function TopBar() {
   async function checkIfUserIsValid() {
 
     if(!document.cookie) return;
-
     const res = await validateUser();
 
     if (res.ok) {

@@ -108,3 +108,13 @@ export async function getAllItemsInfo(data: ListType) {
 
   return dataInfo;
 };
+
+export async function createProduct(formData: FormData) {
+  const res = await fetch(`http://localhost:3001/create_item`, {
+    method: 'POST',
+    credentials: 'include',
+    body: formData
+  });
+
+  return res;
+};

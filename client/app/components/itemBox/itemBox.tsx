@@ -1,3 +1,4 @@
+import styles from "./itemBox.module.css";
 import { MouseEvent } from "react";
 import { ItemProps, ListType } from "@/app/types";
 import { useRouter } from "next/navigation";
@@ -6,7 +7,6 @@ import { BsCartPlus } from 'react-icons/bs';
 import { addToCart, addToWishlist, getAllItemsInfo } from "@/app/utils/Items";
 import { updateWishlist } from "@/app/redux/wishlist-reducer";
 import { updateCart } from "@/app/redux/cart-reducer";
-import styles from "./itemBox.module.css";
 
 export default function ItemBox({
   title,

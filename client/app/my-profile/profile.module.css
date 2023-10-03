@@ -13,7 +13,7 @@
   grid-template-rows: max-content;
 }
 
-.seller-picture{
+.seller_picture{
   grid-area: seller;
   width: 165px;
   height: 165px;
@@ -29,22 +29,39 @@
   justify-content: center;
 }
 
-.products-sold{
+.products_sold{
   text-align: center;
   margin-bottom: 10px;
   grid-area: products-sold;
 }
 
-.seller-picture img{
+.seller_picture img{
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.products-container{
+.products_container{
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   grid-area: products;
+}
+
+.create_item{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  height: max-content;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+}
+
+.plus{
+  font-size: 70px;
 }

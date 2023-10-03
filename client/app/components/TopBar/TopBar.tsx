@@ -13,21 +13,17 @@ import { emptyProducts, updateProducts } from '@/app/redux/products-reducer';
 import { emptyWishlist, updateWishlist } from '@/app/redux/wishlist-reducer';
 import { emptyCart, updateCart } from '@/app/redux/cart-reducer';
 import { getAllItemsInfo, getItemInfo, getUserCart, getUserWishlist } from '@/app/utils/Items';
-import { ItemCreated, ListType, UserRegisteredType } from '@/app/types';
+import { ListType, UserRegisteredType } from '@/app/types';
 
 export default function TopBar() {
 
   const { isAuth, profile_picture, user_id } = useAppSelector((state) => state.user.value);
-  const { cartUpdated } = useAppSelector((state) => state.cart.value);
-  const { updated } = useAppSelector((state) => state.wishlist.value);
-  const { productsLoaded } = useAppSelector((state) => state.products.value);
-
   const router = useRouter();
   const dispatch = useDispatch();
 
   async function checkIfUserIsValid() {
 
-    if (!document.cookie) return;
+    if(!document.cookie) return;
 
     const res = await validateUser();
 
@@ -35,7 +31,9 @@ export default function TopBar() {
       const { user_id } = await res.json();
       const userLoginRes = await getAnUserInfo(user_id);
 
-      if (userLoginRes.status === 404) {
+      if (userLoginRes.status === 403) {
+        router.push('/login');
+      } else if (userLoginRes.status === 404) {
         router.push('/register');
       } else if (userLoginRes.status === 500) {
         router.push('/500');
@@ -162,7 +160,7 @@ export default function TopBar() {
 
                 <div className='dropdown'>
                   <Link className='item' href={'/my-profile'}>
-                    <h6>My Profile</h6>
+                    <h6>Profile</h6>
                   </Link>
                   <button onClick={logUserOut} className='pointer item'>
                     <h6>Logout</h6>

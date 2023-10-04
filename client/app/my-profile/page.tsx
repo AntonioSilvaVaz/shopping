@@ -13,33 +13,33 @@ export default function UserProfile() {
   const { products } = useAppSelector((state) => state.products.value);
   const [showCreateItem, setShowCreateItem] = useState(false);
 
+  function showItem() {
+    setShowCreateItem(true)
+  }
+
   return (
     <section id={styles.user}>
 
-      {showCreateItem && <CreateItem setShowCreateItem={setShowCreateItem} />}
-      <div className={styles.seller_picture}>
-        <Link href={`/user/${user_id}`}>
-          <img src={`http://localhost:3001/images/profile_pictures/${profile_picture}`} />
-        </Link>
-      </div>
+      <div className={styles.leftBar}>
+        {showCreateItem && <CreateItem setShowCreateItem={setShowCreateItem} />}
+        <div className={styles.seller_picture}>
+          <Link href={`/user/${user_id}`}>
+            <img src={`http://localhost:3001/images/profile_pictures/${profile_picture}`} />
+          </Link>
+        </div>
 
-      <h5 className={styles.name}>{name}</h5>
+        <h5 className={styles.name}>{name}</h5>
 
-      {
-        products.length > 0 ?
-          <h5 className={styles.products_sold}>Products you sell</h5> :
-          <h5 className={styles.products_sold}>You don't sell any products. Yet</h5>
-      }
-
-      <div className={styles.products_container}>
-
-        <div className={`${styles.create_item} pointer`} onClick={() => setShowCreateItem(true)}>
+        <div className={`${styles.create_item} pointer`} onClick={showItem}>
           <div className={styles.plus}>
             <AiOutlinePlus />
           </div>
           <h4>Add product</h4>
         </div>
+      </div>
 
+
+      <div className={styles.products_container}>
         {
           products.map((item, index) => {
             return (

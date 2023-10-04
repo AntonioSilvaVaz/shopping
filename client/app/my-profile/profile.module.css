@@ -1,60 +1,48 @@
-#user{
+#user {
   width: 100%;
   height: max-content;
   padding: 0 30px;
-  display: grid;
+  display: flex;
   box-sizing: border-box;
-  grid-template-areas:
-  'seller seller . . .'
-  'name name . . .'
-  '. products-sold products-sold products-sold .'
-  'products products products products products';
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: max-content;
+  gap: 20px;
 }
 
-.seller_picture{
-  grid-area: seller;
-  width: 165px;
-  height: 165px;
-  border-radius: 2000px;
+.leftBar{
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seller_picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
   overflow: hidden;
 }
 
-.name{
+.name {
   margin: 10px 0;
-  display: flex;
-  width: 165px;
-  grid-area: name;
-  justify-content: center;
+  width: 200px;
+  height: max-content;
 }
 
-.products_sold{
-  text-align: center;
-  margin-bottom: 10px;
-  grid-area: products-sold;
-}
-
-.seller_picture img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.products_container{
+.products_container {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  grid-area: products;
 }
 
-.create_item{
+.create_item {
+  position: sticky;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 150px;
+  width: 200px;
+  box-sizing: border-box;
   height: max-content;
   padding: 10px;
   background-color: black;
@@ -62,6 +50,6 @@
   border-radius: 10px;
 }
 
-.plus{
-  font-size: 70px;
+.plus {
+  font-size: 45px;
 }

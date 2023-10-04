@@ -14,7 +14,8 @@
   margin: auto;
   background-color: white;
   width: 900px;
-  height: max-content;
+  min-height: 100%;
+  box-sizing: border-box;
   gap: 10px;
   z-index: 3;
   padding: 20px;
@@ -83,6 +84,7 @@
   width: 500px;
   height: max-content;
   display: flex;
+  flex-direction: row;
   justify-content: start;
   flex-wrap: wrap;
   gap: 20px;

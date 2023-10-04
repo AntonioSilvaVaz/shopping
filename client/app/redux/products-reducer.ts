@@ -73,9 +73,31 @@ const userProducts = createSlice({
         },
       };
     },
+    deleteStoreProduct: (
+      state,
+      action: PayloadAction<{ item_id: string }>
+    ) => {
+      const index = state.value.products.findIndex(
+        (item) => item.item_id === action.payload.item_id
+      );
+      const newArr = [...state.value.products];
+      newArr.splice(index, 1);
+
+      return {
+        value: {
+          productsLoaded: true,
+          products: newArr,
+        },
+      };
+    },
   },
 });
 
-export const { updateProducts, emptyProducts, addProduct, updateStoreProduct } =
-  userProducts.actions;
+export const {
+  updateProducts,
+  emptyProducts,
+  addProduct,
+  updateStoreProduct,
+  deleteStoreProduct,
+} = userProducts.actions;
 export default userProducts.reducer;

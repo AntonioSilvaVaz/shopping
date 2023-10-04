@@ -128,3 +128,12 @@ export async function updateProduct(formData:FormData) {
 
   return res;
 };
+
+export async function deleteProduct(item_id: string) {
+  const res = await fetch(`http://localhost:3001/delete_item/${item_id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+
+  return res;
+};

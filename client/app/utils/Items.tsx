@@ -118,3 +118,13 @@ export async function createProduct(formData: FormData) {
 
   return res;
 };
+
+export async function updateProduct(formData:FormData) {
+  const res = await fetch(`http://localhost:3001/update_item`, {
+    method: 'PUT',
+    credentials: 'include',
+    body: formData
+  });
+
+  return res;
+};

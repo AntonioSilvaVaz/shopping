@@ -4,7 +4,7 @@ type UserProducts = {
   value: {
     productsLoaded: boolean;
     products: ProductType[];
-  }
+  };
 };
 
 type ProductType = {
@@ -20,7 +20,7 @@ type ProductType = {
 const userProductsState: UserProducts = {
   value: {
     productsLoaded: false,
-    products: []
+    products: [],
   },
 };
 
@@ -32,26 +32,50 @@ const userProducts = createSlice({
       return {
         value: {
           ...userProductsState.value,
-        }
-      }
-    },
-    updateProducts: (state, action: PayloadAction<{products: ProductType[], productsLoaded: boolean}>) => {
-      return {
-        value: {
-          ...action.payload
         },
       };
     },
-    addProduct: (state, action: PayloadAction<{newProduct: ProductType}>)=>{
+    updateProducts: (
+      state,
+      action: PayloadAction<{
+        products: ProductType[];
+        productsLoaded: boolean;
+      }>
+    ) => {
+      return {
+        value: {
+          ...action.payload,
+        },
+      };
+    },
+    addProduct: (state, action: PayloadAction<{ newProduct: ProductType }>) => {
       return {
         value: {
           products: [...state.value.products, action.payload.newProduct],
           productsLoaded: true,
-        }
-      }
-    }
+        },
+      };
+    },
+    updateStoreProduct: (
+      state,
+      action: PayloadAction<{ updatedProduct: ProductType }>
+    ) => {
+      const index = state.value.products.findIndex(
+        (item) => item.item_id === action.payload.updatedProduct.item_id
+      );
+      const newArr = [...state.value.products];
+      newArr[index] = action.payload.updatedProduct;
+
+      return {
+        value: {
+          productsLoaded: true,
+          products: newArr,
+        },
+      };
+    },
   },
 });
 
-export const { updateProducts, emptyProducts, addProduct } = userProducts.actions;
+export const { updateProducts, emptyProducts, addProduct, updateStoreProduct } =
+  userProducts.actions;
 export default userProducts.reducer;

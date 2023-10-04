@@ -3,7 +3,7 @@ export type ItemType = {
   product_description: string,
   product_price: number | string,
   product_region: string,
-  product_pictures: string[] | string,
+  product_pictures: string[],
 };
 
 export type ItemCreated = ItemType & {

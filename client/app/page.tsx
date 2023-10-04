@@ -34,7 +34,7 @@ export default function Home() {
             return (
               <ItemBox
                 key={index}
-                price={item.product_price}
+                price={Number(item.product_price)}
                 productPicture={`http://localhost:3001/images/item_pictures/${item.product_pictures[0]}`}
                 title={item.product_name}
                 item_id={item.item_id}

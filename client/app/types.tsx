@@ -1,11 +1,9 @@
-
 export type ItemType = {
   product_name: string,
   product_description: string,
-  product_price: number,
+  product_price: number | string,
   product_region: string,
   product_pictures: string[] | string,
-  user_created: string,
 };
 
 export type ItemCreated = ItemType & {

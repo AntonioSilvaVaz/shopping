@@ -10,17 +10,14 @@ export default function ItemBoxUser({
   item_id,
   price,
   productPicture,
-}: ItemProps) {
+  showEditItem,
+}: ItemProps & {showEditItem: () => void}) {
 
   const router = useRouter();
 
   function goToProduct(e: MouseEvent<HTMLDivElement>) {
     router.push(`/product/${item_id}`);
   };
-
-  function editItem(e: MouseEvent<HTMLElement>) {
-
-  }
 
   function deleteItem(e: MouseEvent<HTMLElement>) {
 
@@ -40,7 +37,7 @@ export default function ItemBoxUser({
         </div>
 
         <div className={styles.button_container}>
-          <button className={`${styles.edit} pointer`} onClick={editItem}>
+          <button className={`${styles.edit} pointer`} onClick={showEditItem}>
             <AiOutlineEdit />
           </button>
           <button className={`${styles.delete} pointer`} onClick={deleteItem}>

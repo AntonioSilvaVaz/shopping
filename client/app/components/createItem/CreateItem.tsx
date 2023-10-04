@@ -1,26 +1,25 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
 import styles from './createItem.module.css';
-import { useRouter } from 'next/navigation';
-import { createProduct } from '@/app/utils/Items';
-import { ItemCreated } from '@/app/types';
-import { toast } from "react-toastify";
-import Notification from '../notification/notification';
-import { useDispatch } from 'react-redux';
-import { addProduct } from '@/app/redux/products-reducer';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { ItemType } from '@/app/types';
 
-export default function CreateItem({ setShowCreateItem }: { setShowCreateItem: any }) {
+export default function CreateItem(
+  { functionCloseMenu,
+    itemInfo,
+    functionSubmitForm,
+    createMenu
+  }:
+    {
+      functionCloseMenu: () => void,
+      functionSubmitForm: (e: FormEvent<HTMLFormElement>) => void;
+      itemInfo: ItemType,
+      createMenu: boolean,
+    }) {
 
   const [imagesSelected, setImageSelected] = useState<string[]>([]);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [region, setRegion] = useState('');
-  const router = useRouter();
-  const dispatch = useDispatch();
-
-  function closeShowCreateItem() {
-    setShowCreateItem(false);
-  };
+  const [title, setTitle] = useState(itemInfo.product_name);
+  const [description, setDescription] = useState(itemInfo.product_description);
+  const [price, setPrice] = useState(itemInfo.product_price);
+  const [region, setRegion] = useState(itemInfo.product_region);
 
   const changePicture = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -44,38 +43,18 @@ export default function CreateItem({ setShowCreateItem }: { setShowCreateItem: a
     }
   };
 
-
-  async function submitForm(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const res = await createProduct(formData);
-    if (res.ok) {
-      const data: any = await res.json();
-      data.product_pictures = JSON.parse(data.product_pictures);
-      router.push(`/product/${data.item_id}`);
-      dispatch(addProduct({ newProduct: data }));
-    } else if (res.status === 403) {
-      router.push('/login');
-    } else if (res.status === 500) {
-      router.push('/500')
-    } else if (res.status === 400) {
-      toast('Missing information');
-    }
-  };
-
   return (
     <div className={styles.holder}>
-      <Notification />
 
       <div className={styles.create_item}>
 
-        <button onClick={closeShowCreateItem} className={`${styles.close} pointer`}>
+        <button onClick={functionCloseMenu} className={`${styles.close} pointer`}>
           <h3>X</h3>
         </button>
 
         <h2>Your new product</h2>
 
-        <form className={styles.form} onSubmit={submitForm}>
+        <form className={styles.form} onSubmit={functionSubmitForm}>
 
           <div>
             <label htmlFor="product_name"><h6>Title:</h6></label>
@@ -121,7 +100,7 @@ export default function CreateItem({ setShowCreateItem }: { setShowCreateItem: a
           </div>
 
           <button type='submit' className={`${styles.publish} pointer`}>
-            <h4>Publish Item</h4>
+            <h4>{createMenu ? 'Publish Item' : 'Update Item'}</h4>
           </button>
 
         </form>

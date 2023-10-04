@@ -1,11 +1,11 @@
 "use client";
 import styles from './profile.module.css';
-import ItemBox from '@/app/components/itemBox/itemBox';
-import Link from "next/link";
 import { useAppSelector } from '../redux/store';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useState } from 'react';
 import CreateItem from '../components/createItem/CreateItem';
+import Link from "next/link";
+import ItemBoxUser from '../components/itemUserBox/itemBoxUser';
 
 export default function UserProfile() {
 
@@ -36,6 +36,7 @@ export default function UserProfile() {
           </div>
           <h4>Add product</h4>
         </div>
+
       </div>
 
 
@@ -43,7 +44,7 @@ export default function UserProfile() {
         {
           products.map((item, index) => {
             return (
-              <ItemBox
+              <ItemBoxUser
                 key={index}
                 price={item.product_price}
                 productPicture={`http://localhost:3001/images/item_pictures/${item.product_pictures[0]}`}

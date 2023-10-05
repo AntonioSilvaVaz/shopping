@@ -57,10 +57,10 @@ export default function ItemBoxUser({
 
         <div className={styles.button_container}>
           <button className={`${styles.edit} pointer`} onClick={showEditItem}>
-            <AiOutlineEdit />
+            <h6>Edit</h6><AiOutlineEdit />
           </button>
           <button className={`${styles.delete} pointer`} onClick={deleteItem}>
-            <AiFillDelete />
+            <h6>Delete</h6><AiFillDelete />
           </button>
         </div>
       </div>

@@ -93,10 +93,23 @@
 }
 
 .img_container{
+  position: relative;
   border-radius: 10px;
-  overflow: hidden;
+  /* overflow: hidden; */
   width: 100px;
   height: 100px;
+}
+
+.remove_btn{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 5px 10px;
+  background-color: black;
+  color: white;
+  border: 0;
+  font-size: 10px;
+  z-index: 2;
 }
 
 .publish{

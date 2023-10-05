@@ -61,11 +61,11 @@ async function addOneItemImage(ctx: any, next: Next) {
 
 async function deleteOneItemImage(ctx: any, next: Next) {
   try {
-    const { item_id, fileName }: { item_id: UUID; fileName: string } = ctx
-      .request.body as { item_id: UUID; fileName: string };
+    const { item_id, fileNames }: { item_id: UUID; fileNames: string[] } = ctx
+      .request.body as { item_id: UUID; fileNames: string[] };
 
-    const itemUpdated: ItemCreated = await deleteImage(item_id, fileName);
-    deleteItemPicture([fileName]);
+    const itemUpdated: ItemCreated = await deleteImage(item_id, fileNames);
+    deleteItemPicture(fileNames);
 
     ctx.status = 201;
     ctx.type = "application/json";
@@ -117,8 +117,7 @@ async function createNewItem(ctx: any, next: Next) {
 
 async function getItem(ctx: Context, next: Next) {
   try {
-
-    const item_id = ctx.request.url.split('/')[2];
+    const item_id = ctx.request.url.split("/")[2];
     const item = await findItem(item_id);
 
     if (item) {
@@ -225,7 +224,7 @@ async function getAllUserItems(ctx: Context, next: Next) {
     items = items.map((item) => {
       return {
         ...item,
-        product_pictures: JSON.parse(item.product_pictures)
+        product_pictures: JSON.parse(item.product_pictures),
       };
     });
 
@@ -253,14 +252,13 @@ async function loadAllItems(ctx: Context, next: Next) {
     items = items.map((item) => {
       return {
         ...item,
-        product_pictures: JSON.parse(item.product_pictures)
+        product_pictures: JSON.parse(item.product_pictures),
       };
     });
     ctx.status = 200;
     ctx.type = "application/json";
     ctx.body = JSON.stringify(items);
   } catch (error) {
-
     ctx.status = 500;
     ctx.type = "application/json";
     ctx.body = JSON.stringify("Server failed");

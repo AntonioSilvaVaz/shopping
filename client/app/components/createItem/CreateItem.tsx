@@ -22,6 +22,7 @@ export default function CreateItem(
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const [imagesRemove, setImagesRemove] = useState<string[]>([]);
   const [imagesSelected, setImageSelected] = useState<string[]>([]);
   const [title, setTitle] = useState(itemInfo.product_name);
   const [description, setDescription] = useState(itemInfo.product_description);
@@ -75,10 +76,19 @@ export default function CreateItem(
     }
   };
 
+  function deleteImage(imgPath: string) {
+    setImagesRemove((prev) => {
+      return [
+        ...prev,
+        imgPath
+      ]
+    })
+  };
+
   async function submitForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     createMenu ? createProductFunction(e) : editProductFunction(e);
-  }
+  };
 
   const changePicture = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -155,6 +165,9 @@ export default function CreateItem(
               return (
                 <div key={index} className={styles.img_container}>
                   <img src={item} alt="Image Existed" />
+                  <button className={`${styles.remove_btn} pointer`} onClick={() => deleteImage(item)}>
+                    <h6>X</h6>
+                  </button>
                 </div>
               )
             })}

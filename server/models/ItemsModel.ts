@@ -89,7 +89,7 @@ async function updateItem(itemInfo: ItemType | {product_pictures: string}, item_
 // FINDS A USER AND RETURNS IT'S INFORMATION
 async function findItem(item_id: UUID): Promise<ItemCreated> {
 
-  const item: ItemCreated = prisma.items.findUnique({
+  const item: ItemCreated = await prisma.items.findUnique({
     where: {
       item_id
     },
@@ -118,13 +118,20 @@ async function updateImage(item_id: UUID, fileNames: string[]): Promise<ItemCrea
   return updatedItem;
 };
 
-async function deleteImage(item_id: UUID, fileName: string): Promise<ItemCreated> {
+async function deleteImage(item_id: UUID, fileNames: string[]): Promise<ItemCreated> {
 
-  const picturesJSON = (await findItem(item_id)).product_pictures;
+  const item = await findItem(item_id);
+  const picturesJSON = item.product_pictures;
   const product_pictures: string[] = JSON.parse(picturesJSON);
-  const filteredArray = product_pictures.filter((item) => item !== fileName);
-  const itemInfo: string = JSON.stringify(filteredArray);
 
+  for (let index = 0; index < fileNames.length; index++) {
+
+    const file = fileNames[index];
+    const fileIndex = fileNames.findIndex((item) => item === file);
+    product_pictures.splice(fileIndex, 1);
+  }
+
+  const itemInfo = JSON.stringify(product_pictures);
   const updatedItem = await updateItem({ product_pictures: itemInfo }, item_id);
   return updatedItem;
 };

@@ -137,3 +137,13 @@ export async function deleteProduct(item_id: string) {
 
   return res;
 };
+
+export async function addImageItem(formData:FormData) {
+  const res = await fetch(`http://localhost:3001/add_image_item`, {
+    method: 'POST',
+    credentials: 'include',
+    body: formData
+  });
+
+  return res;
+}

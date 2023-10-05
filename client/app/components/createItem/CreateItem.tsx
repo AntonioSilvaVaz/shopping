@@ -1,7 +1,7 @@
 import styles from './createItem.module.css';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { ItemCreated } from '@/app/types';
-import { createProduct, updateProduct } from '@/app/utils/Items';
+import { addImageItem, createProduct, updateProduct } from '@/app/utils/Items';
 import { addProduct, updateStoreProduct } from '@/app/redux/products-reducer';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
@@ -22,13 +22,11 @@ export default function CreateItem(
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [imagesSelected, setImageSelected] = useState<string[]>(itemInfo.product_pictures);
+  const [imagesSelected, setImageSelected] = useState<string[]>([]);
   const [title, setTitle] = useState(itemInfo.product_name);
   const [description, setDescription] = useState(itemInfo.product_description);
   const [price, setPrice] = useState(itemInfo.product_price);
   const [region, setRegion] = useState(itemInfo.product_region);
-
-
 
   async function createProductFunction(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -52,11 +50,17 @@ export default function CreateItem(
   async function editProductFunction(e: FormEvent<HTMLFormElement>) {
 
     const formData = new FormData(e.currentTarget);
-    formData.set('item_id', itemInfo.item_id)
-    const res = await updateProduct(formData);
+    const imagesAdd = new FormData(e.currentTarget);
+
+    formData.set('item_id', itemInfo.item_id);
+    imagesAdd.set('item_id', itemInfo.item_id);
+
+    await updateProduct(formData);
+    const res = await addImageItem(imagesAdd);
+    const data = await res.json();
 
     if (res.ok) {
-      const data: any = await res.json();
+      // const data: any = await res.json();
       data.product_pictures = JSON.parse(data.product_pictures);
       router.push(`/product/${data.item_id}`);
       dispatch(updateStoreProduct({ updatedProduct: data }));
@@ -146,6 +150,15 @@ export default function CreateItem(
           </div>
 
           <div className={styles.all_images_container}>
+
+            {itemInfo.product_pictures.map((item, index) => {
+              return (
+                <div key={index} className={styles.img_container}>
+                  <img src={item} alt="Image Existed" />
+                </div>
+              )
+            })}
+
             {imagesSelected.map((item, index) => {
               return (
                 <div key={index} className={styles.img_container}>
@@ -153,6 +166,7 @@ export default function CreateItem(
                 </div>
               )
             })}
+
           </div>
 
           <button type='submit' className={`${styles.publish} pointer`}>

@@ -175,6 +175,7 @@ async function ValidateItem(ctx: Context, next: Next) {
     item_id = ctx.request.url.split("/")[2];
   }
 
+
   const isValidItemId = validator.isUUID(item_id ? item_id : "Hello");
 
   if (!isValidItemId) {
@@ -185,6 +186,7 @@ async function ValidateItem(ctx: Context, next: Next) {
   }
 
   const itemExists = await findItem(item_id);
+
   if (!itemExists) {
     ctx.status = 404;
     ctx.type = "application/json";

@@ -77,17 +77,15 @@ export default function UserProfile() {
 
         <h5 className={styles.name}>{name}</h5>
 
-        <div className={`${styles.create_item} pointer`} onClick={showCreateMenu}>
-          <div className={styles.plus}>
-            <AiOutlinePlus />
-          </div>
-          <h4>Add product</h4>
-        </div>
-
       </div>
 
 
       <div className={styles.products_container}>
+
+      <div className={`${styles.create_item} pointer`} onClick={showCreateMenu}>
+          <h4>Create a new product (click here)</h4>
+        </div>
+
         {
           products.map((item, index) => {
             return (

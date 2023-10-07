@@ -29,7 +29,7 @@ nav div a {
 }
 
 .menu .user-picture {
-  width: 100%;
+  width: 100px;
   height: 100%;
   overflow: hidden;
   border: 0;
@@ -55,9 +55,10 @@ nav div a {
 .dropdown .item{
   width: 100%;
   height: 35px;
-  background-color: whitesmoke;
+  background-color: black;
+  color: white;
   border: 0;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid white;
   padding: 5px 0;
 }
 

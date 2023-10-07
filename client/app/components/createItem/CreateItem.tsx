@@ -83,7 +83,19 @@ export default function CreateItem(
     }
   };
 
-  function deleteImage(imgPath: string) {
+  function deleteImage(imgPath: string, indexRemove?: number) {
+
+    // gives error with 'HTMLInputElement | null'.
+    const input: any | null = document.getElementById('product_pictures');
+
+    if (indexRemove) {
+      const newFileList = new DataTransfer();
+      for (let currIndex = 0; currIndex < input.files.length; currIndex++) {
+        const element = input.files[currIndex];
+        if (currIndex !== indexRemove) newFileList.items.add(input.files[currIndex]);
+      };
+      input.files = newFileList.files;
+    }
 
     setImageSelected((prev) => {
       return prev.filter(item => item !== imgPath);
@@ -187,7 +199,7 @@ export default function CreateItem(
               return (
                 <div key={index} className={styles.img_container}>
                   <img src={item} alt="Image selected" />
-                  <button className={`${styles.remove_btn} pointer`} onClick={(e) => { e.preventDefault(); deleteImage(item); }}>
+                  <button className={`${styles.remove_btn} pointer`} onClick={(e) => { e.preventDefault(); deleteImage(item, index); }}>
                     <h6>X</h6>
                   </button>
                 </div>

@@ -1,7 +1,7 @@
 import styles from './createItem.module.css';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { ItemCreated } from '@/app/types';
-import { addImageItem, createProduct, updateProduct } from '@/app/utils/Items';
+import { addImageItem, createProduct, deleteImageItem, updateProduct } from '@/app/utils/Items';
 import { addProduct, updateStoreProduct } from '@/app/redux/products-reducer';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
@@ -56,12 +56,19 @@ export default function CreateItem(
     formData.set('item_id', itemInfo.item_id);
     imagesAdd.set('item_id', itemInfo.item_id);
 
-    await updateProduct(formData);
-    const res = await addImageItem(imagesAdd);
-    const data = await res.json();
+    let res: any;
+    res = await updateProduct(formData);
+
+    if (imagesSelected.length > 0) {
+      res = await addImageItem(imagesAdd);
+    };
+
+    if (imagesRemove.length > 0) {
+      res = await deleteImageItem({ item_id: itemInfo.item_id, fileNames: imagesRemove });
+    };
 
     if (res.ok) {
-      // const data: any = await res.json();
+      const data = await res.json();
       data.product_pictures = JSON.parse(data.product_pictures);
       router.push(`/product/${data.item_id}`);
       dispatch(updateStoreProduct({ updatedProduct: data }));
@@ -77,6 +84,13 @@ export default function CreateItem(
   };
 
   function deleteImage(imgPath: string) {
+
+    setImageSelected((prev) => {
+      return prev.filter(item => item !== imgPath);
+    });
+
+    itemInfo.product_pictures = itemInfo.product_pictures.filter(item => item !== imgPath)
+
     setImagesRemove((prev) => {
       return [
         ...prev,
@@ -151,7 +165,6 @@ export default function CreateItem(
               type="text" name="product_region" id='product_region' />
           </div>
 
-
           <div className={styles.button_create_image}>
             <label htmlFor="product_pictures"><h6>Add image</h6></label>
             <input type="file" name="product_pictures"
@@ -160,26 +173,26 @@ export default function CreateItem(
           </div>
 
           <div className={styles.all_images_container}>
-
             {itemInfo.product_pictures.map((item, index) => {
               return (
                 <div key={index} className={styles.img_container}>
                   <img src={item} alt="Image Existed" />
-                  <button className={`${styles.remove_btn} pointer`} onClick={() => deleteImage(item)}>
+                  <button className={`${styles.remove_btn} pointer`} onClick={(e) => { e.preventDefault(); deleteImage(item); }}>
                     <h6>X</h6>
                   </button>
                 </div>
               )
             })}
-
             {imagesSelected.map((item, index) => {
               return (
                 <div key={index} className={styles.img_container}>
                   <img src={item} alt="Image selected" />
+                  <button className={`${styles.remove_btn} pointer`} onClick={(e) => { e.preventDefault(); deleteImage(item); }}>
+                    <h6>X</h6>
+                  </button>
                 </div>
               )
             })}
-
           </div>
 
           <button type='submit' className={`${styles.publish} pointer`}>
@@ -187,9 +200,7 @@ export default function CreateItem(
           </button>
 
         </form>
-
       </div>
-
     </div>
   )
 };

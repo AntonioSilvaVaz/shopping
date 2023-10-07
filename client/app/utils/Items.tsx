@@ -148,14 +148,15 @@ export async function addImageItem(formData:FormData) {
   return res;
 };
 
-export async function deleteImageItem(imagesDelete: {item_id: string, fileNames: string}) {
+export async function deleteImageItem(data: {item_id: string, fileNames: string[]}) {
+
   const res = await fetch(`http://localhost:3001/remove_image_item`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'PUT',
     credentials: 'include',
-    body: JSON.stringify(imagesDelete)
+    body: JSON.stringify(data)
   });
 
   return res;

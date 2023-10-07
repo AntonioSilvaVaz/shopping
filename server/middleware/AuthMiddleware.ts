@@ -195,6 +195,36 @@ async function ValidateItem(ctx: Context, next: Next) {
   }
 }
 
+async function ValidateExistingImage(ctx: Context, next: Next) {
+  const { item_id, fileNames } = ctx.request.body as {
+    item_id: UUID;
+    fileNames: string[];
+  };
+
+  const isValidItemId = validator.isUUID(item_id ? item_id : "Hello");
+  let isValidFileNames = true;
+
+  for (let index = 0; index < fileNames.length; index++) {
+
+    const currentFileName = fileNames[index].split('/item_pictures/')[1];
+    fileNames[index] = currentFileName;
+
+    const isValidFileName = await validateFileName(currentFileName);
+    if(!isValidFileName) isValidFileNames = false;
+  };
+
+  if (isValidItemId && isValidFileNames) {
+    await next();
+  } else {
+    ctx.status = 400;
+    ctx.type = "applications/json";
+    ctx.body = JSON.stringify({
+      isValidItemId,
+      isValidFileNames,
+    });
+  }
+}
+
 async function ValidateImage(ctx: any, next: Next) {
   const { item_id, fileNames } = ctx.request.body as {
     item_id: UUID;
@@ -204,19 +234,7 @@ async function ValidateImage(ctx: any, next: Next) {
   const isValidPictures = ctx.request.files?.product_pictures;
   const isValidItemId = validator.isUUID(item_id ? item_id : "Hello");
 
-  let isValidFileNames = true;
-  for (let index = 0; index < fileNames.length; index++) {
-    const isValidFileName = await validateFileName(fileNames[index]);
-    if(!isValidFileName) isValidFileNames = false;
-  };
-
-  const isRemoveRoute =
-    ctx.URL.pathname === "/remove_image_item" ? true : false;
-
-  if (
-    (isValidPictures && isValidItemId) ||
-    (isValidItemId && isValidFileNames && isRemoveRoute)
-  ) {
+  if (isValidPictures && isValidItemId) {
     await next();
   } else {
     ctx.status = 400;
@@ -224,7 +242,6 @@ async function ValidateImage(ctx: any, next: Next) {
     ctx.body = JSON.stringify({
       isValidPictures,
       isValidItemId,
-      isValidFileNames,
     });
   }
 }
@@ -242,4 +259,5 @@ module.exports = {
   ValidateUpdateItem,
   ValidateItem,
   ValidateImage,
+  ValidateExistingImage,
 };

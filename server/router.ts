@@ -16,6 +16,7 @@ const {
   ValidateUpdateItem,
   ValidateItem,
   ValidateImage,
+  ValidateExistingImage,
 } = require('./middleware/AuthMiddleware');
 
 // USER ROUTES
@@ -34,7 +35,7 @@ router.get('/item/:item_id', ValidateItem, ItemController.getItem);
 router.put('/update_item', ValidateUser, ValidateUpdateItem, ItemController.updateAnItem);
 router.post('/add_image_item', ValidateUser, ValidateImage, ItemController.addOneItemImage);
 
-router.put('/remove_image_item', ValidateUser, ValidateImage, ItemController.deleteOneItemImage);
+router.put('/remove_image_item', ValidateUser, ValidateExistingImage, ItemController.deleteOneItemImage);
 router.delete('/delete_item/:item_id', ValidateUser, ValidateItem, ItemController.deleteAnItem);
 
 // public routes

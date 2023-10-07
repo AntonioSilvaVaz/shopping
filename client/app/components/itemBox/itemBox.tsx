@@ -7,6 +7,7 @@ import { BsCartPlus } from 'react-icons/bs';
 import { addToCart, addToWishlist, getAllItemsInfo } from "@/app/utils/Items";
 import { updateWishlist } from "@/app/redux/wishlist-reducer";
 import { updateCart } from "@/app/redux/cart-reducer";
+import { useDispatch } from "react-redux";
 
 export default function ItemBox({
   title,
@@ -16,6 +17,7 @@ export default function ItemBox({
 }: ItemProps) {
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   function goToProduct(e: MouseEvent<HTMLDivElement>) {
     router.push(`/product/${item_id}`);
@@ -32,7 +34,7 @@ export default function ItemBox({
     } else {
       const data: ListType = await res.json();
       const dataInfo = await getAllItemsInfo(data);
-      updateWishlist({ wishlist: data.list, wishlistInfo: dataInfo, updated: true });
+      dispatch(updateWishlist({ wishlist: data.list, wishlistInfo: dataInfo, updated: true }));
     }
   };
 
@@ -47,7 +49,7 @@ export default function ItemBox({
     } else {
       const data: ListType = await res.json();
       const dataInfo = await getAllItemsInfo(data);
-      updateCart({ cart: data.list, cartInfo: dataInfo, cartUpdated: true });
+      dispatch(updateCart({ cart: data.list, cartInfo: dataInfo, cartUpdated: true }));
     }
   };
 

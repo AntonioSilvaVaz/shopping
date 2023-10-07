@@ -64,11 +64,16 @@ export default function CreateItem(
     };
 
     if (imagesRemove.length > 0) {
+      console.log(imagesRemove, 'IMAGES REMOVE');
+
       res = await deleteImageItem({ item_id: itemInfo.item_id, fileNames: imagesRemove });
+      console.log(res);
     };
+    const data = await res.json();
+    console.log(data);
+
 
     if (res.ok) {
-      const data = await res.json();
       data.product_pictures = JSON.parse(data.product_pictures);
       router.push(`/product/${data.item_id}`);
       dispatch(updateStoreProduct({ updatedProduct: data }));

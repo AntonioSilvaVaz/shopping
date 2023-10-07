@@ -124,14 +124,8 @@ async function deleteImage(item_id: UUID, fileNames: string[]): Promise<ItemCrea
   const picturesJSON = item.product_pictures;
   const product_pictures: string[] = JSON.parse(picturesJSON);
 
-  for (let index = 0; index < fileNames.length; index++) {
-
-    const file = fileNames[index];
-    const fileIndex = fileNames.findIndex((item) => item === file);
-    product_pictures.splice(fileIndex, 1);
-  }
-
-  const itemInfo = JSON.stringify(product_pictures);
+  const filteredArray = product_pictures.filter(item => !fileNames.includes(item));
+  const itemInfo = JSON.stringify(filteredArray);
   const updatedItem = await updateItem({ product_pictures: itemInfo }, item_id);
   return updatedItem;
 };

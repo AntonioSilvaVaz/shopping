@@ -21,8 +21,6 @@ const profilePicturesDir = path.join(__dirname, "../images/profile_pictures/");
 app.use(mount("/images/item_pictures", serve(itemPicturesDir)));
 app.use(mount("/images/profile_pictures", serve(profilePicturesDir)));
 
-console.log(itemPicturesDir, " I AM HERE");
-
 app.use(cors(corsOptions));
 app.use(
   koaBody({

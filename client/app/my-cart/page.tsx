@@ -8,7 +8,7 @@ export default function Cart() {
   const { cartWithInfo } = useAppSelector((state) => state.cart.value);
 
   return (
-    <section id='cart'>
+    <section id='cart' className='custom-section'>
       {cartWithInfo.length > 0 ?
         <h5 className='products-sold'>Items in your cart</h5> :
         <h5 className='products-sold'>You don't have any items in your cart</h5>

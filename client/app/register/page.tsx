@@ -43,7 +43,7 @@ export default function LoginPage() {
   };
 
   return (
-    <section id="register">
+    <section id="register" className="custom-section">
       <Notification />
       <div className="form-container">
         <h2>Register</h2>

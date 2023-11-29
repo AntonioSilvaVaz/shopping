@@ -42,7 +42,7 @@ export default function LoginPage() {
   };
 
   return (
-    <section id="login">
+    <section id="login" className="custom-section">
       <Notification />
       <div className="form-container">
         <h2>Login</h2>

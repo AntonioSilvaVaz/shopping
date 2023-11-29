@@ -58,7 +58,7 @@ export default function UserProfile() {
   };
 
   return (
-    <section id={styles.user}>
+    <section id={styles.user} className='custom-section'>
 
       {showMenu &&
         <CreateItem

@@ -8,7 +8,7 @@ export default function Wishlist() {
   const { wishlistInfo } = useAppSelector(state => state.wishlist.value);
 
   return (
-    <section id={styles.wishlist}>
+    <section id={styles.wishlist} className='custom-section'>
       <h2>Welcome to your wishlist:</h2>
       <div className={styles.item_container}>
         {wishlistInfo.map((item, index) => {

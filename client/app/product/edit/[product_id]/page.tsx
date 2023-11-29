@@ -37,7 +37,7 @@ export default function Edit() {
   }
 
   return (
-    <section id='edit'>
+    <section id='edit' className='custom-section'>
       <div className='name'>
         <input type="text" />
         <h3>{product?.product_name}</h3>

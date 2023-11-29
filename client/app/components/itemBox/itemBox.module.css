@@ -23,6 +23,7 @@
 .items_container{
   height: 30%;
   padding: 10px;
+  gap: 2px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -31,10 +32,6 @@
 
 .text_container{
   width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
 }
 
 .title{
@@ -43,6 +40,8 @@
 
 .button_container{
   display: flex;
+  align-items: start;
+  justify-content: start;
   gap: 8px;
 }
 
@@ -53,6 +52,10 @@
 }
 
 .price_container {
+  box-sizing: border-box;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
   width: 100%;
   font-size: 17px;
 }

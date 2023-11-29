@@ -26,7 +26,7 @@ export default function Home() {
   }, [])
 
   return (
-    <section id="home">
+    <section id="home" className='custom-section'>
       <div style={{ opacity: 1, backgroundColor: "red" }}></div>
       <div className="items">
         {

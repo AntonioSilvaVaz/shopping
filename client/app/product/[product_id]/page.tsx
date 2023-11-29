@@ -95,7 +95,7 @@ export default function Product() {
 
 
   return (
-    <section id={styles.product}>
+    <section id={styles.product} className="custom-section">
       <h2>{itemInfo.product_name}</h2>
       <div className={styles.images_container}>
         <div className={styles.main_image_container}>

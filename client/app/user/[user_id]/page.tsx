@@ -49,7 +49,7 @@ export default function UserProfile() {
 
 
   return (
-    <section id={styles.user}>
+    <section id={styles.user} className='custom-section'>
       <div className={styles.seller_info}>
         <div className={styles.seller_picture}>
           <Link href={`/user/${user_id}`}>

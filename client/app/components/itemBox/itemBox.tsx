@@ -56,6 +56,9 @@ export default function ItemBox({ title, item_id, price, productPicture }: ItemP
       <div className={styles.items_container}>
         <div className={styles.text_container}>
           <h4>{title}</h4>
+        </div>
+        <div className={styles.price_container}>
+          <h4 className="bold-font">{price}€</h4>
           <div className={styles.button_container}>
             <button className="pointer" onClick={addWishlist}>
               <AiOutlineHeart />
@@ -65,9 +68,6 @@ export default function ItemBox({ title, item_id, price, productPicture }: ItemP
               <BsCartPlus />
             </button>
           </div>
-        </div>
-        <div className={styles.price_container}>
-          <h4 className="bold-font">{price}€</h4>
         </div>
       </div>
     </div>

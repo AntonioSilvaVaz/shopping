@@ -4,6 +4,8 @@
   flex-direction: column;
   width: 200px;
   height: 230px;
+  box-shadow: 0 0 10px #919191;
+  overflow: hidden;
 }
 
 .image_container{
@@ -20,7 +22,7 @@
 
 .items_container{
   height: 30%;
-  padding: 10px 0;
+  padding: 10px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

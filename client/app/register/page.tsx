@@ -3,17 +3,13 @@ import "../login/loginAndRegister.css";
 import { ChangeEvent, FormEvent, use, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import Notification from "../components/notification/notification";
 import BackgroundImages from "../components/backgroundImages/backgroundImages";
 import { registerUser } from "../utils/User";
 import { useRouter } from "next/navigation";
-import { UserInfo } from "../types";
-import { useDispatch } from "react-redux";
 
 export default function LoginPage() {
   const [imgSelected, setImageSelected] = useState<string | null>(null);
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,7 +18,6 @@ export default function LoginPage() {
 
     if(res.status === 200){
       toast('User registered');
-      const data: UserInfo = await res.json();
       router.push('/login');
     } else if(res.status === 409){
       toast('User already registered');
@@ -44,7 +39,6 @@ export default function LoginPage() {
 
   return (
     <section id="register" className="custom-section">
-      <Notification />
       <div className="form-container">
         <h2>Register</h2>
         <form onSubmit={handleSubmit}>

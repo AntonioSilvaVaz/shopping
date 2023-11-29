@@ -6,7 +6,6 @@ import { addProduct, updateStoreProduct } from '@/app/redux/products-reducer';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import Notification from '../notification/notification';
 
 export default function CreateItem(
   { functionCloseMenu,
@@ -145,7 +144,6 @@ export default function CreateItem(
 
   return (
     <div className={styles.holder}>
-      <Notification />
 
       <div className={styles.create_item}>
 

@@ -4,7 +4,6 @@ import { FormEvent } from "react";
 import Link from "next/link";
 import BackgroundImages from "../components/backgroundImages/backgroundImages";
 import { toast } from "react-toastify";
-import Notification from "../components/notification/notification";
 import { loginUser } from "../utils/User";
 import { login } from "../redux/user-reducer";
 import { useDispatch } from "react-redux";
@@ -25,14 +24,13 @@ export default function LoginPage() {
 
     if (email && password) {
       const res = await loginUser({ email, password });
-
+      
       if(res.status === 500){
         router.push('/500');
-      } else if(res.status === 404){
-        toast("User doesn't exist");
-      } else if(res.status === 403){
-        toast("Wrong credentials");
-      } else{
+      } else if(res.status !== 200) {        
+        const message = await res.json();
+        toast(message);
+      } else {
         const data: UserInfo = await res.json();
         router.push('/my-profile');
         dispatch(login(data));
@@ -43,19 +41,18 @@ export default function LoginPage() {
 
   return (
     <section id="login" className="custom-section">
-      <Notification />
       <div className="form-container">
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email">
-              <h6>email</h6>
+              <h6>Email: </h6>
             </label>
             <input type="email" id="email" name="email" required />
           </div>
           <div>
             <label htmlFor="password">
-              <h6>password</h6>
+              <h6>Password: </h6>
             </label>
             <input type="password" id="password" name="password" required />
           </div>

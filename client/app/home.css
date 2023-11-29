@@ -6,12 +6,9 @@
 }
 
 .items{
-  width: 100%;
-  flex-wrap: wrap;
-  height: max-content;
   display: flex;
-  align-items: center;
   justify-content: start;
-  flex-direction: row;
-  gap: 40px;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 30px;
 }

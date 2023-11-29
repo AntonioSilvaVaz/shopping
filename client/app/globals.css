@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:wght@600&display=swap');
 
 * {
   margin: 0;
@@ -45,6 +46,11 @@ h6 {
 p{
   font-size: 17px;
   font-family: 'Nunito', sans-serif;
+}
+
+.bold-font{
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .pointer:hover {

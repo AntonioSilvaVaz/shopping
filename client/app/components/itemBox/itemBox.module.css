@@ -2,13 +2,14 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 230px;
-  height: max-content;
+  width: 200px;
+  height: 230px;
 }
 
 .image_container{
   width: 100%;
-  height: 170px;
+  height: 70%;
+  border-radius: 3px;
 }
 
 .image_container img{
@@ -18,43 +19,43 @@
 }
 
 .items_container{
+  height: 30%;
+  padding: 10px 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
 }
 
 .text_container{
   width: 100%;
   box-sizing: border-box;
-  text-align: start;
-  padding: 10px;
-}
-
-.price_container{
-  width: 100%;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
-  background-color: rgb(51, 50, 50);
-  color: white;
-  padding: 5px 20px;
-  box-sizing: border-box;
 }
 
-.price_container button{
-  color: white;
-  background-color: transparent;
-  border: 0;
-  font-size: 20px;
-}
-
-.hr{
-  align-self: center;
-  height: 20px;
+.title{
+  width: 100%;
 }
 
 .button_container{
   display: flex;
   gap: 8px;
+}
+
+.button_container button{
+  background-color: transparent;
+  border: 0;
+  font-size: 20px;
+}
+
+.price_container {
+  width: 100%;
+  font-size: 17px;
+}
+
+.hr{
+  align-self: center;
+  height: 20px;
 }

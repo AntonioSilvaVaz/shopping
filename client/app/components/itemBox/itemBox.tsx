@@ -8,6 +8,8 @@ import { addToCart, addToWishlist, getAllItemsInfo } from "@/app/utils/Items";
 import { updateWishlist } from "@/app/redux/wishlist-reducer";
 import { updateCart } from "@/app/redux/cart-reducer";
 import { useDispatch } from "react-redux";
+import { Montserrat } from 'next/font/google'
+const inter = Montserrat({ subsets: ['latin'] })
 
 export default function ItemBox({ title, item_id, price, productPicture }: ItemProps) {
 
@@ -15,6 +17,10 @@ export default function ItemBox({ title, item_id, price, productPicture }: ItemP
   const dispatch = useDispatch();
 
   function goToProduct(e: MouseEvent<HTMLDivElement>) {
+    if(e.target instanceof HTMLButtonElement || e.target instanceof SVGElement){
+      return;
+    }
+    
     router.push(`/product/${item_id}`);
   };
 
@@ -49,8 +55,8 @@ export default function ItemBox({ title, item_id, price, productPicture }: ItemP
   };
 
   return (
-    <div className={styles.item_container}>
-      <div className={`${styles.image_container} pointer`} onClick={goToProduct}>
+    <div className={styles.item_container} onClick={goToProduct}>
+      <div className={`${styles.image_container} pointer`}>
         <img src={productPicture} alt="" />
       </div>
       <div className={styles.items_container}>
@@ -58,13 +64,13 @@ export default function ItemBox({ title, item_id, price, productPicture }: ItemP
           <h4>{title}</h4>
         </div>
         <div className={styles.price_container}>
-          <h4 className="bold-font">{price}€</h4>
+          <h4 className={inter.className}>{price}€</h4>
           <div className={styles.button_container}>
-            <button className="pointer" onClick={addWishlist}>
+            <button className={`pointer ${styles.heart}`} onClick={addWishlist}>
               <AiOutlineHeart />
             </button>
             <hr className={styles.hr} />
-            <button className="pointer" onClick={addCart}>
+            <button className={`pointer ${styles.cart}`} onClick={addCart}>
               <BsCartPlus />
             </button>
           </div>
